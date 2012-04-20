@@ -50,7 +50,7 @@ var req = mkRequest(options, "image/jpeg", function (chunk) {
 		
 		req.write(JSON.stringify({
 			command: "add-photo",
-			id : obj.photo._id
+			id : obj.photo._id //One should add the id of the ad object, as this makes the message self-contained.
 		}));
 		req.end();
 });
