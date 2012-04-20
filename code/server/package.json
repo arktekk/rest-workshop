@@ -1,0 +1,22 @@
+{
+  "author": "",
+  "name": "rest-server",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+    "express": "2.5.9",
+    "underscore": "1.3.3",
+    "mongoose": "2.6.0"
+  },
+  "devDependencies": {
+    "expect.js": "0.1.2",
+    "mocha": "1.0.1",
+    "mongodb": "0.9.9-8"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
