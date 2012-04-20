@@ -9,7 +9,7 @@ if (typeof id === 'undefined') {
 var options = {
   host: '192.168.90.21',
   port: 8000,
-  path: '/ad/' + process.argv[2],
+  path: '/ad/' + id,
   method: 'GET'
 };
 
