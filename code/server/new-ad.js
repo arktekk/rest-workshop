@@ -1,5 +1,13 @@
 var http = require("http");
 
+var title = process.argv[2];
+var body = process.argv[2];
+
+if (typeof title === 'undefined' || typeof body === 'undefined') {
+	throw new Error("title or body is missing");
+}
+
+
 var options = {
   host: '192.168.90.21',
   port: 8000,
@@ -30,7 +38,7 @@ req.setHeader("Content-Type", "application/json");
 
 // write data to request body
 req.write(JSON.stringify({
-	title: "An Ad is here",
-	body: "We have a lot of stuff for sale"
+	title: title,
+	body: body
 }));
 req.end();

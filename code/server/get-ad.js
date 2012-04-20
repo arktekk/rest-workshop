@@ -1,9 +1,9 @@
 var http = require("http");
 
-var id = process.argv[2]
+var id = process.argv[2];
 
 if (typeof id === 'undefined') {
-	throw "No id supplied";
+	throw new Error("No id supplied");
 }
 
 var options = {
