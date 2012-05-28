@@ -33,15 +33,15 @@ The JSON should look like this:
 Clients can GET this with an "id" query parameter. The server will
 respond with something like this:
 
-    ```json
-    {
-      "result": "ok",
-      "data": {
-        "title": "Fin bolig til salgs!",
-        "body": "Fire rom, nytt bad."
-      }
-    }
-    ```
+```json
+{
+  "result": "ok",
+  "data": {
+    "title": "Fin bolig til salgs!",
+    "body": "Fire rom, nytt bad."
+  }
+}
+```
 
 Steps
 -----
