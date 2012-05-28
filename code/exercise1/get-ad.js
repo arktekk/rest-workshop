@@ -1,10 +1,16 @@
 var http = require("http");
 
+var id = process.argv[2];
+
+if (typeof id === 'undefined') {
+	throw new Error("No id supplied");
+}
+
 var options = {
   host: '192.168.90.21',
   port: 8000,
-  path: '/ad',
-  method: 'POST'
+  path: '/ad/' + id,
+  method: 'GET'
 };
 
 var req = http.request(options, function(res){
@@ -13,11 +19,11 @@ var req = http.request(options, function(res){
 	res.setEncoding('utf8');
 	res.on('data', function (chunk) {
 	    var obj = JSON.parse(chunk);
-	    if (obj.result === "failure") {
-			console.log("Failed to insert ad", obj.message)
+		if (obj.result === "failure") {
+			console.log("Failed to get ad, with message: ", obj.message)
 	    } 
 		else {
-	    	console.log("Successfully sent ad to server, with id: ", obj.ad._id);
+	    	console.log("Successfully got ad from server, : ", obj.ad);
 		}
 	});
 });
@@ -26,11 +32,4 @@ req.on('error', function(e) {
   console.log('problem with request: ', e.message);
 });
 
-req.setHeader("Content-Type", "application/json");
-
-// write data to request body
-req.write(JSON.stringify({
-	title: "An Ad is here",
-	body: "We have a lot of stuff for sale"
-}));
 req.end();
