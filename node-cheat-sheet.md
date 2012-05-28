@@ -1,15 +1,17 @@
 Getting the body as a string
 ============================
 
-    http.createServer(function(req, res) {
-      var chunk = "";
-      req.on('data', function(chunk) {
-        s += chunk;
-      });
-      req.on('end', function() {
-        // 's' is now a string with all the data that the client sent
-      });
-    });
+~~~javascript
+http.createServer(function(req, res) {
+  var chunk = "";
+  req.on('data', function(chunk) {
+    s += chunk;
+  });
+  req.on('end', function() {
+    // 's' is now a string with all the data that the client sent
+  });
+});
+~~~
 
 MongoDB / Mongoose
 ==================
@@ -20,14 +22,16 @@ Import mongoose:
 
 Declare your types and your database:
 
-    var Ad = new mongoose.Schema({
-        title    : String
-      , body     : String
-      , pictures : [String]
-    });
+~~~javascript
+var Ad = new mongoose.Schema({
+    title    : String
+  , body     : String
+  , pictures : [String]
+});
 
-    var Db = {
-      Ad: mongoose.model('Ad', Ad)
-    };
+var Db = {
+  Ad: mongoose.model('Ad', Ad)
+};
+~~~
 
 <!-- vim: set ft=markdown: -->
