@@ -36,6 +36,40 @@ Content-Length: 27
 .notes The envelope is based on the MIME-format also used in email.
 .notes MIME allows the body to be all kinds for formats, it just needs to be correctly encoded into a MIME-message.
 
+!SLIDE bullets incremental
+# Status Codes #
+* Informational (1xx)
+* Successful (2xx)
+* Redirection (3xx)
+* Client Error (4xx)
+* Server Error (5xx)
+
+.notes Informational -> 100 Continue MAY be used if uploading large files (eg. Videos). SHOULD be used in in combination with Expect header.
+.notes Successful -> 200 OK, Denotes a successful response.
+.notes Redirection -> 301 Moved Permanently, This document has found a new home. Please update links accordingly.
+.notes Client Error -> 401 Authentication Required, Followed with a WWW-Authenticate header:
+.notes this lets the Agent know that it must authenticate, or it's notes. credentials are invalid.
+.notes Server Error => 503 Service Unavailable, Server is overloaded. 
+.notes If response contains a Retry-After header, indicates when the Agent can try the request again.
+.notes HTTPbis has been refining a lot of these status codes.
+
+
+!SLIDE
+# HTTP Methods #
+* GET
+* PUT
+* POST
+* HEAD
+* OPTIONS
+* DELETE
+* TRACE
+* CONNECT
+
+.notes These methods are defined by RFC-2616
+.notes I have never seen TRACE in use. (Erlend)
+.notes Extensions Methods are added all the time. See the registry for more methods. 
+.notes Some 30odd methods are defined at the time of writing
+
 !SLIDE
 # Example #
 .notes curl -I http://www.vg.no
@@ -153,13 +187,13 @@ If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
 .notes Accept* headers
 
-!SLIDE bullets
+!SLIDE
 # Server-side negotiation #
 ## Server is unable to fulfill the request ##
 .code 406 Not Acceptable
 
 
-!SLIDE bullets
+!SLIDE
 # Server-side negotiation #
 ## Successful request ##
 .code 200 OK
@@ -191,5 +225,65 @@ application/json;q=0.4, *.*;q=0.3
 # Agent negotiation #
 
 * Agent selects from a set of links which is the most applicable for the current context.
-* May require multiple requests.
 * HTTP Defines status codes: 406 Not Acceptable and 300 Multiple Choices for agent based conneg.
+
+!SLIDE
+# Intermediaries #
+* Servers which sits between server and client and provides some form of value-add service
+
+.notes Security. transforming, caching (proxies).
+.notes Should be illustrated with a drawing.
+
+!SLIDE bullets incremental
+# Intermediary examples #
+* Reverse Caching
+* Forward Caching
+* Pre-lookup of DNS based on links and history of the current client's request history.
+* Transforming
+* Load-balancing
+
+.notes Transforming: Add a drawing for this.
+
+!SLIDE
+# Security #
+
+!SLIDE bullets incremental
+# Authentication - RFC-2617 #
+* Authentication framework for HTTP
+
+.notes Consists of WWW-Authenticate, Authorization and Authentication-Info.
+
+!SLIDE bullets incremental
+# Basic Authentication #
+* Sends username:password encoded in base64
+* Not secure, unless sent over HTTPS
+
+.notes Simple, easy to deploy.
+.notes SHOULD NOT be used unless using HTTPS.
+
+!SLIDE bullets incremental
+# Digest Authentication #
+* Does not send password over the wire
+* More secure than Basic
+* Requires some form of HTTP state server-side
+* Prone to man-in-the-middle attacks
+
+.notes Requires HTTPS to be really secure.
+.notes Server side state suX0rs
+
+!SLIDE bullets incremental
+# OAuth 2 #
+* Secure HTTP authentication
+* Requires HTTPS for initial handshake
+* Bearer spec requires HTTPS
+* MAC spec does not require HTTPS
+
+.notes Work in progress at the time of writing. Last Call has been issued.
+
+!SLIDE bullets incremental
+# HTTPS #
+* HTTP + SSL
+* Only transport-level security
+* Loses intermediary support, as HTTPS in HTTP/1.1 is end-to-end, not hop-by-hop
+
+.notes HTTPS could be added by having a HTTPS loadbalancer.
