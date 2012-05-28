@@ -23,17 +23,19 @@ The server shall expose two endpoints:
 This is where clients should POST a json object to create a new ad.
 The JSON should look like this:
 
-    {
-      "title": "Fin bolig til salgs!",
-      "body": "Fire rom, nytt bad."
-    }
+~~~json
+{
+  "title": "Fin bolig til salgs!",
+  "body": "Fire rom, nytt bad."
+}
+~~~
 
 ### View ad endpoint:  `http://localhost:3000/ad?id=...`
  
 Clients can GET this with an "id" query parameter. The server will
 respond with something like this:
 
-```json
+~~~json
 {
   "result": "ok",
   "data": {
@@ -41,7 +43,7 @@ respond with something like this:
     "body": "Fire rom, nytt bad."
   }
 }
-```
+~~~
 
 Steps
 -----
