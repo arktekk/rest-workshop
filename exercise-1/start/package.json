@@ -1,0 +1,8 @@
+{
+  "name": "assignment-1",
+  "version": "0.0.0",
+  "dependencies": {
+    "mongoose": "2.6.5"
+  }
+}
+

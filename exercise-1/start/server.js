@@ -1,0 +1,21 @@
+var http = require('http')
+  , url = require('url')
+  , util = require('util')
+  , mongoose = require('mongoose');
+
+var Ad = new mongoose.Schema({
+    title    : String
+  , body     : String
+  , pictures : [String]
+});
+
+var Db = {
+  Ad: mongoose.model('Ad', Ad)
+};
+
+mongoose.connect('mongodb://localhost/exercise-1', function() {
+  http.createServer(function(req, res) {
+	// TODO: implement
+  }).listen(3000)
+  console.log("Running!");
+});
