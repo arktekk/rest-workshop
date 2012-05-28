@@ -34,4 +34,34 @@ var Db = {
 };
 ~~~
 
+Wrap your entire application with an Mongo connection:
+
+~~~javascript
+mongoose.connect('mongodb://localhost/exercise-1', function() {
+  // Add http.createServer() etc here
+});
+~~~
+
+Insert a new object:
+
+~~~javascript
+var ad = new Db.Ad();
+ad.title = payload.title;
+ad.body = payload.body;
+ad.save();
+~~~
+
+Find a object:
+
+~~~javascript
+Db.Ad.findOne({_id: <my id>}, function(err, doc) {
+   ....
+});
+~~~
+
+<!-- _foo -->
+
+`err` will be set if there was an error while talking to the DB. `doc`
+will null if not found, or the object if found.
+
 <!-- vim: set ft=markdown: -->
