@@ -18,20 +18,36 @@ Requirements
 
 The server shall expose two endpoints:
 
-* `http://localhost:3000/create-ad`: Clients POST here.
+### Create ad endpoint: `http://localhost:3000/create-ad`
 
-* `http://localhost:3000/ad`: Clients can GET this with an "id" query
-  parameter
+This is where clients should POST a json object to create a new ad.
+The JSON should look like this:
+
+    {
+      "title": "Fin bolig til salgs!",
+      "body": "Fire rom, nytt bad."
+    }
+
+### View ad endpoint:  `http://localhost:3000/ad?id=...`
+ 
+Clients can GET this with an "id" query parameter. The server will
+respond with something like this:
+
+    ```json
+    {
+      "result": "ok",
+      "data": {
+        "title": "Fin bolig til salgs!",
+        "body": "Fire rom, nytt bad."
+      }
+    }
+    ```
 
 Steps
 -----
 
 ### Step 1: Create an ad
 
-Test your server with curl:
-
-    curl  --data-binary @ad.json http://localhost:3000/create-ad
 
 ### Step 2: View an ad
 
-    curl http://localhost:3000/ad?id=<insert id here>

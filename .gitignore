@@ -2,3 +2,4 @@ node_modules
 mongo
 .*.un~
 .*.swp
+*.html
