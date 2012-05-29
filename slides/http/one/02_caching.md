@@ -4,10 +4,10 @@
 * Validation based
 
 .notes Headers that notify clients and intermediaries of how long a response should be considered fresh.
-.notes HTTP advocates use of expiration over validation, but both may be used together.
-.notes One caveat: Browsers prefer accuracy over latency, thereby trying to use the validation model 
-.notes even if the response is considered fresh by the server.
-.notes To reduce traffic when writing browser based clients, consider only having expiration based caches. //TODO: Verify this
+HTTP advocates use of expiration over validation, but both may be used together.
+One caveat: Browsers prefer accuracy over latency, thereby trying to use the validation model 
+even if the response is considered fresh by the server.
+To reduce traffic when writing browser based clients, consider only having expiration based caches. //TODO: Verify this
 
 !SLIDE
 # Expiration based #
@@ -17,17 +17,17 @@
 !SLIDE
 # Expires header #
 
-Expires: Thu, 01 Dec 2012 16:00:00 GMT
+	Expires: Thu, 01 Dec 2012 16:00:00 GMT
 
 .notes Inheritance from HTTP/1.0
-.notes Format: HTTP Date in the future until the representation should be considered fresh.
-.notes if a response includes a Cache-Control field with the max-age directive, that directive overrides the Expires field.
-.notes Expiry dates more than a year are generally not useful. Can be considered cached forever.
+Format: HTTP Date in the future until the representation should be considered fresh.
+if a response includes a Cache-Control field with the max-age directive, that directive overrides the Expires field.
+Expiry dates more than a year are generally not useful. Can be considered cached forever.
 
 !SLIDE
 # Max-Age #
 
-.code Cache-Control: max-age=3600
+	Cache-Control: max-age=3600
 
 .notes This denotes the representation to be fresh for one hour.
 .notes The resolution for max-age are seconds.
@@ -49,7 +49,7 @@ Expires: Thu, 01 Dec 2012 16:00:00 GMT
 
 !SLIDE bullets incremental
 # ETag #
-.code ETag: "foobar"
+	ETag: "foobar"
 
 * An opaque string which only have meaning for the server.
 
@@ -67,16 +67,18 @@ Strong are byte-for-byte equality.
 
 !SLIDE
 # Last-Modified #
-.code Last-Modified: Sat, 26 May 2012 11:44:04 GMT
+	Last-Modified: Sat, 26 May 2012 11:44:04 GMT
 
 !SLIDE
 # Conditional GET #
-.code If-None-Match: "foobar"
-If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
+	If-None-Match: "foobar"
+	If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
-!SLIDE
+!SLIDE commandline incremental
 # Conditional GET - Example #
-.code curl -D - -o /dev/null -s http://gfx.dagbladet.no/labrador/217/217889/21788949/jpg/active/978x.jpg
+	$ curl -v -o /dev/null -s \
+	http://gfx.dagbladet.no/labrador/\
+	217/217889/21788949/jpg/active/978x.jpg
 
 !SLIDE 
 # HTTP is optimized for GET #

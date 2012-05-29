@@ -21,17 +21,17 @@ IETF (Internet Engineering Task Force).
 
 !SLIDE small
 # Request format #
-<pre>
-GET /message/1
-Host: example.com
 
-200 OK HTTP/1.1
-Date: Thu, 01 Dec 2012 16:00:00 GMT
-Content-Type: application/json
-Content-Length: 27
+	GET /message/1
+	Host: example.com
 
-{"message": "Hello World!"}
-</pre>
+	200 OK HTTP/1.1
+	Date: Thu, 01 Dec 2012 16:00:00 GMT
+	Content-Type: application/json
+	Content-Length: 27
+
+	{"message": "Hello World!"}
+
 .notes HTTP is a text based format, It consists of Headers and Body. The headers are separated by \r\n and the body is separated 
 from the headers with a double \r\n.
 The envelope is based on the MIME-format also used in email.
@@ -58,14 +58,14 @@ If response contains a Retry-After header, indicates when the Agent can try the 
 
 !SLIDE
 # HTTP Methods #
-* GET
-* PUT
-* POST
-* HEAD
-* OPTIONS
-* DELETE
-* TRACE
-* CONNECT
+	GET
+	PUT
+	POST
+	HEAD
+	OPTIONS
+	DELETE
+	TRACE
+	CONNECT
 
 .notes These methods are defined by RFC-2616
 I have never seen TRACE in use. (Erlend)
@@ -74,7 +74,7 @@ Some 30odd methods are defined at the time of writing
 
 !SLIDE
 # Example #
-.code curl http://www.vg.no
+	curl http://www.vg.no
 .notes curl -o /dev/null -D - -s http://www.vg.no
 
 !SLIDE

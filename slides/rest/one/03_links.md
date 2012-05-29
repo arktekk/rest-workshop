@@ -10,12 +10,12 @@
 
 !SLIDE
 # LINKS #
-@@@ html
+	@@@ html
 
-&lt;a href="http://example.com"&gt;
+	<a href="http://example.com">
 
-&lt;link rel="stylesheet" href="http://static.example.com/1.css"&gt;
+	<link rel="stylesheet" href="http://static.example.com/1.css">
 
-&lt;i m g src="http://static.example.com/1234.png"&gt;
+	<img src="http://static.example.com/1234.png">
 
 .notes as Links, or hyperlink.

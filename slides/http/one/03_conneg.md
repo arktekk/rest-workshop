@@ -5,12 +5,12 @@
 
 .notes There are two types of conneg. 
 
-!SLIDE bullets incremental
+!SLIDE incremental
 # Server-side negotiation #
-* Accept
-* Accept-Language
-* Accept-Encoding
-* Accept-Charset
+	Accept
+	Accept-Language
+	Accept-Encoding
+	Accept-Charset
 
 .notes Accept* headers
 

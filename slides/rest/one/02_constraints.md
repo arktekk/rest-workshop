@@ -13,15 +13,15 @@
 .notes The same methods are available everywhere.
 
 !SLIDE
-@@@ java
-interface Resource {
-	URI href;
-	void process(Representation: r);
-	Representation update(Representation: r);
-	Representation get();
-	void delete();
-	//...	
-}
+	@@@ java
+	interface Resource {
+		URI href;
+		Response process(Representation: r);
+		Representation update(Representation: r);
+		Representation get();
+		Response delete();
+		//...	
+	}
 
 !SLIDE
 # Stateless protocol #
