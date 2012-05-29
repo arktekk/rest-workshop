@@ -3,3 +3,4 @@ mongo
 .*.un~
 .*.swp
 *.html
+.DS_Store
