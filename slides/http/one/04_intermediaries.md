@@ -3,7 +3,7 @@
 * Servers which sits between server and client and provides some form of value-add service
 
 .notes Security. transforming, caching (proxies).
-.notes Should be illustrated with a drawing.
+Should be illustrated with a drawing.
 
 !SLIDE bullets incremental
 # Intermediary examples #

@@ -3,6 +3,8 @@
 * Server-side negotiation
 * Agent negotiation
 
+.notes There are two types of conneg. 
+
 !SLIDE bullets incremental
 # Server-side negotiation #
 * Accept
@@ -35,7 +37,7 @@ Accept: application/json;q=0.4, application/xml,
 </pre>
 
 .notes Sorted preferred list of acceptable media-types.
-.notes All the accept headers have a simliar qualifier syntax.
+All the accept headers have a simliar qualifier syntax.
 
 !SLIDE smaller
 # Accept* header qualifiers #
@@ -51,3 +53,5 @@ application/json;q=0.4, *.*;q=0.3
 * Agent selects from a set of links which is the most applicable for the current context.
 * HTTP Defines status codes: 406 Not Acceptable and 300 Multiple Choices for agent based conneg.
 
+.notes May require more than one request.
+Can be improved by having @hreflang and @type in links

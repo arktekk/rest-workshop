@@ -54,11 +54,11 @@ Expires: Thu, 01 Dec 2012 16:00:00 GMT
 * An opaque string which only have meaning for the server.
 
 .notes Also known as an Entity Tag.
-.notes This may for instance be a hashed md5 of the body.
-.notes It may be a calculated string based on values of the backend.
-.notes There are two versions of Etag: Weak and Strong. 
-.notes Weak should be considered a semantic tag.
-.notes Strong are byte-for-byte equality.
+This may for instance be a hashed md5 of the body.
+It may be a calculated string based on values of the backend.
+There are two versions of Etag: Weak and Strong. 
+Weak should be considered a semantic tag.
+Strong are byte-for-byte equality.
 
 !SLIDE bullets incremental
 # Last-Modified #
@@ -76,10 +76,7 @@ If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
 !SLIDE
 # Conditional GET - Example #
-
-.notes curl -D - -o /dev/null -s http://gfx.dagbladet.no/labrador/217/217889/21788949/jpg/active/978x.jpg
-
-.notes Show example of GETTING an image from DB
+.code curl -D - -o /dev/null -s http://gfx.dagbladet.no/labrador/217/217889/21788949/jpg/active/978x.jpg
 
 !SLIDE 
 # HTTP is optimized for GET #

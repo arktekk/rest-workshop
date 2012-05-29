@@ -13,7 +13,7 @@
 * Not secure, unless sent over HTTPS
 
 .notes Simple, easy to deploy.
-.notes SHOULD NOT be used unless using HTTPS.
+SHOULD NOT be used unless using HTTPS.
 
 !SLIDE bullets incremental
 # Digest Authentication #
@@ -23,7 +23,7 @@
 * Prone to man-in-the-middle attacks
 
 .notes Requires HTTPS to be really secure.
-.notes Server side state suX0rs
+Server side state suX0rs
 
 !SLIDE bullets incremental
 # OAuth 2 #
