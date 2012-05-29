@@ -17,6 +17,7 @@ Participant Requirements
 
 Each participant need:
 
+* curl
 * node.js and npm installed. All the exercises use node.js.
 * git to clone this repository
 
