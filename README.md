@@ -1,5 +1,5 @@
 Arktekk's REST Workshop
------------------------
+=======================
 
 This material is a two day workshop on REST. It is divided into three areas:
 
@@ -11,3 +11,12 @@ This material is a two day workshop on REST. It is divided into three areas:
   participant should start to solve each exercise. _solution_ contains
   a complete solution for the exercise. There is also a README file
   that describe the exercise in detail.
+
+Participant Requirements
+========================
+
+Each participant need:
+
+* node.js and npm installed. All the exercises use node.js.
+* git to clone this repository
+
