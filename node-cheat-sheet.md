@@ -49,7 +49,12 @@ var ad = new Db.Ad();
 ad.title = payload.title;
 ad.body = payload.body;
 ad.save();
+res.write(JSON.stringify("id=" + ad._id));
 ~~~
+
+<!-- _foo -->
+
+When an object has been saved, the id of the object is available as the `_id` attribute:
 
 Find a object:
 
