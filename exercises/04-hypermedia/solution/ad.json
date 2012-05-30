@@ -1,0 +1,24 @@
+{
+  "ad": {
+    "href": "http://example.com/ad/123,
+    "title": "Title",
+    "created": "2012-06-05T12-00-00.00Z",
+    "last-modified": "2012-06-05T12-00-00.00Z",
+    "creator": {
+      "name": "John Doe",
+      "href": "http://example.com/person/12345"
+    }, 
+    "images": [
+      {"href": "http://example.com/image/item.png", "width": 800, "height": 600, "main": true, "type": "image/png", "title": "Alternate title"},
+      {"href": "http://example.com/image/large-item.png", "width": 800, "height": 600, "type": "image/png", "title": "Alternate title"}
+    ],
+    "fields": {
+      "subtitle": "Sub Title here",
+      "body": "Body", 
+      "lead": "Lead text"
+    },
+    "links": {
+      "alternate": "http://example.com/ad/123.html"
+    }
+  }
+}
