@@ -9,7 +9,8 @@ to create a document which is extensible, and allows change.
 Background
 ----------
 You are working for a company that has a classified advertisements
-website. You need to build a hypermedia type which expresses a 
+website. You are building their new RESTful webservice and 
+need to build a hypermedia type which expresses a 
 classified advertisement with metadata.
 
 
@@ -17,18 +18,34 @@ Requirements
 ------------
 You may choose either XML or JSON as your base type.
 
-The following attributes MUST be modeled in your format
+The following fields MUST be modeled in your format:
 
-"published" -> The published date of the ad
-"created" -> The created date of the ad
-"title" -> The title of the ad
-"body" -> the body of the ad.
-"creator" -> a representation of the creator of the ad. This may be a person or an organization.
-"images" -> a list of attached images.
+"published": 
+	The published date of the ad
+
+"created":
+	The created date of the ad
+
+"title":
+	The title of the ad
+
+"body":
+	The body of the ad.
+
+"creator":
+	A representation of the creator of the ad. 
+	This may be a person or an organization.
+
+"images":
+	A list of attached images.
 
 There are also other types of fields in an ad:
-"subtitle" -> A subtitle, optional.
-"lead" -> Lead text, optional.
+
+"subtitle":
+	A subtitle, optional.
+
+"lead":
+	Lead text, optional.
 
 More fields MAY appear at a different date. 
 You must choose a strategy for modeling optional fields.
@@ -124,7 +141,10 @@ Bonus
 
 Add a list-version of the current format.
 
-How can you add new attributes without introducing a breaking change?
 
-Introduce a new `contacts` attribute. How can you do this without versioning?
+Retrospective
+-------------
+
+How can you add new fields without introducing a breaking change?
+
 
