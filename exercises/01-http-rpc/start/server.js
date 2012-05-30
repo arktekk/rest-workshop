@@ -13,7 +13,7 @@ var Db = {
   Ad: mongoose.model('Ad', Ad)
 };
 
-mongoose.connect('mongodb://localhost/exercise-1', function() {
+mongoose.connect('mongodb://localhost/01-http-rpc', function() {
   http.createServer(function(req, res) {
 	// TODO: implement
   }).listen(3000)

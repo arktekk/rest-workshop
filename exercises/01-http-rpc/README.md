@@ -1,5 +1,5 @@
-Exercise 1
-==========
+HTTP RPC
+========
 
 Goal
 ----
@@ -15,8 +15,6 @@ pictures per ad. For now, you only need to implement the server side.
 
 Requirements
 ------------
-
-The server shall expose two endpoints:
 
 ### Create ad endpoint: `http://localhost:3000/create-ad`
 

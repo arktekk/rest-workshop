@@ -17,7 +17,7 @@ var Db = {
   Ad: mongoose.model('Ad', Ad)
 };
 
-mongoose.connect('mongodb://localhost/exercise-1', function() {
+mongoose.connect('mongodb://localhost/01-http-rpc', function() {
   var db = mongoose.connection.db
   http.createServer(function(req, res) {
     var u = url.parse(req.url, true);

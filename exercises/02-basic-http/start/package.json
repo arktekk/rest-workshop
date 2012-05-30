@@ -1,8 +1,7 @@
 {
-  "name": "01-http-rpc",
+  "name": "02-basic-http",
   "version": "0.0.0",
   "dependencies": {
     "mongoose": "2.6.5"
   }
 }
-

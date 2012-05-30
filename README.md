@@ -20,3 +20,8 @@ Each participant need:
 * node.js and npm installed. All the exercises use node.js.
 * git to clone this repository
 * curl
+
+Exercises
+=========
+
+ * [HTTP RPC application](./exercises/01-http-rpc)
