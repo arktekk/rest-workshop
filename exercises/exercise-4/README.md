@@ -1,4 +1,4 @@
-Exercise 1
+Exercise 4
 ==========
 
 Goal
@@ -9,8 +9,8 @@ to create a document which is extensible, and allows change.
 Background
 ----------
 You are working for a company that has a classified advertisements
-website. You need to build a hypermedia type which expresses an 
-advertisement with metadata.
+website. You need to build a hypermedia type which expresses a 
+classified advertisement with metadata.
 
 
 Requirements
@@ -36,33 +36,48 @@ You must choose a strategy for modeling optional fields.
 There must also be some hypermedia controls in the format which 
 identifies resources connected to the ad-representation.
 
-There MUST be a way of identifying which ad in which the current representation has been rendered.
+There MUST be a way of identifying which ad we are looking at.
 The id MUST NOT be a simple identifier.
 
 Useful link relations:
 * `self`
 * `alternate`
-* `search`
 * `contact`
 * `organization`
 * `person`
+* `image`
 
+More link relations may be found here:
+
+http://www.iana.org/assignments/link-relations
+
+For date-times you SHOULD use RFC-3339.
+http://www.ietf.org/rfc/rfc3339.txt
+
+example:
+2012-06-05T12:00:02.52Z
 
 Hints
 ---------
+Embedding images are not a good idea, so we need to link to them.
 
 XML:
 Use attributes where it makes sense instead of elements.
 
+Links:
 In Atom, a hypermedia format, there's defined a link type which looks like this:
+
 ```xml
 <atom:link href="http://example.com/ad/1" rel="self">
 ```
+You can either use this, or come up with our own.
+
 
 JSON:
 It is very easy to introduce incompatible changes in JSON, thereby it's important that
 one is diligent when designing the format.
 
+Links:
 Like XML, JSON does not have any hypermedia controls built in. There are a couple
 of different ways of modeling links in JSON:
 
@@ -88,6 +103,7 @@ HAL - style
 Collection+JSON - Style
 ```json
 {
+	"href" : "http://example.com/ad/1"
 	"links": [
 		{"href": "http://example.com/ad/1", "rel": "self", "title": "The current Ad"}
 	]
@@ -97,6 +113,9 @@ Collection+JSON - Style
 
 Steps
 -----
+Step1:
+
+- Add required fields
 
 
 
