@@ -11,7 +11,8 @@ Background
 You are working for a company that has a classified advertisements
 website. You are building their new RESTful webservice and 
 need to build a hypermedia type which expresses a 
-classified advertisement with metadata.
+classified advertisement with metadata. Afterwards you should implement
+a server and a client which understands your format.
 
 
 Requirements
@@ -130,17 +131,22 @@ Collection+JSON - Style
 
 Steps
 -----
-Step1:
-
+Step 1:
+- Choose base format (XML or JSON)
 - Add required fields
 
+Step 2:
+- Find a way of adding new fields without breaking backward compability
 
+Step 3:
+- Implement server and client which understands the new format.
 
 Bonus
 ------
 
 Add a list-version of the current format.
 
+Test against other servers.
 
 Retrospective
 -------------
