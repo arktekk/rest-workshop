@@ -1,10 +1,22 @@
 var APIeasy = require('api-easy'),
+    util = require('util'),
     assert = require('assert');
 
-var id;
+var suite = APIeasy.describe('Ad API');
 
-var suite = APIeasy.describe('Ad API').
+var id = "abc";
+
+// Slightly nasty
+function setId(outgoing) {
+  if(outgoing.uri == 'http://localhost:3000/ad') {
+    outgoing.uri += "?id=" + id;
+  }
+  return outgoing;
+}
+
+suite.
   use('localhost', 3000).
+  before('setId', setId).
   discuss('Create Ad endpoint: ').
     path('/create-ad').
     setHeader('Content-Type', 'application/json').
@@ -13,7 +25,6 @@ var suite = APIeasy.describe('Ad API').
     expect('body should include id key', function (err, res, body) {
       var body = JSON.parse(body);
       assert.ok(body.id);
-      console.log("setting id!");
       id = body.id;
     }).
     get().
@@ -25,6 +36,12 @@ var suite = APIeasy.describe('Ad API').
       assert.equal('Illegal method, you can only use: POST\n', body);
     }).
   undiscuss().unpath().
+  next().
+  discuss('Ad endpoint').
+    get('/ad').
+    expect(200).
+  undiscuss().unpath().
+  next().
   discuss('Generic 404').
     path('/not-found').
     removeHeader('Content-Type').
@@ -38,9 +55,4 @@ var suite = APIeasy.describe('Ad API').
     expect('body should include id key', function (err, res, body) {
       assert.equal(body, 'Not found\n');
     }).
-  undiscuss().unpath().
-  next().
-  discuss('Ad endpoint').
-    get('/ad', {id: id}).
-    expect(200).
 export(module);
