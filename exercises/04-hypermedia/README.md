@@ -27,6 +27,9 @@ The following fields MUST be modeled in your format:
 "created":
 	The created date of the ad
 
+"last-modified":
+	The last-modified date of the ad
+
 "title":
 	The title of the ad
 
