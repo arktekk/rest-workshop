@@ -66,13 +66,7 @@ The server should return a document like this:
 }
 ~~~
 
-To send a file to the server you can use curl like this:
-
-    curl --data-binary @ad.json http://localhost/create-picture
-
 #### Add picture endpoint: `http://localhost:3000/add-picture`
-
-    curl -d ad_id=<AD ID> -d @picture.png http://localhost/create-picture
 
 There are some example pictures available under [../../pictures](../../pictures/).
 
