@@ -3,9 +3,6 @@ var http = require('http')
   , util = require('util')
   , mongoose = require('mongoose');
 
-var Grid = mongoose.mongo.Grid;
-var GridStore = mongoose.mongo.GridStore;
-var ObjectID = mongoose.mongo.ObjectID;
 
 var Ad = new mongoose.Schema({
     title    : String
@@ -53,39 +50,25 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
         });
       });
     } else if(u.pathname == "/add-picture") {
-      var failed = false;
-      var id = u.query.adId;
-      var fileId = new ObjectID();
-      var store = new GridStore(db, fileId, 'w');
-      req.pause();
-      store.open(function(err, store) {
-        req.on('data', function(chunk) {
-          store.write(chunk, function(err, gridStore) {
-            if(err) failed = true;
+      	var id = u.query.adId;
+	var data = [];
+	var datalength = 0;
+	req.on('data', function(chunk) {
+          data.push(chunk);
+          datalength += chunk.length;
+	});
+	req.on('end', function() {
+        var buf = new Buffer(datalength);
+	data.forEach(function(d) { d.copy(buf); });
+        var cmd = {$push: {pictures: buf.toString("base64")}}
+        Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
+            if(numAffected != 1)
+              res.write(JSON.stringify({result: "notFound", message: "numAffected=" + numAffected}));
+            else
+              res.write(JSON.stringify({result: "ok"}));
+            res.end();
           });
-        });
-        req.on('end', function() {
-          store.close(function(err) {
-            if(failed || err) {
-              res.write(JSON.stringify({result: "failed"}));
-              res.end();
-            }
-            else {
-              var cmd = {$push: {pictures: fileId}}
-              Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
-                if(failed)
-                  res.write(JSON.stringify({result: "failed"}));
-                else if(numAffected != 1)
-                  res.write(JSON.stringify({result: "notFound", woot: "numAffected=" + numAffected}));
-                else
-                  res.write(JSON.stringify({result: "ok", data: {fileId: fileId}}));
-                res.end();
-              });
-            }
-          });
-        });
-        req.resume();
-      });
+	});
     } else {
       req.on('end', function() {
         res.write(JSON.stringify({ result: "unknown" }));
@@ -93,5 +76,5 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
       });
     }
   }).listen(3000)
-console.log("Running!");
+console.log("Running! Access the server at http://localhost:3000");
 });
