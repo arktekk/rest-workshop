@@ -44,18 +44,18 @@ Cheat sheets:
 Resources and Links
 ===================
 
-1. <http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm>
-1. <http://tools.ietf.org/html/rfc2616>
-1. <http://www.iana.org/protocols/>
-1. <http://www.nordsc.com/ext/classification_of_http_based_apis.html>
 1. <http://martinfowler.com/articles/richardsonMaturityModel.html>
+1. <http://tools.ietf.org/html/rfc2616>
 1. <http://tools.ietf.org/html/rfc5988>
-1. <http://www.iana.org/assignments/link-relations/link-relations.xml>
-1. <http://www.iana.org/assignments/http-status-codes/http-status-codes.xml>
-1. <http://www.iana.org/assignments/message-headers/perm-headers.html>
-1. <http://www.greenbytes.de/tech/webdav/draft-ietf-httpbis-method-registrations-latest.html>
-1. <http://tools.ietf.org/html/rfc6585>
+1. <http://tools.ietf.org/html/rfc6265>
 1. <http://tools.ietf.org/html/rfc6266>
 1. <http://tools.ietf.org/html/rfc6570>
-1. <http://tools.ietf.org/html/rfc6265>
+1. <http://tools.ietf.org/html/rfc6585>
+1. <http://www.greenbytes.de/tech/webdav/draft-ietf-httpbis-method-registrations-latest.html>
+1. <http://www.iana.org/assignments/http-status-codes/http-status-codes.xml>
+1. <http://www.iana.org/assignments/link-relations/link-relations.xml>
+1. <http://www.iana.org/assignments/message-headers/perm-headers.html>
+1. <http://www.iana.org/protocols/>
+1. <http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm>
+1. <http://www.nordsc.com/ext/classification_of_http_based_apis.html>
 
