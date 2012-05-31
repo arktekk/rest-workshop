@@ -33,6 +33,8 @@ req.on('end', function() {
 });
 ~~~
 
+NOTE: Headers in the node.js http request object are ALWAYS in lower-case.
+
 MongoDB / Mongoose
 ==================
 
