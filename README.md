@@ -31,7 +31,7 @@ for Node.js and curl, they contain valuable hints and tips.
 
 Exercises:
 
- * [01-http-rpc](./exercises/01-http-rpc)
+ * [01-http-rpc](exercises/01-http-rpc/README.md)
  * [02-basic-http](./exercises/02-basic-http)
  * [03-links](./exercises/03-links)
  * [04-hypermedia](./exercises/04-hypermedia)
