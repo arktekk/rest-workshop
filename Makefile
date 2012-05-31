@@ -1,8 +1,9 @@
 MARKDOWN=$(wildcard *.md */*.md */*/*.md)
 HTML=$(patsubst %.md,%.html,$(MARKDOWN))
 
-STARTS=$(wildcard exercises/*/start)
-SOLUTIONS=$(wildcard exercises/*/solution)
+NODE_EXERCISES=01-http-rpc 02-basic-http 03-links
+STARTS=$(patsubst %,exercises/%/start, $(NODE_EXERCISES))
+SOLUTIONS=$(patsubst %,exercises/%/solution, $(NODE_EXERCISES))
 PACKAGE_JSONS=$(patsubst %, %/package.json, $(STARTS))
 CMD_PRUNE=$(subst /,@,$(patsubst %,prune-%, $(STARTS) $(SOLUTIONS)))
 CMD_INSTALL=$(subst /,@,$(patsubst %,install-%, $(STARTS) $(SOLUTIONS)))

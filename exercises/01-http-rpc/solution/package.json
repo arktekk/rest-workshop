@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "dependencies": {
     "mongoose": "2.6.5"
+  },
+  "devDependencies": {
+    "api-easy": "0.3.4"
   }
 }
 
