@@ -13,6 +13,26 @@ http.createServer(function(req, res) {
 });
 ~~~
 
+
+Base64-encode binary data on a request
+======================================
+
+~~~javascript
+var data = [];
+var datalength = 0;
+req.on('data', function(chunk) {
+  data.push(chunk);
+  datalength += chunk.length;
+});
+
+req.on('end', function() {
+  var buf = new Buffer(datalength);
+  data.forEach(function(d) { d.copy(buf); });
+  var base64 = buf.toString("base64");
+  //do something with the data.
+});
+~~~
+
 MongoDB / Mongoose
 ==================
 
@@ -68,5 +88,16 @@ Db.Ad.findOne({_id: <my id>}, function(err, doc) {
 
 `err` will be set if there was an error while talking to the DB. `doc`
 will null if not found, or the object if found.
+
+<!-- _foo -->
+
+Update an existing object:
+~~~javascript
+var cmd = {$push: {arr: item}}
+Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
+ ....
+});
+~~~
+
 
 <!-- vim: set ft=markdown: -->
