@@ -1,14 +1,14 @@
 <ad xmlns="http://xmlns.arktekk.no/ad" href="http://example.com/ad/123">
-	<title>A title</title>
-	<created>2012-06-05T12:00:00.00Z</created>
-	<last-modified>2012-06-05T12:00:00.00Z</last-modified>
-	<published>2012-06-05T12:00:00.00Z</published>
-	<creator href="http://example.com/person/12345">John Doe</creator>	
-	<field name="body">Body text</field>
-        <image href="http://example.com/image/item.png" width="800" height="600" main="true" type="image/png"/>	
-	<image href="http://example.com/image/item2.png" width="800" height="600" type="image/png"/>
-	<field name="subtitle">Sub Title here</field>
-	<field name="lead">Lead text</field>
-	<link href="http://example.com/ad/123.json" rel="alternate" type="application/vnd.arktekk.ad+json"/>	
-	<link href="http://example.com/ad/123.html" rel="alternate" type="text/html"/>	
+  <title>A title</title>
+  <created>2012-06-05T12:00:00.00Z</created>
+  <last-modified>2012-06-05T12:00:00.00Z</last-modified>
+  <published>2012-06-05T12:00:00.00Z</published>
+  <creator href="http://example.com/person/12345">John Doe</creator>	
+  <field name="body">Body text</field>
+      <image href="http://example.com/image/item.png" width="800" height="600" main="true" type="image/png"/>	
+  <image href="http://example.com/image/item2.png" width="800" height="600" type="image/png"/>
+  <field name="subtitle">Sub Title here</field>
+  <field name="lead">Lead text</field>
+  <link href="http://example.com/ad/123.json" rel="alternate" type="application/vnd.arktekk.ad+json"/>	
+  <link href="http://example.com/ad/123.html" rel="alternate" type="text/html"/>	
 </ad>

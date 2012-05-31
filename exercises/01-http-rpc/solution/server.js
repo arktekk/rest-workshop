@@ -50,25 +50,25 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
         });
       });
     } else if(u.pathname == "/add-picture") {
-      	var id = u.query.adId;
-	var data = [];
-	var datalength = 0;
-	req.on('data', function(chunk) {
+      var id = u.query.adId;
+      var data = [];
+      var datalength = 0;
+      req.on('data', function(chunk) {
           data.push(chunk);
           datalength += chunk.length;
-	});
-	req.on('end', function() {
-        var buf = new Buffer(datalength);
-	data.forEach(function(d) { d.copy(buf); });
+      });
+      req.on('end', function() {
+      var buf = new Buffer(datalength);
+      data.forEach(function(d) { d.copy(buf); });
         var cmd = {$push: {pictures: buf.toString("base64")}}
         Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
-            if(numAffected != 1)
-              res.write(JSON.stringify({result: "notFound", message: "numAffected=" + numAffected}));
-            else
-              res.write(JSON.stringify({result: "ok"}));
-            res.end();
-          });
-	});
+          if(numAffected != 1)
+            res.write(JSON.stringify({result: "notFound", message: "numAffected=" + numAffected}));
+          else
+            res.write(JSON.stringify({result: "ok"}));
+          res.end();
+        });
+      });
     } else {
       req.on('end', function() {
         res.write(JSON.stringify({ result: "unknown" }));

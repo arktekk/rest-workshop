@@ -22,34 +22,34 @@ You may choose either XML or JSON as your base type.
 The following fields MUST be modeled in your format:
 
 "published": 
-	The published date of the ad
+  The published date of the ad
 
 "created":
-	The created date of the ad
+  The created date of the ad
 
 "last-modified":
-	The last-modified date of the ad
+  The last-modified date of the ad
 
 "title":
-	The title of the ad
+  The title of the ad
 
 "body":
-	The body of the ad.
+  The body of the ad.
 
 "creator":
-	A representation of the creator of the ad. 
-	This may be a person or an organization.
+  A representation of the creator of the ad.  This may be a person or
+  an organization.
 
 "images":
-	A list of attached images.
+  A list of attached images.
 
 There are also other types of fields in an ad:
 
 "subtitle":
-	A subtitle, optional.
+  A subtitle, optional.
 
 "lead":
-	Lead text, optional.
+  Lead text, optional.
 
 More fields MAY appear at a different date. 
 You must choose a strategy for modeling optional fields.
@@ -104,33 +104,32 @@ of different ways of modeling links in JSON:
 
 ```json
 {
-	"id": "http://example.com/ad/1",
-	"property-1": "property-value",
-	"property-2": "property-value",
-	"property-3": "property-value"	
+  "id": "http://example.com/ad/1",
+  "property-1": "property-value",
+  "property-2": "property-value",
+  "property-3": "property-value"
 }
 ```
 
 HAL - style
 ```json
 {
-	"property-1": "property-value",
-	"links": {
-		"self": "http://example.com/ad/1"
-	}
+  "property-1": "property-value",
+  "links": {
+    "self": "http://example.com/ad/1"
+  }
 }
 ```
 
 Collection+JSON - Style
 ```json
 {
-	"href" : "http://example.com/ad/1"
-	"links": [
-		{"href": "http://example.com/ad/1", "rel": "self", "title": "The current Ad"}
-	]
+  "href" : "http://example.com/ad/1"
+  "links": [
+    {"href": "http://example.com/ad/1", "rel": "self", "title": "The current Ad"}
+  ]
 }
 ```
-
 
 Steps
 -----
@@ -155,5 +154,3 @@ Retrospective
 -------------
 
 How can you add new fields without introducing a breaking change?
-
-

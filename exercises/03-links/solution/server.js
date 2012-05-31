@@ -154,12 +154,14 @@ mongoose.connect('mongodb://localhost/03-links', function() {
             else {
               var cmd = {$push: {pictures: fileId}}
               Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
+                var o;
                 if(failed)
-                  res.write(JSON.stringify({result: "failed"}));
+                  o = {result: "failed"};
                 else if(numAffected != 1)
-                  res.write(JSON.stringify({result: "notFound", woot: "numAffected=" + numAffected}));
+                  o = {result: "notFound", woot: "numAffected=" + numAffected};
                 else
-                  res.write(JSON.stringify({result: "ok", data: {fileId: fileId}}));
+                  o = {result: "ok", data: {fileId: fileId}};
+                res.write(JSON.stringify(o));
                 res.end();
               });
             }
