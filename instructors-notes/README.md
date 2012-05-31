@@ -38,13 +38,7 @@ Retrospective
 03: Links
 =========
 
-* Note that the media type description say that there is no way to
-  only update some fields in an ad.
-
-  Question: What happens if that is something that we want to support later?
-
-  Talk about the PATCH method and the different media types that have
-  popped up as suggestions on how one can do updates on an resource.
+### General
 
 * Eye opener: note now that it is possible to write a fairly reusable
   client for working on ads and lists of ads. The client's have no
@@ -58,3 +52,23 @@ Retrospective
   It is also possible to give different URLs to each consumer, where
   each URL include a token that the server can use to filter what the
   user agent gets returned. (Google Calendar does this).
+
+### Media Type Description
+
+* Note that the media type description say that there is no way to
+  only update some fields in an ad.
+
+  Question: What happens if that is something that we want to support later?
+
+  Talk about the PATCH method and the different media types that have
+  popped up as suggestions on how one can do updates on an resource.
+
+* Note that there was no talk on methods or HTTP specific stuff. Only
+  links and media types.
+
+The media type description document is a good example of a simple,
+domain specific media type. Simple, extensible and as specified as
+required for clients.
+
+05: Hypermedia
+==============

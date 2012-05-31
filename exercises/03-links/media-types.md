@@ -1,5 +1,26 @@
-Ads'r'us Media Types
-====================
+_This document is an example on how one can document an API by using
+the REST principles._
+
+Ads'r'us API
+============
+
+This document describes an architecture for how agents should interact
+with Ads'r'us. Interactions with Ads'r'us follow the general
+architecture and constraints described in the REST dissertation and
+add some domain specific constraints.
+
+We only implement a HTTP interface to our resources which come with
+its own set of constraints. As the world progresses, new
+specifications, updates and enhancements arrive and we try to stay as
+much as possible in line. However, we will always remain backwards
+compatible with our own published specifications.
+
+General Architecture Rules
+--------------------------
+
+TODO: skriv noe om hvordan vi bruker HTTP metoder. Det er lov å bruke
+alle metoder på alle ressurser, men man kan få feilkoder. Man er da
+garantert at man får en Allow-header med tilbake.
 
 Expected usage
 --------------
@@ -8,16 +29,19 @@ It is assumed that clients are pre-programmed with a link to an ad
 list when starting to interact with us.
 
 Media Type: Single Ad / `application/vnd.ad+json`
-------------------------------------------
+-------------------------------------------------
 
 ~~~json
 {
   "title": "Fin bolig til salgs!",
   "body": "Fire rom, nytt bad.",
-  "self": "http://...",
-  "pictures": "http://...",
-  "add-picture": "http://...",
-  "publish": "http://..."
+  "pictures": [
+    URI, ...
+  ]
+  "self": URI,
+  "add-picture": URI,
+  "publish": URI,
+  ...
 }
 ~~~
 
@@ -25,8 +49,10 @@ Fields:
 
 * `title`: the title and body of the ad. Available: summary
 * `body`: the title and body of the ad.
-* `self`: an URI that points to the ad itself. POST changes to the
-  here.
+* `self`: the canonical URI for this ad. Can be used to send a
+  link to other agents or when editing the ad.
+* `pictures`: A JSON list of URLs that point to image files.
+* `add-picture`: Send pictures here to add them to an ad.
   
 ### Updating Ads
 
@@ -39,19 +65,20 @@ There is no described way to update only a subset of the fields in an
 ad.
 
 Media Type: Ad List / `application/vnd.ad-list+json`
-------------------------------------------
+----------------------------------------------------
 
 ~~~json
 {
   "count": 10,
-  "add-ad": URI
+  "add-ad": URI,
   "ads": [
     {
       // See specification for application/vnd.ad+json
     }
   ],
-  "next-page": URI
-  "prev-page": URI
+  "next-page": URI,
+  "prev-page": URI,
+  ...
 }
 ~~~
 
