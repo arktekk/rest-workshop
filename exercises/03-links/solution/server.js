@@ -177,5 +177,5 @@ mongoose.connect('mongodb://localhost/03-links', function() {
       });
     }
   }).listen(3000)
-console.log("Running!");
+console.log("Running! Access the server at http://localhost:3000");
 });

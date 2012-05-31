@@ -16,10 +16,10 @@ all: docs $(PACKAGE_JSONS) \
 docs: $(HTML)
 
 exercises/02-basic-http/start/server.js: exercises/01-http-rpc/solution/server.js
-	@cp $< $@
+	cp $< $@
 
 exercises/03-links/start/server.js: exercises/02-basic-http/solution/server.js
-	@cp $< $@
+	cp $< $@
 
 # All package.json files in start/ are copied from solution/
 exercises/%/start/package.json: exercises/%/solution/package.json
@@ -29,10 +29,10 @@ clean: $(CMD_PRUNE)
 	@rm -f $(HTML)
 
 prune-%:
-	cd $(subst @,/,$(patsubst prune-%,%,$@)); npm prune
+	cd $(subst @,/,$(patsubst prune-%,%,$@)); npm prune .
 
 install-%:
-	cd $(subst @,/,$(patsubst install-%,%,$@)); npm install
+	cd $(subst @,/,$(patsubst install-%,%,$@)); npm install .
 
 %.html : %.md
 	@echo markdown $<

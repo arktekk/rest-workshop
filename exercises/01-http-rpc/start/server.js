@@ -17,5 +17,5 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
   http.createServer(function(req, res) {
     // TODO: implement
   }).listen(3000)
-  console.log("Running!");
+  console.log("Running! Access the server at http://localhost:3000");
 });
