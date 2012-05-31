@@ -18,9 +18,23 @@ compatible with our own published specifications.
 General Architecture Rules
 --------------------------
 
+These are general rules and principles used. They apply as long as a
+specific interaction/resource does not specify something else.
+
 TODO: skriv noe om hvordan vi bruker HTTP metoder. Det er lov å bruke
 alle metoder på alle ressurser, men man kan få feilkoder. Man er da
 garantert at man får en Allow-header med tilbake.
+
+### On Creating New Resources
+
+When a new resource is created, the server MUST return the status code
+`201` and a `Location` header pointing to the newly created resource.
+
+### On Links and Allowed Methods
+
+Many resources will include URIs to other resources and operations
+available for the client. The resources will include all links, even
+if the client may not be authorized to use them.
 
 Expected usage
 --------------

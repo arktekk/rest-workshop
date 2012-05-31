@@ -25,8 +25,21 @@ Each participant need:
 Exercises
 =========
 
- * [HTTP RPC application](./exercises/01-http-rpc)
+Before starting on an exercise please read through the entire text to
+get a better overview of the exercise. Also check out the cheat sheets
+for Node.js and curl, they contain valuable hints and tips.
 
+Exercises:
+
+ * [01-http-rpc](./exercises/01-http-rpc)
+ * [02-basic-http](./exercises/02-basic-http)
+ * [03-links](./exercises/03-links)
+ * [04-hypermedia](./exercises/04-hypermedia)
+
+Cheat sheets:
+
+ * [Node.js](node-cheat-sheet.md)
+ * [curl](curl-cheat-sheet.md)
 
 Links
 ======

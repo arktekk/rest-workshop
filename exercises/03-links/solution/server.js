@@ -72,7 +72,7 @@ mongoose.connect('mongodb://localhost/03-links', function() {
     var u = url.parse(req.url, true);
     if(u.pathname == "/create-ad") {
       if(assertMethod(req, res, 'POST')) {
-        if(assertContentType(req, res)) {
+        if(assertContentTypeAd(req, res)) {
           var s = "";
           req.on('data', function(chunk) {
             s += chunk;
@@ -104,6 +104,29 @@ mongoose.connect('mongodb://localhost/03-links', function() {
               }
               else {
                 res.write(JSON.stringify({ result: "ok", data: doc}));
+              }
+              res.end("\n");
+            });
+          });
+        }
+      }
+    } else if(u.pathname == "/ads") {
+      if(assertMethod(req, res, 'GET')) {
+        if(assertAccept(req, res)) {
+          req.on('end', function() {
+            Db.Ad.find({}).exec(function(err, docs) {
+              if(err) {
+                res.writeHead(500, {'Content-Type': 'text/plain'});
+                res.write(JSON.stringify(err.message));
+              }
+              else if(docs == null) {
+                res.writeHead(404, {'Content-Type': 'text/plain'});
+                res.write("Unknown ad: " + u.query.id);
+              }
+              else {
+                res.write(JSON.stringify({
+                  count: docs.length
+                }));
               }
               res.end("\n");
             });

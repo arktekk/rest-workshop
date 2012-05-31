@@ -1,0 +1,4 @@
+o Skriv generell intro til node for oppgavene:
+  - Gjør 'npm install .' før du starter
+  - Applikasjonen kjøres slik: 'node server.js'
+
