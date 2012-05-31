@@ -1,6 +1,7 @@
 var http = require('http')
   , url = require('url')
   , util = require('util')
+  , restUtil = require('../../lib/rest-util.js')
   , mongoose = require('mongoose');
 
 var Grid = mongoose.mongo.Grid;
@@ -17,12 +18,20 @@ var Db = {
   Ad: mongoose.model('Ad', Ad)
 };
 
-function assertContentType(req, res) {
+function assertContentTypeAd(req, res) {
+  assertContentType(req, res, 'application/vnd.ad+json');
+}
+
+function assertContentTypeAdList(req, res) {
+  assertContentType(req, res, 'application/vnd.ad-list+json');
+}
+
+function assertContentType(req, res, type) {
   var ct = req.headers['content-type'] || '';
-  if('application/json' == ct.toLowerCase()) {
+  if(type == ct.toLowerCase()) {
     return true;
   }
-  var txt = 'You have to post application/json';
+  var txt = 'You have to post ' + type;
   res.writeHead(415, txt, {'Content-Type': 'text/plain'});
   res.write(txt);
   res.write('\n');
@@ -43,8 +52,6 @@ function assertMethod(req, res, method) {
 }
 
 function assertAccept(req, res, method) {
-  console.log('req.headers.accept', typeof req.headers.accept, req.headers.accept);
-  console.log('req.headers.accept', typeof req.headers.accept === 'undefined');
   if(typeof req.headers.accept === "undefined" ||
      req.headers.accept == 'application/json' ||
      req.headers.accept == '*/*') {
@@ -58,13 +65,10 @@ function assertAccept(req, res, method) {
   return false;
 }
 
-var seq = 0;
-mongoose.connect('mongodb://localhost/02-basic-http', function() {
+mongoose.connect('mongodb://localhost/03-links', function() {
   var db = mongoose.connection.db
   http.createServer(function(req, res) {
-    seq++;
-    console.log(seq + ':' + req.method + ' ' + req.url);
-    console.log(seq + ':' + util.inspect(req.headers));
+    restUtil.logRequest(req);
     var u = url.parse(req.url, true);
     if(u.pathname == "/create-ad") {
       if(assertMethod(req, res, 'POST')) {
@@ -79,7 +83,6 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
             ad.title = payload.title;
             ad.body = payload.body;
             ad.save();
-            console.log(seq + ':' + util.inspect(payload));
             res.writeHead(200, {'Content-Type': 'application/json'});
             res.write(JSON.stringify({ id: ad._id }));
             res.end("\n");
@@ -87,14 +90,10 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
         }
       }
     } else if(u.pathname == "/ad") {
-      console.log(seq + ': id=' + u.query.id);
       if(assertMethod(req, res, 'GET')) {
         if(assertAccept(req, res)) {
-          console.log(seq + ':' + '/ad, yo');
           req.on('end', function() {
-            console.log(seq + ':' + 'end');
             Db.Ad.findOne({_id: u.query.id}, function(err, doc) {
-              console.log(seq + ':' + 'findOne');
               if(err) {
                 res.writeHead(500, {'Content-Type': 'text/plain'});
                 res.write(JSON.stringify(err.message));

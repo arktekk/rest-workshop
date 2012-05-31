@@ -25,7 +25,7 @@ The application shall follow these general requirements:
 
 * All data/non-binary content types should be 'application/json'. This
   applies both for both requests and responses.
-* Each resource should the appropriate caching information.
+* TODO: remove? Each resource should the appropriate caching information.
 * Status codes:
  * 200: Everything is ok!
  * 404: Unknown resource.
