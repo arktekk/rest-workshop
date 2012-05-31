@@ -1,16 +1,23 @@
 Arktekk's REST Workshop
 =======================
 
-This material is a two day workshop on REST. It is divided into three areas:
+This material is a two day workshop on REST. It is divided into three
+areas: slides for an instructor, exercises for the participants and
+instructor's notes.
 
-* Slides that cover the theoretical aspects of REST and HTTP. They
-  form the basis for discussions and individual work.
-* Exercies that goes with each slide set.
+The slides cover the theoretical aspects of REST and HTTP. They form
+the basis for discussions and exercises.
 
-  Each exercise has two directories: _start_ is where you as a
-  participant should start to solve each exercise. _solution_ contains
-  a complete solution for the exercise. There is also a README file
-  that describe the exercise in detail.
+Exercises for getting hands on with REST and HTTP. The exercises are
+practical and directly useful afterwards. The exercises takes you from
+a basic "RPC over HTTP" application to a good HTTP component.
+
+There is a whole lot of information on what REST and is and is not,
+but we're trying to introduce you to REST through a practical examples
+and exercises. As REST is not a single architecture but rather an
+architectonic style, we can only show you some ways to use this style.
+We're doing this through discussions during and after the
+presentations. You'll try yourself in the exercises.
 
 Participant Requirements
 ========================
@@ -28,6 +35,11 @@ Exercises
 Before starting on an exercise please read through the entire text to
 get a better overview of the exercise. Also check out the cheat sheets
 for Node.js and curl, they contain valuable hints and tips.
+
+Each exercise has two directories: _start_ is where you as a
+participant should start to solve each exercise. _solution_ contains a
+complete solution for the exercise. There is also a README file that
+describe the exercise in detail.
 
 Exercises:
 
