@@ -1,13 +1,13 @@
+POST data file:
+	curl --data-binary @/path/to/file <url>
+
 POST image file:
 
 	curl -X POST -H 'Content-Type: image/jpeg' -T pictures/car.jpg <url>
 
-Add Header to command:
+Add Request Header:
 
-	-H 'Content-Type: image/jpeg'
-
-Add If-None-Match:
-	-H 'If-None-Match: <value-of-etag-header'
+	-H '<Header-Name>: <Header-Value>'
 
 Change HTTP method:
 	-X GET|PUT|POST|DELETE|OPTIONS
@@ -24,3 +24,24 @@ execute a GET, but ignoring the data:
 execute a GET, but ignoring the data on Windows:
 	curl -o nul <other-options> <url>
  
+
+Add If-None-Match:
+This header is mostly useful on conditional GET requests:
+
+	-H 'If-None-Match: <value-of-etag-header>'
+
+Add If-Match:
+This header is mostly useful on conditional PUT|POST requests:
+
+	-H 'If-Match: <value-of-etag-header>'
+
+Add If-Modified-Since:
+This header is mostly useful on conditional GET requests:
+
+	-H 'If-Modified-Since: <value-of-last-modified-header>'
+
+Add If-Unmodified-Since:
+This header is mostly useful on conditional PUT|POST requests:
+
+	-H 'If-Unmodified-Since: <value-of-last-modified-header>'
+
