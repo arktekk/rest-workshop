@@ -8,10 +8,20 @@ PACKAGE_JSONS=$(patsubst %, %/package.json, $(STARTS))
 CMD_PRUNE=$(subst /,@,$(patsubst %,prune-%, $(STARTS) $(SOLUTIONS)))
 CMD_INSTALL=$(subst /,@,$(patsubst %,install-%, $(STARTS) $(SOLUTIONS)))
 
-all: docs $(PACKAGE_JSONS) $(CMD_INSTALL)
+all: docs $(PACKAGE_JSONS) \
+	 exercises/02-basic-http/start/server.js \
+	 exercises/03-links/start/server.js \
+	 $(CMD_INSTALL)
 
 docs: $(HTML)
 
+exercises/02-basic-http/start/server.js: exercises/01-http-rpc/solution/server.js
+	@cp $< $@
+
+exercises/03-links/start/server.js: exercises/02-basic-http/solution/server.js
+	@cp $< $@
+
+# All package.json files in start/ are copied from solution/
 exercises/%/start/package.json: exercises/%/solution/package.json
 	cp $< $@
 
