@@ -60,6 +60,22 @@ respond with something like this:
 }
 ~~~
 
+If the ad does not exist, `result` should be `notFound`:
+
+~~~json
+{
+  "result": "notFound"
+}
+~~~
+
+Similar for any unknown error, `result` should be `error`:
+
+~~~json
+{
+  "result": "error"
+}
+~~~
+
 ### Add picture endpoint: `http://localhost:3000/add-picture?id=...`
 
 There are some example pictures available under [../../pictures](../../pictures/).

@@ -75,6 +75,6 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
         res.end();
       });
     }
-  }).listen(3000)
-console.log("Running! Access the server at http://localhost:3000");
+  }).listen(3000);
+  console.log("Running! Access the server at http://localhost:3000");
 });

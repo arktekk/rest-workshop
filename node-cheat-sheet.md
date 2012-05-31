@@ -1,3 +1,11 @@
+Node Cheat Sheet
+================
+
+References:
+
+* [Node home page](http://nodejs.org)
+* [Full documentation](http://nodejs.org/api/all.html)
+
 Getting the body as a string
 ============================
 

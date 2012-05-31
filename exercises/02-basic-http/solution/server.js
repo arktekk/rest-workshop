@@ -145,6 +145,6 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
         res.end();
       });
     }
-  }).listen(3000)
+  }).listen(3000);
   console.log("Running! Access the server at http://localhost:3000");
 });
