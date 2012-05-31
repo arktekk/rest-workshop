@@ -20,7 +20,7 @@ suite.
   discuss('Create Ad endpoint,').
     discuss('valid create').
       setHeader('Content-Type', 'application/json').
-      post('/create-ad', { title: 'Fin bolig til salgs!', body: 'Fire rom, nytt bad.' }).
+      post('/create-ad', { title: 'Nice house for sale!', body: 'Four rooms, huge bath.' }).
       expect(200).
       expect('body should include id key', function (err, res, body) {
         var body = JSON.parse(body);

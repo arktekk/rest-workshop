@@ -47,8 +47,8 @@ Media Type: Single Ad / `application/vnd.ad+json`
 
 ~~~json
 {
-  "title": "Fin bolig til salgs!",
-  "body": "Fire rom, nytt bad.",
+  "title": "Nice house for sale!",
+  "body": "Four rooms, huge bath.",
   "pictures": [
     URI, ...
   ]

@@ -49,8 +49,8 @@ The JSON that's sent to the server should look like this:
 
 ~~~json
 {
-  "title": "Fin bolig til salgs!",
-  "body": "Fire rom, nytt bad."
+  "title": "Nice house for sale!",
+  "body": "Four rooms, huge bath."
 }
 ~~~
 
@@ -60,9 +60,9 @@ The server should return a document like this:
 {
   "type": "ad",
   "id": "4fc494d10b6a9fcb09000001", 
-  "body": "Fire rom, nytt bad.", 
+  "body": "Four rooms, huge bath.", 
   "pictures": [], 
-  "title": "Fin bolig til salgs!"
+  "title": "Nice house for sale!"
 }
 ~~~
 
@@ -79,8 +79,8 @@ respond with something like this:
 {
   "result": "ok",
   "data": {
-    "title": "Fin bolig til salgs!",
-    "body": "Fire rom, nytt bad."
+    "title": "Nice house for sale!",
+    "body": "Four rooms, huge bath."
   }
 }
 ~~~
