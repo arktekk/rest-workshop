@@ -4,7 +4,7 @@ var APIeasy = require('api-easy'),
 
 var suite = APIeasy.describe('Ad API');
 
-var id = "abc";
+var self;
 
 // Slightly nasty
 function setId(outgoing) {
@@ -19,13 +19,15 @@ suite.
   before('setId', setId).
   discuss('Create Ad endpoint,').
     discuss('valid create').
-      setHeader('Content-Type', 'application/json').
-      post('/create-ad', { title: 'Nice house for sale!', body: 'Four rooms, huge bath.' }).
-      expect(200).
-      expect('body should include id key', function (err, res, body) {
-        var body = JSON.parse(body);
-        assert.ok(body.id);
-        id = body.id;
+      setHeader('Content-Type', 'application/vnd.ad+json').
+      post('/create-ad', new Buffer(JSON.stringify({ title: 'Nice house for sale!', body: 'Four rooms, huge bath.'}))).
+      expect(201).
+      expect('response should have \'Location\' header', function (err, res, body) {
+        assert.ok(/^http:\/\/localhost:3000\/ad\?id=.{24}$/.test(res.headers.location));
+        self = res.headers.location;
+      }).
+      expect('body should be empty', function (err, res, body) {
+        assert.equal('', body);
       }).
       removeHeader('Content-Type').
     undiscuss().
@@ -50,7 +52,7 @@ suite.
   discuss('Ad endpoint').
     discuss('With \'Accept: application/json\'').
       setHeader('Accept', 'application/json').
-      get('/ad').
+      get(self).
       expect(200).
       removeHeader('Accept').
     undiscuss().
@@ -65,12 +67,12 @@ suite.
   discuss('Generic 404').
     get('/not-found').
     expect(404).
-    expect('body should include id key', function (err, res, body) {
+    expect('body', function (err, res, body) {
       assert.equal(body, 'Not found\n');
     }).
     post('/not-found').
     expect(404).
-    expect('body should include id key', function (err, res, body) {
+    expect('body', function (err, res, body) {
       assert.equal(body, 'Not found\n');
     }).
   undiscuss().
