@@ -6,8 +6,13 @@ References:
 * [Node home page](http://nodejs.org)
 * [Full documentation](http://nodejs.org/api/all.html)
 
-Getting the body as a string
-============================
+Running a node application
+==========================
+
+    $ node server.js
+
+Getting the requets body as a string
+====================================
 
 ~~~javascript
 http.createServer(function(req, res) {
@@ -20,7 +25,6 @@ http.createServer(function(req, res) {
   });
 });
 ~~~
-
 
 Base64-encode binary data on a request
 ======================================
@@ -41,7 +45,8 @@ req.on('end', function() {
 });
 ~~~
 
-NOTE: Headers in the node.js http request object are ALWAYS in lower-case.
+NOTE: Headers in the node.js http request object are ALWAYS in
+lower-case.
 
 MongoDB / Mongoose
 ==================
@@ -84,7 +89,8 @@ res.write(JSON.stringify("id=" + ad._id));
 
 <!-- _foo -->
 
-When an object has been saved, the id of the object is available as the `_id` attribute:
+When an object has been saved, the id of the object is available as
+the `_id` attribute:
 
 Find a object:
 
@@ -109,5 +115,34 @@ Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
 });
 ~~~
 
+<!-- _foo -->
 
-<!-- vim: set ft=markdown: -->
+Store an image inside of an object (this is not something you should
+    do normally):
+
+~~~javascript
+// Collect all the data buffers into an array
+var data = [];
+var datalength = 0;
+req.on('data', function(chunk) {
+  data.push(chunk);
+  datalength += chunk.length;
+});
+req.on('end', function() {
+  // Create a new, huge buffer.
+  var buf = new Buffer(datalength);
+  // Copy all the buffers into the huge buffer.
+  data.forEach(function(d) { d.copy(buf); });
+  // base-64 encode the data.
+  var cmd = {$push: {pictures: buf.toString("base64")}}
+  // Store the picture on the object.
+  Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
+    ...
+  });
+});
+~~~
+
+<!-- _foo -->
+
+TODO: Add notes on how to access command line arguments and something
+on the request module.

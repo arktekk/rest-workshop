@@ -36,7 +36,14 @@ Optional:
 Exercises
 =========
 
-More information on the slides is available under [exercises/README.md](./exercises/README.md).
+More information on the slides is available under
+[exercises/README.md](./exercises/README.md).
+
+Slides
+======
+
+The slides are available under [slides](./slides). They use
+[showoff](https://github.com/schacon/showoff) as a presentation tool.
 
 Resources and Links
 ===================

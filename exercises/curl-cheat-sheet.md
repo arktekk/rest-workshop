@@ -1,47 +1,66 @@
-POST data file:
-	curl --data-binary @/path/to/file <url>
+### POST a file
 
-POST image file:
+    curl --data-binary @/path/to/file <url>
 
-	curl -X POST -H 'Content-Type: image/jpeg' -T pictures/car.jpg <url>
+By adding `--data-binary`, curl will change the method to `POST` and
+set the `Content-Type` header to `application/x-www-form-urlencoded`.
 
-Add Request Header:
+### POST image file
 
-	-H '<Header-Name>: <Header-Value>'
+    curl -X POST -H 'Content-Type: image/jpeg' -T pictures/car.jpg <url>
 
-Change HTTP method:
-	-X GET|PUT|POST|DELETE|OPTIONS
+### Add Request Header
 
-Verbose mode, See what curl is actually doing:
-	-v
+    -H '<Header-Name>: <Header-Value>'
 
-Dump header data to stdout:
-	-D -
+### Change HTTP method
 
-execute a GET, but ignoring the data:
-	curl -o /dev/null <other-options> <url>
+    -X GET|PUT|POST|DELETE|OPTIONS
 
-execute a GET, but ignoring the data on Windows:
-	curl -o nul <other-options> <url>
+### Verbose mode
+
+See what curl is actually doing:
+
+    curl -v
+
+### Dump response header data to stdout
+
+    curl -D -
+
+### Do a GET, but ignoring the data
+
+On unix:
+
+    curl -o /dev/null <other-options> <url>
+
+On Windows:
+
+    curl -o nul <other-options> <url>
  
+This is useful if combined with `-D` to give you the headers only:
 
-Add If-None-Match:
+    curl -D - -o /dev/null <url>
+
+### Add `If-None-Match`
+
 This header is mostly useful on conditional GET requests:
 
-	-H 'If-None-Match: <value-of-etag-header>'
+    -H 'If-None-Match: <value-of-etag-header>'
 
-Add If-Match:
+### Add `If-Match`
+
 This header is mostly useful on conditional PUT|POST requests:
 
-	-H 'If-Match: <value-of-etag-header>'
+    -H 'If-Match: <value-of-etag-header>'
 
-Add If-Modified-Since:
+### Add `If-Modified-Since`
+
 This header is mostly useful on conditional GET requests:
 
-	-H 'If-Modified-Since: <value-of-last-modified-header>'
+    -H 'If-Modified-Since: <value-of-last-modified-header>'
 
-Add If-Unmodified-Since:
+### Add `If-Unmodified-Since`
+
 This header is mostly useful on conditional PUT|POST requests:
 
-	-H 'If-Unmodified-Since: <value-of-last-modified-header>'
-
+    -H 'If-Unmodified-Since: <value-of-last-modified-header>'
