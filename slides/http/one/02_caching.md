@@ -17,7 +17,7 @@ To reduce traffic when writing browser based clients, consider only having expir
 !SLIDE
 # Expires header #
 
-	Expires: Thu, 01 Dec 2012 16:00:00 GMT
+    Expires: Thu, 01 Dec 2012 16:00:00 GMT
 
 .notes Inheritance from HTTP/1.0
 Format: HTTP Date in the future until the representation should be considered fresh.
@@ -27,7 +27,7 @@ Expiry dates more than a year are generally not useful. Can be considered cached
 !SLIDE
 # Max-Age #
 
-	Cache-Control: max-age=3600
+    Cache-Control: max-age=3600
 
 .notes This denotes the representation to be fresh for one hour.
 .notes The resolution for max-age are seconds.
@@ -40,7 +40,7 @@ Expiry dates more than a year are generally not useful. Can be considered cached
 
 !SLIDE bullets incremental
 # ETag #
-	ETag: "foobar"
+    ETag: "foobar"
 
 * An opaque string which only have meaning for the server.
 
@@ -58,18 +58,18 @@ Strong are byte-for-byte equality.
 
 !SLIDE
 # Last-Modified #
-	Last-Modified: Sat, 26 May 2012 11:44:04 GMT
+    Last-Modified: Sat, 26 May 2012 11:44:04 GMT
 
 !SLIDE
 # Conditional GET #
-	If-None-Match: "foobar"
-	If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
+    If-None-Match: "foobar"
+    If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
 !SLIDE commandline incremental
 # Conditional GET - Example #
-	$ curl -v -o /dev/null -s \
-	http://gfx.dagbladet.no/labrador/\
-	217/217889/21788949/jpg/active/978x.jpg
+    $ curl -v -o /dev/null -s \
+    http://gfx.dagbladet.no/labrador/\
+    217/217889/21788949/jpg/active/978x.jpg
 
 
 !SLIDE bullets
