@@ -8,11 +8,9 @@ to create a document which is extensible, and allows change.
 
 Background
 ----------
-You are working for a company that has a classified advertisements
-website. You are building their new RESTful webservice and 
+You are building Ads'r'us' new RESTful webservice and 
 need to build a hypermedia type which expresses a 
-classified advertisement with metadata. Afterwards you should implement
-a server and a client which understands your format.
+classified advertisement with metadata.
 
 
 Requirements
@@ -51,6 +49,9 @@ There are also other types of fields in an ad:
 "lead":
   Lead text, optional.
 
+The named listed above are concepts, which your format must contain, 
+the encoding of concepts to elements/attributes/properties are up to you.
+
 More fields MAY appear at a different date. 
 You must choose a strategy for modeling optional fields.
 
@@ -82,23 +83,30 @@ Hints
 ---------
 Embedding images are not a good idea, so we need to link to them.
 
-XML:
+## XML
+
 Use attributes where it makes sense instead of elements.
 
-Links:
+### Links
 In Atom, a hypermedia format, there's defined a link type which looks like this:
 
 ```xml
 <atom:link href="http://example.com/ad/1" rel="self">
 ```
-You can either use this, or come up with our own.
+Domain specific 
 
+```xml
+<ad href="http://example.com/ad/1"/>
+```
 
-JSON:
+Experiment, and try to find the best solution for your format.
+
+## JSON
+
 It is very easy to introduce incompatible changes in JSON, thereby it's important that
 one is diligent when designing the format.
 
-Links:
+### Links
 Like XML, JSON does not have any hypermedia controls built in. There are a couple
 of different ways of modeling links in JSON:
 
@@ -147,6 +155,8 @@ Bonus
 ------
 
 Add a list-version of the current format.
+
+Add more links to other resources.
 
 Test against other servers.
 
