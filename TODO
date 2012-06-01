@@ -48,5 +48,6 @@ hva mulighetene er med eksisterende formater.
 5) Mål: gi erfaring med å lage egne hypermedia.
 
 Ekstra ekstraoppgaver:
-- bruke 419 med retry-after.
+- bruke 503 med retry-after.
+- 429 - too many requests.
 
