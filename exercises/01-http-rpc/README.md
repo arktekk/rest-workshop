@@ -13,12 +13,8 @@ of the request.
 For now, you only need to implement the server side. Use curl for
 testing the responses from the server.
 
-Instructions
-------------
-
-### Create a work directory
-
-Copy the `start/` directory into `work/`.
+Steps
+-----
 
 ### Create the ad endpoint: `http://localhost:3000/create-ad`
 

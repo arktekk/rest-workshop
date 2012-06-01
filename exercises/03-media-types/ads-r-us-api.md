@@ -21,9 +21,12 @@ General Architecture Rules
 These are general rules and principles used. They apply as long as a
 specific interaction/resource does not specify something else.
 
-TODO: skriv noe om hvordan vi bruker HTTP metoder. Det er lov å bruke
-alle metoder på alle ressurser, men man kan få feilkoder. Man er da
-garantert at man får en Allow-header med tilbake.
+All resources should return an `Allow` header if the method is not
+allowed/supported.
+
+It is expected that the media types will evolve over time so clients
+must silently ignore unknown fieds. Clients should also not expect
+optional fields to be present.
 
 ### On Creating New Resources
 

@@ -36,12 +36,8 @@ The application shall follow these general requirements:
 Use `application/json` for all normal messages, and `text/plain` for
 error messages.
 
-Instructions
-------------
-
-### Create a work directory
-
-Copy the `start/` directory into `work/`.
+Steps
+-----
 
 ### Create the 'create ad endpoint': `http://localhost:3000/create-ad`
 
