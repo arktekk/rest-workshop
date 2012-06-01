@@ -4,8 +4,9 @@
 !SLIDE bullets incremental
 # Authentication - RFC-2617 #
 * Authentication framework for HTTP
-
-.notes Consists of WWW-Authenticate, Authorization and Authentication-Info.
+* WWW-Authenticate
+* Authorization
+* Authentication-Info.
 
 !SLIDE bullets incremental
 # Basic Authentication #

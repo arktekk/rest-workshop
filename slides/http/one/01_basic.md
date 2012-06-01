@@ -54,7 +54,9 @@ this lets the Agent know that it must authenticate, or it's credentials are inva
 Server Error => 503 Service Unavailable, Server is overloaded. 
 If response contains a Retry-After header, indicates when the Agent can try the request again.
 
-
+!SLIDE
+# Status Codes #
+http://tools.ietf.org/html/rfc2616#section-10
 
 !SLIDE
 # HTTP Methods #
@@ -69,9 +71,40 @@ If response contains a Retry-After header, indicates when the Agent can try the 
 
 .notes These methods are defined by RFC-2616
 I have never seen TRACE in use. (Erlend)
-Extensions Methods are added all the time. See the registry for more methods. 
-Some 30odd methods are defined at the time of writing
+This set has been extended by multiple specifications, Webdav for instance.
 
+
+!SLIDE small
+# HTTP Methods #
+	
+	| Method  | Safe   | Idempotent |
+	|---------|--------|------------|
+	| GET     | yes    | yes        |
+	| PUT     | no     | yes        |
+	| POST    | no     | no     	|
+	| HEAD    | yes    | yes      	|
+	| OPTIONS | no     | yes   		|
+	| DELETE  | no     | yes		|
+	| TRACE   | no     | yes 		|
+	| CONNECT | no     | no 		|	
+	
+!SLIDE
+# HTTP Headers #
+HTTP headers are metadata which describes the request or response.
+
+
+!SLIDE
+# Some useful HTTP Headers #
+	Content-Type
+	Allow
+	Cache-Control
+	ETag
+	Expires
+	Last-Modified
+	Retry-After
+	User-Agent
+	Vary
+	
 !SLIDE
 # Example #
 	curl http://www.vg.no

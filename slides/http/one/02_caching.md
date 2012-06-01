@@ -38,15 +38,6 @@ Expiry dates more than a year are generally not useful. Can be considered cached
 .notes Takes either the ETag or Last-Modified from the previous response and applies it to next request.
 .notes Success yields either (next)
 
-!SLIDE bullets
-# 304 Not Modified #
-* Updated headers so the cache can update the metadata for the cached representation.
-
-!SLIDE bullets
-# 200 OK #
-* A new copy of the representation + metadata which must replace the cached object.
-
-
 !SLIDE bullets incremental
 # ETag #
 	ETag: "foobar"
@@ -79,6 +70,16 @@ Strong are byte-for-byte equality.
 	$ curl -v -o /dev/null -s \
 	http://gfx.dagbladet.no/labrador/\
 	217/217889/21788949/jpg/active/978x.jpg
+
+
+!SLIDE bullets
+# 304 Not Modified #
+* Updated headers so the cache can update the metadata for the cached representation.
+
+!SLIDE bullets
+# 200 OK #
+* A new copy of the representation + metadata which must replace the cached object.
+
 
 !SLIDE 
 # HTTP is optimized for GET #

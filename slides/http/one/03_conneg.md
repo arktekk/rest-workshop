@@ -31,10 +31,9 @@ was negotiated.
 
 !SLIDE smaller
 # Accept* header qualifiers #
-<pre class="noformat">
-Accept: application/json;q=0.4, application/xml, 
- *.*;q=0.3, application/xhtml+xml; q=0.8
-</pre>
+
+	Accept: application/json;q=0.4, application/xml, 
+ 	*.*;q=0.3, application/xhtml+xml; q=0.8
 
 .notes Sorted preferred list of acceptable media-types.
 All the accept headers have a simliar qualifier syntax.
@@ -42,10 +41,16 @@ All the accept headers have a simliar qualifier syntax.
 !SLIDE smaller
 # Accept* header qualifiers #
 
-<pre class="noformat">
-Accept: application/xml, application/xhtml+xml; q=0.8, 
-application/json;q=0.4, *.*;q=0.3 
-</pre>
+	Accept: application/xml, application/xhtml+xml; q=0.8, 
+	application/json;q=0.4, *.*;q=0.3 
+	
+!SLIDE
+# Vary #
+	Vary: Accept
+	Vary: Accept-Language, Accept, Accept-Charset
+
+.notes If the server selects a representation for you without redirecting, the server SHOULD add
+a Vary Header. This is to let caches know that the response varies on selection data.
 
 !SLIDE bullets incremental
 # Agent negotiation #
