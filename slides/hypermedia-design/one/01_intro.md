@@ -1,27 +1,12 @@
 !SLIDE 
 # Hypermedia Design #
 
-!SLIDE incremental
-# What is hypermedia? #
-The World Wide Web [...](the Web) is a system of interlinked hypertext documents accessed via the Internet. 
-With a User Agent, one can access documents that may contain text, images, videos, and other multimedia and navigate between them via hyperlinks.
-
-** Slightly modified from http://en.wikipedia.org/wiki/World_Wide_Web**
-
-.notes Collected this can be thought of as Hypermedia. Data With Hypermedia controls.
-
-!SLIDE
-# Hyperlinks #
-"User interface" controls that encapsulates intent and a target URI.
-
-.notes User interface must be interpreted quite loosely here. It includes both
-H2M and M2M.
-
 !SLIDE
 # Design #
 * Attempt to generalize what is being modeled
 * Design for extensibility
 * Avoid encoding too much of the domain into media types.
+* Try to make it as easy to parse as possible.
 
 .notes If a customer is being modeled. Think of this as a person/organization.
 Take a step back and see if you can think of the problem in a different manner.
