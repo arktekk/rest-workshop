@@ -16,6 +16,9 @@ specifications, updates and enhancements arrive and we try to stay as
 much as possible in line. However, we will always remain backwards
 compatible with our own published specifications.
 
+*Make sure to check back regularly to get the latest version of this
+specification!*
+
 General Architecture Rules
 --------------------------
 

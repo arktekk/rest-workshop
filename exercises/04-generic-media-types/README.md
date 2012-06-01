@@ -10,4 +10,5 @@ objects by using an existing media type.
 Steps
 -----
 
-Update the server and client to use the new variant of the API.
+Update the server and client to use the new variant of the
+[API](ads-r-us-api.md).

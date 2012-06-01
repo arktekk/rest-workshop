@@ -29,6 +29,9 @@ arrive and we try to stay as much as possible in line. However, we
 will always remain backwards compatible with our own published
 specifications.
 
+*Make sure to check back regularly to get the latest version of this
+specification!*
+
 General Architecture Rules
 --------------------------
 
@@ -67,7 +70,9 @@ When serializing an ad inside a Collection+JSON, these fields are available:
 
 ### Link Relations
 
-* `picture`: The link points to a picture.
+In addition to the link relations specified by Collection+JSON, we use
+the `picture` relation to reference pictures that are related to the
+current resource.
 
 ### Example
 
@@ -85,15 +90,15 @@ When serializing an ad inside a Collection+JSON, these fields are available:
     
     "items": [
       {
-        "href" : "http://localhost:3000/ad?id=...",
+        "href" : "...",
         "data" : [
           {"name" : "title", "value" : "Nice house for sale!", "prompt" : "Title"},
           {"name" : "body", "value" : "Four rooms, huge bath.", "prompt" : "Ad Body"}
         ],
         "links" : [
-          {"rel" : "add-picture", "href" : "http://localhost:3000/ad-picture?adId=..."}
-          {"rel" : "picture", "href" : "http://localhost:3000/picture?adId=...&index=0", "render" : "image"}
-          {"rel" : "picture", "href" : "http://localhost:3000/picture?adId=...&index=1", "render" : "image"}
+          {"rel" : "add-picture", "href" : "..."}
+          {"rel" : "picture", "href" : "...", "render" : "image"}
+          {"rel" : "picture", "href" : "...", "render" : "image"}
         ]
       },
       ...
