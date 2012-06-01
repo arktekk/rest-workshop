@@ -1,79 +1,90 @@
-var APIeasy = require('api-easy'),
-    util = require('util'),
-    assert = require('assert');
+var request = require('request'),
+    assert = require('assert'),
+    Step = require('step');
 
-var suite = APIeasy.describe('Ad API');
+var baseUri = 'http://localhost:3000';
 
-var self;
+var mediaTypeAd = 'application/vnd.ad+json';
+var mediaTypeAdList = 'application/vnd.ad-list+json';
 
-// Slightly nasty
-function setId(outgoing) {
-  if(outgoing.uri == 'http://localhost:3000/ad') {
-    outgoing.uri += "?id=" + id;
-  }
-  return outgoing;
+function dumpResponse(res) {
+  console.log(res.headers);
+  if(/+json$/.test(res.headers['content-type']))
+    console.log(JSON.stringify(JSON.parse(res.body), null, 2));
+  else
+    console.log(body);
 }
 
-suite.
-  use('localhost', 3000).
-  before('setId', setId).
-  discuss('Create Ad endpoint,').
-    discuss('valid create').
-      setHeader('Content-Type', 'application/vnd.ad+json').
-      post('/create-ad', new Buffer(JSON.stringify({ title: 'Nice house for sale!', body: 'Four rooms, huge bath.'}))).
-      expect(201).
-      expect('response should have \'Location\' header', function (err, res, body) {
-        assert.ok(/^http:\/\/localhost:3000\/ad\?id=.{24}$/.test(res.headers.location));
-        self = res.headers.location;
-      }).
-      expect('body should be empty', function (err, res, body) {
-        assert.equal('', body);
-      }).
-      removeHeader('Content-Type').
-    undiscuss().
-    discuss('invalid method').
-      get('/create-ad').
-      expect(405).
-      expect('response should include Allow header', function (err, res, body) {
-        assert.equal(res.headers['allow'], 'POST');
-      }).
-      expect('body should describe error message', function (err, res, body) {
-        assert.equal('Illegal method, you can only use: POST\n', body);
-      }).
-    undiscuss().
-    discuss('with \'Content-Type: fjas\'').
-      setHeader('Content-Type', 'fjas').
-      post('/create-ad').
-      expect(415).
-      removeHeader('Content-Type').
-    undiscuss().
-  undiscuss().
-  next().
-  discuss('Ad endpoint').
-    discuss('With \'Accept: application/json\'').
-      setHeader('Accept', 'application/json').
-      get(self).
-      expect(200).
-      removeHeader('Accept').
-    undiscuss().
-    discuss('With \'Accept: fjas\'').
-      setHeader('Accept', 'fjas').
-      get('/ad').
-      expect(406).
-      removeHeader('Accept').
-    undiscuss().
-  undiscuss().
-  next().
-  discuss('Generic 404').
-    get('/not-found').
-    expect(404).
-    expect('body', function (err, res, body) {
-      assert.equal(body, 'Not found\n');
-    }).
-    post('/not-found').
-    expect(404).
-    expect('body', function (err, res, body) {
-      assert.equal(body, 'Not found\n');
-    }).
-  undiscuss().
-export(module);
+var count;
+
+Step(
+// Get the full list of ads, save the count
+function() {
+  request({
+    method: 'GET', uri: baseUri + '/ads',
+    headers: {
+      'Content-Type': mediaTypeAdList
+    }}, this);
+},
+function(err, res, body) { if(err) throw err;
+  assert.equal(200, res.statusCode);
+  assert.equal(mediaTypeAdList, res.headers['content-type']);
+  body = JSON.parse(body);
+  assert.equal(body.count, body.ads.length);
+  count = body.count;
+  this();
+},
+
+// Create a new ad
+function(err) { if(err) throw err;
+  request({
+    method: 'POST', uri: baseUri + '/create-ad',
+    headers: {
+      'Content-Type': mediaTypeAd
+    },
+    body: JSON.stringify({
+      title: 'Nice house for sale!',
+      body: 'Four rooms, huge bath.'
+    })}, this);
+},
+function(err, res, body) { if(err) throw err;
+  assert.equal(201, res.statusCode);
+  assert.ok(/^http:\/\/localhost:3000\/ad\?id=.{24}$/.test(res.headers.location));
+  assert.equal(null, res.headers['content-type']);
+  var location = res.headers.location;
+  console.log('Created ad: ' + location);
+  return location;
+},
+
+// GET the newly created ad
+function(err, adUri) { if(err) throw err;
+  request({
+    method: 'GET', uri: adUri,
+    headers: {
+      'Accept': mediaTypeAd
+    }}, this);
+},
+function(err, res, body) { if(err) throw err;
+  assert.equal(200, res.statusCode);
+  assert.ok(res.headers['content-type'], mediaTypeAd);
+  this();
+},
+
+// Get the list again and check the new count.
+function() {
+  request({
+    method: 'GET', uri: baseUri + '/ads',
+    headers: {
+      'Content-Type': mediaTypeAdList
+    }}, this);
+},
+function(err, res, body) { if(err) throw err;
+  body = JSON.parse(body);
+  assert.equal(count + 1, body.count);
+  this();
+},
+
+function(err) { if(err) throw err;
+  console.log('Success!');
+}
+);

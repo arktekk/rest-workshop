@@ -29,6 +29,10 @@ Each participant need:
 * curl
 * MongoDB
 
+Optional:
+
+* Chrome/Firefox with development tools, like REST client for Chrome.
+
 Exercises
 =========
 

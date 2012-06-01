@@ -2,3 +2,51 @@ o Skriv generell intro til node for oppgavene:
   - Gjør 'npm install .' før du starter
   - Applikasjonen kjøres slik: 'node server.js'
 
+1) Mål: vise at RPC over HTTP er teit
+
+Oppgaven: er å lage en applikasjon hvor alt av status og feil puttes i
+tekst-dokumenter. Missbruk av HTTP (man bruker ikke noe av HTTP). Er
+SOAP all over again uten at man kaller det SOAP. det er "enklere".
+
+Serveren skal alltid svare 200, alle feil og koder puttes i kroppen.
+
+Serveren "testes" med curl. Deltagerene blir litt skittne på fingrene
+med kommandolinjen.
+
+Deltagerene får en forståelse hvor teit det er å tunnellere generisk
+applikasjonssemantikk ("ok", "feil", "ikke funnet") over HTTP.
+
+2) Mål: Vi forbedrer oppgave 1 ved å putte mere applikasjonssemantikk
+inn i HTTP-laget.  Lære å bruke statuskoder og headere (Content-Type,
+Accept, 404, 405, 406).
+
+Steg 1)
+
+Oppdater serveren fra oppgave 1, legg på headers og riktig statuskode.
+
+Under utvikling, bruk curl for å teste ting at svarene blir riktige.
+
+Steg 2)
+
+Skriv klient for use caset "legg inn annonse med bilder". Klienten
+skal verifisere svarene og svare med iden til brukeren.
+
+Mulig bonus: Caching.
+Tre steg:
+1) bruke curl for å gjøre conditional get av bilder mot f.eks. dagbladet
+2) sende riktige headere
+3) oppdatere klienten til å gjøre conditional gets
+
+3) Mål: videre forbedring av serveren. Vi fjerner hardkoding av URLer
+og generering av URLer på klientsiden. Konseptet "id" går bort, byttes
+ut med URLer. Introduksjon av konseptet media type. Vi bruker vår egne
+mediatyper til kommunikasjonen.
+
+4) Mål: Vise forskjellene på spesifike vs generiske media typer. Vise
+hva mulighetene er med eksisterende formater.
+
+5) Mål: gi erfaring med å lage egne hypermedia.
+
+Ekstra ekstraoppgaver:
+- bruke 419 med retry-after.
+
