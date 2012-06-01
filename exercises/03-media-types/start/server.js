@@ -57,7 +57,7 @@ function assertAccept(req, res, method) {
   return false;
 }
 
-mongoose.connect('mongodb://localhost/02-basic-http', function() {
+mongoose.connect('mongodb://localhost/03-media-types', function() {
   var db = mongoose.connection.db
   http.createServer(function(req, res) {
     restUtil.logRequest(req);

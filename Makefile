@@ -1,7 +1,8 @@
 MARKDOWN=$(wildcard *.md */*.md */*/*.md)
 HTML=$(patsubst %.md,%.html,$(MARKDOWN))
 
-NODE_EXERCISES=01-http-rpc 02-basic-http 03-links
+NODE_EXERCISES=01-http-rpc 02-basic-http 03-media-types
+# 04-generic-media-types
 STARTS=$(patsubst %,exercises/%/start, $(NODE_EXERCISES))
 SOLUTIONS=$(patsubst %,exercises/%/solution, $(NODE_EXERCISES))
 PACKAGE_JSONS=$(patsubst %, %/package.json, $(STARTS))
@@ -10,15 +11,19 @@ CMD_INSTALL=$(subst /,@,$(patsubst %,install-%, $(STARTS) $(SOLUTIONS)))
 
 all: docs $(PACKAGE_JSONS) \
 	 exercises/02-basic-http/start/server.js \
-	 exercises/03-links/start/server.js \
+	 exercises/03-media-types/start/server.js \
 	 $(CMD_INSTALL)
+#	 exercises/04-generic-media-types/start/server.js \
 
 docs: $(HTML)
 
 exercises/02-basic-http/start/server.js: exercises/01-http-rpc/solution/server.js
 	cp $< $@
 
-exercises/03-links/start/server.js: exercises/02-basic-http/solution/server.js
+exercises/03-media-types/start/server.js: exercises/02-basic-http/solution/server.js
+	cp $< $@
+
+exercises/04-generic-media-types/start/server.js: exercises/03-media-types/solution/server.js
 	cp $< $@
 
 # All package.json files in start/ are copied from solution/

@@ -1,22 +1,24 @@
 HTTP RPC
 ========
 
-Goal
-----
+Objective
+---------
 
-Create a classic "RPC over HTTP" application.
+Create a classic "RPC over HTTP" application for creating ads with pictures.
 
-Background
-----------
+The application will encode the result of each operation in the body of the request.
 
-You are working for a company that has a classified advertisements
-website. The task is to create a server used to create new ads with
-pictures per ad. For now, you only need to implement the server side.
+For now, you only need to implement the server side. Use curl for
+testing the responses from the server.
 
-Requirements
+Instructions
 ------------
 
-### Create ad endpoint: `http://localhost:3000/create-ad`
+### Create a work directory
+
+Copy the `start/` directory into `work/`.
+
+### Create the ad endpoint: `http://localhost:3000/create-ad`
 
 This is where clients should POST a json object to create a new ad.
 The JSON that's sent to the server should look like this:
@@ -45,6 +47,14 @@ The server should return a document like this:
 The `id` field inside the `data` object is used later on when
 generating URLs.
 
+Similar for any unknown error, `result` should be `error`:
+
+~~~json
+{
+  "result": "error"
+}
+~~~
+
 ### View ad endpoint:  `http://localhost:3000/ad?id=...`
  
 Clients can GET this with an "id" query parameter. The server will
@@ -68,26 +78,6 @@ If the ad does not exist, `result` should be `notFound`:
 }
 ~~~
 
-Similar for any unknown error, `result` should be `error`:
-
-~~~json
-{
-  "result": "error"
-}
-~~~
-
 ### Add picture endpoint: `http://localhost:3000/add-picture?id=...`
 
 There are some example pictures available under [../../pictures](../../pictures/).
-
-Steps
------
-
-### Step 1: Create an ad
-
-
-### Step 2: View an ad
-
-
-### Step 3: Add Pictures to Ad
-

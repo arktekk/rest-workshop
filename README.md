@@ -36,26 +36,7 @@ Optional:
 Exercises
 =========
 
-Before starting on an exercise please read through the entire text to
-get a better overview of the exercise. Also check out the cheat sheets
-for Node.js and curl, they contain valuable hints and tips.
-
-Each exercise has two directories: _start_ is where you as a
-participant should start to solve each exercise. _solution_ contains a
-complete solution for the exercise. There is also a README file that
-describe the exercise in detail.
-
-Exercises:
-
- * [01-http-rpc](exercises/01-http-rpc/README.md)
- * [02-basic-http](./exercises/02-basic-http)
- * [03-links](./exercises/03-links)
- * [04-hypermedia](./exercises/04-hypermedia)
-
-Cheat sheets:
-
- * [Node.js](node-cheat-sheet.md)
- * [curl](curl-cheat-sheet.md)
+More information on the slides is available under [exercises/README.md](./exercises/README.md).
 
 Resources and Links
 ===================

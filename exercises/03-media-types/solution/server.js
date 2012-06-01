@@ -102,7 +102,7 @@ function docToAd(req) {
   };
 }
 
-mongoose.connect('mongodb://localhost/03-links', function() {
+mongoose.connect('mongodb://localhost/03-media-types', function() {
   var db = mongoose.connection.db
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
