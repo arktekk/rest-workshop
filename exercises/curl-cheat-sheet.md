@@ -1,4 +1,4 @@
-### POST data file
+### POST a file
 
     curl --data-binary @/path/to/file <url>
 
@@ -64,4 +64,3 @@ This header is mostly useful on conditional GET requests:
 This header is mostly useful on conditional PUT|POST requests:
 
     -H 'If-Unmodified-Since: <value-of-last-modified-header>'
-
