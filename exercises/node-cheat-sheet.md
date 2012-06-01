@@ -6,6 +6,11 @@ References:
 * [Node home page](http://nodejs.org)
 * [Full documentation](http://nodejs.org/api/all.html)
 
+Running a node application
+==========================
+
+    $ node server.js
+
 Getting the body as a string
 ============================
 
