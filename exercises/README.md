@@ -23,7 +23,7 @@ Exercises
  * [01-http-rpc](01-http-rpc/README.md)
  * [02-basic-http](02-basic-http/README.md)
  * [03-media-types](03-media-types/README.md)
- * [04-generic-media-types](03-generic-media-types/README.md)
+ * [04-generic-media-types](04-generic-media-types/README.md)
  * [05-hypermedia-design](05-hypermedia-design/README.md)
 
 Cheat sheets
