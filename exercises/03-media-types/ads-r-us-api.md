@@ -1,5 +1,6 @@
 _This document is an example on how one can document an API by using
-the REST principles._
+the REST principles. This version of the API use a domain specific
+media type with JSON serialization._
 
 Ads'r'us API
 ============
@@ -24,8 +25,9 @@ specific interaction/resource does not specify something else.
 All resources should return an `Allow` header if the method is not
 allowed/supported.
 
-It is expected that the media types will evolve over time so clients
-must silently ignore unknown fieds. Clients should also not expect
+It is expected that the domain and objects that the resources describe
+evolve over time and thus the media types will need evolve over time
+too. Clients must silently ignore unknown fieds and should not expect
 optional fields to be present.
 
 ### On Creating New Resources
@@ -99,4 +101,4 @@ Media Type: Ad List / `application/vnd.ad-list+json`
 }
 ~~~
 
-To insert a new ad into the list
+To insert a new ad into the list, send the data to the `add-ad` URI.
