@@ -1,5 +1,62 @@
+Agenda
+======
+
+Two days:
+
+00. Who are the people that are here, what is their goal and what do they hope to learn?
+01. Discussion: System integration in 2012
+02. Intro NODE
+03. Exercise 1
+04. Intro HTTP
+04. Exercise 2
+05. REST
+06. Exercise 3
+07. Media-Types
+08. Exercise 4
+09. Hypermedia Design
+10. Exercise 5
+
 01: RPC over HTTP
 =================
+
+Discussion
+----------
+
+* Bakgrunn / Historie
+ * Sockets
+ * Corba/IDL/IIOP
+  * ORB
+  * EJB 
+  * COM / COM+ / DCOM
+  * RMI
+  * Transaksjoner
+  
+ * SOAP ( Web services)
+  * WSDL
+  * UDDI
+  * WS-*
+  
+ * XML
+  * Dokumentformat, Forenkling av SGML
+  * XML-Schema
+ 
+ * XML-RPC
+ 
+ * The Web
+  * HTTP
+  * Hypermedia
+
+* Dagens tilstand
+ * Forklare litt hvordan integrasjon gjøres i dag som oppbygning mot de senere foredragene og oppgavene.
+
+ * SOAP
+  * HTTP
+  * JMS
+  * Sikkerhet
+
+ * "REST"
+  * JSON RPC
+  * POX
 
 Retrospective
 -------------
