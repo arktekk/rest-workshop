@@ -18,7 +18,7 @@ HTTP is extended all the time. This usually is done in the form of Internet Draf
 IETF (Internet Engineering Task Force).
 
 !SLIDE small
-# Request format #
+# Wire format #
 
     GET /message/1
     Host: example.com

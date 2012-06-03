@@ -65,7 +65,7 @@ Strong are byte-for-byte equality.
     If-None-Match: "foobar"
     If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
-!SLIDE commandline incremental
+!SLIDE commandline
 # Conditional GET - Example #
     $ curl -v -o /dev/null -s \
     http://gfx.dagbladet.no/labrador/\
