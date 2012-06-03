@@ -29,14 +29,14 @@ Expiry dates more than a year are generally not useful. Can be considered cached
 
     Cache-Control: max-age=3600
 
-.notes This denotes the representation to be fresh for one hour.
-.notes The resolution for max-age are seconds.
-.notes Expiry dates more than a year are generally not useful. max-age > 31536000. Can be considered cached forever.
+.notes This denotes the representation to be fresh for one hour. The resolution for max-age are seconds.
+Expiry dates more than a year are generally not useful. max-age > 31536000. Can be considered cached forever.
 
 !SLIDE bullets
 # Validation based #
 .notes Takes either the ETag or Last-Modified from the previous response and applies it to next request.
-.notes Success yields either (next)
+Improves the accuracy of the service. Requires conditional-gets, will be explained in a bit. 
+Does not reduce the network traffic, but may reduce the number of bytes sent in a response.
 
 !SLIDE bullets incremental
 # ETag #
@@ -65,7 +65,7 @@ Strong are byte-for-byte equality.
     If-None-Match: "foobar"
     If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
-!SLIDE commandline incremental
+!SLIDE commandline
 # Conditional GET - Example #
     $ curl -v -o /dev/null -s \
     http://gfx.dagbladet.no/labrador/\

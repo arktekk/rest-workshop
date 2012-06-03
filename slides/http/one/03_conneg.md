@@ -36,7 +36,7 @@ was negotiated.
     *.*;q=0.3, application/xhtml+xml; q=0.8
 
 .notes Sorted preferred list of acceptable media-types.
-All the accept headers have a simliar qualifier syntax.
+All the accept headers have a similar qualifier syntax.
 
 !SLIDE smaller
 # Accept* header qualifiers #

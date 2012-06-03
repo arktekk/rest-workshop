@@ -71,6 +71,12 @@ A Contact is a generalization of Person and Organization.
 * DO NOT SERIALIZE OBJECTS AUTOMATICALLY
 
 !SLIDE bullets incremental
+# Relative links #
+* Try to allow for relative links in your designs
+* XML has this solved with the xml:base attribute.
+* JSON needs a separate solution.
+
+!SLIDE bullets incremental
 # Serialization #
 
 * Always convert to an intermediate before serializing.

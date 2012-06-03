@@ -34,7 +34,7 @@ Discussion
  * SOAP ( Web services)
   * WSDL
   * UDDI
-  * WS-*
+  * WS-* (nevne REST-*?)
   
  * XML
   * Dokumentformat, Forenkling av SGML
