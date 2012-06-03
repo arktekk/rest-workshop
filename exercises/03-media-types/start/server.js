@@ -4,10 +4,6 @@ var http = require('http')
   , restUtil = require('../../lib/rest-util.js')
   , mongoose = require('mongoose');
 
-var Grid = mongoose.mongo.Grid;
-var GridStore = mongoose.mongo.GridStore;
-var ObjectID = mongoose.mongo.ObjectID;
-
 var Ad = new mongoose.Schema({
     title    : String
   , body     : String
@@ -18,12 +14,12 @@ var Db = {
   Ad: mongoose.model('Ad', Ad)
 };
 
-function assertContentType(req, res) {
+function assertContentType(req, res, target) {
   var ct = req.headers['content-type'] || '';
-  if('application/json' == ct.toLowerCase()) {
+  if(target == ct.toLowerCase()) {
     return true;
   }
-  var txt = 'You have to post application/json';
+  var txt = 'You have to post ' + target;
   res.writeHead(415, txt, {'Content-Type': 'text/plain'});
   res.write(txt);
   res.write('\n');
@@ -57,14 +53,14 @@ function assertAccept(req, res, method) {
   return false;
 }
 
-mongoose.connect('mongodb://localhost/03-media-types', function() {
+mongoose.connect('mongodb://localhost/02-basic-http', function() {
   var db = mongoose.connection.db
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
     var u = url.parse(req.url, true);
     if(u.pathname == "/create-ad") {
       if(assertMethod(req, res, 'POST')) {
-        if(assertContentType(req, res)) {
+        if(assertContentType(req, res, 'application/json')) {
           var s = "";
           req.on('data', function(chunk) {
             s += chunk;
@@ -103,41 +99,32 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
         }
       }
     } else if(u.pathname == "/add-picture") {
-      var failed = false;
-      var id = u.query.adId;
-      var fileId = new ObjectID();
-      var store = new GridStore(db, fileId, 'w');
-      req.pause();
-      store.open(function(err, store) {
-        req.on('data', function(chunk) {
-          store.write(chunk, function(err, gridStore) {
-            if(err) failed = true;
-          });
-        });
-        req.on('end', function() {
-          store.close(function(err) {
-            if(failed || err) {
-              res.write(JSON.stringify({result: "failed"}));
-              res.end();
-            }
-            else {
-              var cmd = {$push: {pictures: fileId}}
-              Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
-                var o;
-                if(failed)
-                  o = {result: "failed"};
-                else if(numAffected != 1)
-                  o = {result: "notFound", woot: "numAffected=" + numAffected};
-                else
-                  o = {result: "ok", data: {fileId: fileId}};
-                res.write(JSON.stringify(o));
-                res.end();
-              });
-            }
-          });
-        });
-        req.resume();
-      });
+			if(assertMethod(req, res, 'POST')) {
+				if(assertContentType(req, res, 'image/jpeg')) {
+					var id = u.query.adId;
+					var data = [];
+					var datalength = 0;
+					console.log("Id" + id);
+					req.on('data', function(chunk) {
+						data.push(chunk);
+						datalength += chunk.length;
+					});
+					req.on('end', function() {
+						var buf = new Buffer(datalength);
+						data.forEach(function(d) { d.copy(buf); });
+						var cmd = {$push: {pictures: buf.toString("base64")}}
+						Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
+							if(numAffected != 1) {
+								res.writeHead(404, {'Content-Type': 'text/plain'});
+								res.write("Not found\n");
+							} else {
+								res.writeHead(204);
+							}
+							res.end();
+						});
+					});
+				}
+			}
     } else {
       req.on('end', function() {
         res.writeHead(404, {'Content-Type': 'text/plain'});
