@@ -19,6 +19,10 @@ Cross platform thanks to libuv.
 * Has a large, active community worldwide.
 * Now maintained by Joyent inc.
 
+.notes Ryan pondered writing an event web server. Considered LUA and other languages, but settled with JavaScript
+due to the lack of existing IO API.
+Got lots of attention after jsconf in 09.
+
 !SLIDE bullets incremental
 # Key principles #
 * Single threaded - no locking.
@@ -35,6 +39,9 @@ When the CPU-bound task is completed, the main node is notified and a response c
 * The package manager: NPM.
 * More than 10.000 modules.
 * Something for everything, but no guarantees.
+
+.notes Comparable to rubygems, but favors locally istalled packages. Makes it relatively easy to handle versioning,
+and dead simple to see where different dependencies are pulled in from.
 
 !SLIDE bullets incremental
 # Success factors #
