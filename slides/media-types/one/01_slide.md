@@ -70,6 +70,7 @@ a lossless PNG image.
 .notes Built on ideas from Atom, but has a lot of extra hypermedia controls not built into atom.
 
 !SLIDE even-smaller
+    @@@ json
     { "collection": {
             "version": "1.0",
             "href": "http://example.com",
@@ -94,6 +95,7 @@ a lossless PNG image.
 
 !SLIDE even-smaller
 # Atom #
+    @@@ xml
     <feed xmlns="http://www.w3.org/2005/Atom">
         <id>urn:uuid:some-uuid-here</id>
         <updated>2012-05-05T12:00:00.00Z</updated>
@@ -161,7 +163,7 @@ H2M and M2M.
     
 !SLIDE
 # Encoding of link relations #
-
+    @@@ html
     <link href="/" rel="alternate"/>
 
     <img src="foo.png"/>
