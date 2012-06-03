@@ -27,15 +27,17 @@ Then you need to understand what application means. And lastly understanding wha
 
 	<link rel="stylesheet" href="http://static.example.com/1.css">
 
-	<img src="http://static.example.com/1234.png">
+	<img src="http://static.example.com/1234.png">	
 
-.notes as Links, or hyperlink.
+.notes as Links, or hyperlink. Forms are also useful hypertext controls, but we will get back to that later.
 
 !SLIDE
 # Why are links important #
 * Links helps decouple server and client. 
 * An agent does not need to know how the server works internally.
 * Intent can be expressed in a link.
+
+.notes Navigation in a result set, for instance pagination, filtering of result sets, creating new items in a collection. etc.
 
 !SLIDE
 # Use links to let your client application know what is possible to do next #
@@ -45,8 +47,10 @@ Then you need to understand what application means. And lastly understanding wha
 !SLIDE
 # MUD Example #
 
-    You are in a room, there is a wizard here. You can GO NORTH, SOUTH, EAST.
+    You are in a room, there is a wizard here. There are exits to the NORTH, SOUTH and EAST.
     There is an empty whisky BOTTLE on the floor. You can hear the wizard snoring.
+    
+    What would you like to do> GO NORTH    
     
 .notes Anyone seen something like this? *Hands* 
 This can be thought of a representation with links to NORTH, SOUTH, EAST.
