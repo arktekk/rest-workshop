@@ -11,7 +11,7 @@ Running a node application
 
     $ node server.js
 
-Getting the requets body as a string
+Getting the request body as a string
 ====================================
 
 ~~~javascript
@@ -144,5 +144,24 @@ req.on('end', function() {
 
 <!-- _foo -->
 
-TODO: Add notes on how to access command line arguments and something
-on the request module.
+Command line arguments
+======================
+Node.js has the command line arguments available in the global object `process`.
+They can be accessed using:
+
+~~~javascript
+var args = process.argv.slice(2); //Removes node + "name of your javascript file"
+~~~
+
+HTTP client
+===========
+
+Use "request" module
+
+Upload image to URI:
+
+~~~javascript
+function uploadImage(uri, file) {
+  fs.createReadStream(file).pipe(request.post(uri));
+}
+~~~
