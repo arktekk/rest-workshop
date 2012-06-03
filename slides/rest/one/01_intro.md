@@ -2,25 +2,21 @@
 # REST #
 
 !SLIDE bullets incremental
-# Agenda #
-
-* Architectural Style
-* Constraints
-* Data
-
-
-!SLIDE bullets incremental
 # History #
 
-* Created by Roy T. Fielding in his dissertation
+* First Coined by Roy T. Fielding in his dissertation
 
 .notes While developing HTTP/1.1, Fielding also wrote his PhD dissertation. REST is the example in his dissertation.
-
 
 !SLIDE
 # Architectural Styles and the Design of Network-based Software Architectures #
 
 .notes Describing architectural styles are a set of constraints to obtain certain properties or qualities within a concrete software architecture. REST is a network based architectural style. RPC is another style, Pipe and Filter a third.
+
+!SLIDE
+# Connector #
+Software that communicates with the network. Typically a HTTP server, or HTTP Client.
+
 
 !SLIDE
 # Resource #
