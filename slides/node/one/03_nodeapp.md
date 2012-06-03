@@ -1,4 +1,7 @@
 !SLIDE small
+# Live Coding #
+
+!SLIDE small
 # Basic Node.js app #
 
     var http = require('http');
