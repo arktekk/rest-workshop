@@ -1,8 +1,10 @@
 !SLIDE
 # Constraints #
 
-!SLIDE
-# Client / Server #
+!SLIDE center
+![Client-Server](client-server.gif)
+
+.notes Client/Server.
 
 !SLIDE bullets incremental
 # Uniform Interface #
@@ -16,12 +18,13 @@
 	@@@ java
 	interface Resource {
 		URI href;
-		Response process(Representation: r);
-		Representation update(Representation: r);
-		Representation get();
-		Response delete();
-		//...	
+		Response process(Representation r);
+		Representation update(Representation r);
+		Representation download();
+		Response remove();
 	}
+
+.notes Example written in Java.
 
 !SLIDE
 # Stateless protocol #
@@ -30,10 +33,10 @@
 Authentication, freshness rules, Which resource is being requested, capabilities of the agent.
 
 
-!SLIDE
-# Layered System #
+!SLIDE center
+![Layers](layers.jpg)
 
-.notes Since we are using HTTP, we get this for free.  This means that Components may be injected into the 
+.notes Layered System. Since we are using HTTP, we get this for free.  This means that Components may be injected into the 
 network stack to offload origin servers, or add capabilities of their own. For instance Security.
 
 !SLIDE
