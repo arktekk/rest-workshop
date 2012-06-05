@@ -64,3 +64,9 @@ Resources and Links
 1. <http://www.nordsc.com/ext/classification_of_http_based_apis.html>
 1. <http://shop.oreilly.com/product/0636920020530.do> - Building Hypermedia APIs with HTML5 and Node
 1. <http://shop.oreilly.com/product/9780596805838.do> - REST in Practice Hypermedia and Systems Architecture
+
+Contact
+=======
+
+[Erlend Hamnaberg](mailto:erlend.hamnaberg@arktekk.no)
+[Trygve Laugstøl](mailto:trygve.laugstol@arktekk.no)
