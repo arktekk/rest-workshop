@@ -1,4 +1,4 @@
-Exercise 4
+Hypermedia Design
 ==========
 
 Goal
