@@ -1,0 +1,32 @@
+Oppgavene:
+
+- være mer detaljerte.
+- tankepunkter underveis.
+- retrospecive må defineres.
+- retrospective må brukes.
+- Dropp cheatsheet og putte mer inn i oppgavene.
+- Spisse node mer
+- JSON.parse(str) | JSON.stringify(obj)
+- Dropp bilder
+- Endre fra annonser til nyheter og kommentarer på de.
+
+Hypermedia oppgaven:
+- diskuter mer in plenum.
+- Presentere og argumentere for hver løsning
+
+
+Foredragene:
+- Slides må innholde flere punkter.
+- Diagrammer og tegninger må inn.
+- Slides må ha mer eksempler.
+
+Generelt: 
+- asciidoc på oppgavene.
+  -- event pandoc.
+
+- make bør brukes til alt
+ -- krever at man zipper opp ting, og serverer det på et vis. (lokal apaache|public dropbox eller lignende.) 
+
+ideer:
+
+-- pastie server som man kjører lokalt.
