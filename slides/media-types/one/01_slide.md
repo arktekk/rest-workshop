@@ -163,10 +163,10 @@ H2M and M2M.
     
 !SLIDE
 # Encoding of link relations #
-    @@@ html
-    <link href="/" rel="alternate"/>
 
-    <img src="foo.png"/>
+`<link href="/" rel="alternate"/>`
+
+`<script href="foo.png"/>`
 
 .notes can be done in a multitude of ways. Either by name of the element/property, or 
 a property/attribute on the link itself.
