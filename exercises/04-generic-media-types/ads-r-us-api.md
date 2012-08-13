@@ -76,7 +76,8 @@ current resource.
 
 ### Example
 
-~~~json
+~~~~ {.json .figure caption="awesome"}
+
 { "collection" :
   {
     "version": "1.0",
@@ -105,7 +106,8 @@ current resource.
     ]
   }
 }
-~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Single Ad vs List of Ad Resources
 ---------------------------------

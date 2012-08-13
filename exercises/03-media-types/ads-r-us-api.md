@@ -53,7 +53,7 @@ list when starting to interact with us.
 Media Type: Single Ad / `application/vnd.ad+json`
 -------------------------------------------------
 
-~~~json
+~~~ {.json}
 {
   "title": "Nice house for sale!",
   "body": "Four rooms, huge bath.",
@@ -89,7 +89,7 @@ ad.
 Media Type: Ad List / `application/vnd.ad-list+json`
 ----------------------------------------------------
 
-~~~json
+~~~ {.json}
 {
   "count": 10,
   "add-ad": URI,

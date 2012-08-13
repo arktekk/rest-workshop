@@ -21,7 +21,7 @@ Steps
 This is where clients should POST a json object to create a new ad.
 The JSON that's sent to the server should look like this:
 
-~~~json
+~~~ {.json}
 {
   "title": "Nice house for sale!",
   "body": "Four rooms, huge bath."
@@ -34,7 +34,7 @@ To test the endpoint you can use the example `ad.json` file like this:
 
 The server should return a document like this:
 
-~~~json
+~~~ {.json}
 {
   "result": "ok",
   "data": {
@@ -51,7 +51,7 @@ generating URLs.
 
 Similar for any unknown error, `result` should be `error`:
 
-~~~json
+~~~ {.json}
 {
   "result": "error"
 }
@@ -62,7 +62,7 @@ Similar for any unknown error, `result` should be `error`:
 Clients can GET this with an "id" query parameter. The server will
 respond with something like this:
 
-~~~json
+~~~ {.json}
 {
   "result": "ok",
   "data": {
@@ -74,7 +74,7 @@ respond with something like this:
 
 If the ad does not exist, `result` should be `notFound`:
 
-~~~json
+~~~ {.json}
 {
   "result": "notFound"
 }

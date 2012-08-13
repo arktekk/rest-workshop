@@ -44,7 +44,7 @@ Steps
 This is where clients should POST a json object to create a new ad.
 The JSON that's sent to the server should look like this:
 
-~~~json
+~~~ {.json}
 {
   "title": "Nice house for sale!",
   "body": "Four rooms, huge bath."
@@ -53,7 +53,7 @@ The JSON that's sent to the server should look like this:
 
 The server should return `200 Ok` and a document like this:
 
-~~~json
+~~~ {.json}
 {
   "type": "ad",
   "id": "4fc494d10b6a9fcb09000001", 
@@ -72,7 +72,7 @@ a proper 500 error code back.
 Clients can GET this with an "id" query parameter. The server will
 respond with something like this:
 
-~~~json
+~~~ {.json}
 {
   "type": "ad",
   "id": "4fc494d10b6a9fcb09000001", 
