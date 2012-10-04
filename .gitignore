@@ -4,4 +4,6 @@ mongo
 .*.un~
 .*.swp
 *.html
+*.tex
+!/book/template.html
 .DS_Store

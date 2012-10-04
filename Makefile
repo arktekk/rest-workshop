@@ -82,31 +82,39 @@ PANDOC_OPTIONS += -V documentclass=book
 PANDOC_OPTIONS += -V lang=english
 PANDOC_OPTIONS += -V title='REST Workshop'
 PANDOC_OPTIONS += -V title-meta='REST Workshop'
-PANDOC_OPTIONS += -V date='Juli 2012'
-PANDOC_OPTIONS += -V author='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>'
-PANDOC_OPTIONS += -V author='Trygve Laugstøl <trygve.laugstol@arktekk.no>'
-PANDOC_OPTIONS += -V author-meta='Trygve Laugstøl <trygve.laugstol@arktekk.no>, Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>'
-#PANDOC_OPTIONS += --toc
+PANDOC_OPTIONS += -V author='Erlend Hamnaberg &lt;<a href="mailto:erlend.hamnaberg@arktekk.no">erlend.hamnaberg@arktekk.no</a>&gt;'
+PANDOC_OPTIONS += -V author='Trygve Laugstøl &lt;<a href="mailto:trygve.laugstol@arktekk.no">trygve.laugstol@arktekk.no</a>&gt;'
+# Remember to update date-meta for HTML too.
+# Update on every major revision.
+PANDOC_OPTIONS += -V date='October 2012 edition'
 PANDOC_OPTIONS += --chapters
 PANDOC_OPTIONS += --number-sections
 PANDOC_OPTIONS += --listings
 PANDOC_OPTIONS += --standalone
 PANDOC_OPTIONS += --highlight-style=pygments
 
-PANDOC_HTML_OPTIONS += -t html5
-#PANDOC_HTML_OPTIONS  = -t html
-#PANDOC_HTML_OPTIONS += --html5
+PANDOC_HTML_OPTIONS += -t html5 --template=book/template.html
+PANDOC_HTML_OPTIONS += --toc
+PANDOC_HTML_OPTIONS += --section-divs
+PANDOC_HTML_OPTIONS += --css=book.css
+PANDOC_HTML_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>'
+PANDOC_HTML_OPTIONS += -V author-meta='Trygve Laugstøl <trygve.laugstol@arktekk.no>'
+# Follow http://www.w3.org/TR/NOTE-datetime for html
+PANDOC_HTML_OPTIONS += -V date-meta='2012-10'
 
+PANDOC_PDF_OPTIONS += -t latex --template=book/template.tex
+PANDOC_PDF_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>, Trygve Laugstøl <trygve.laugstol@arktekk.no>'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{framed}'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{fancyvrb}'
-PANDOC_PDF_OPTIONS += -t latex --template=book/template.tex
 
-book: book/rest-workshop-book.pdf book/rest-workshop-book.html
+book: book/rest-workshop-book.html
+#book/rest-workshop-book.pdf
+
 book/rest-workshop-book.md: $(MARKDOWN)
 	pandoc -t markdown -o $@ $(filter-out book/template.tex, $^)
 
 book/rest-workshop-book.html: book/rest-workshop-book.md
-	pandoc $(PANDOC_HTML_OPTIONS) -o $@ $<
+	pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
 
 book/rest-workshop-book.tex: book/rest-workshop-book.md
 	pandoc $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
