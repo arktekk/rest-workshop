@@ -5,7 +5,7 @@
 # History #
 * HTTP 0.9 was first publicly available by Tim Berners-Lee et al in 1992.
 * HTTP/1.1 1999 Roy T. Fielding et. al 
-* HTTP/2.0 is now under development at IETF.
+* HTTP/2.0 is now under development at IETF, chaired by Mark Nottingham.
 
 !SLIDE bullets incremental
 # Standardized #
@@ -64,28 +64,29 @@ http://tools.ietf.org/html/rfc2616#section-14
 
 .notes HTTPbis has been refining a lot of these status codes.
 
-
 !SLIDE
-# Informational # 
-100 Continue MAY be used if uploading large files (eg. Videos). SHOULD be used in in combination with Expect header.
+# Informational #
+* 100 Continue MAY be used if uploading large files (eg. Videos). 
+* SHOULD be used in in combination with Expect header.
 
 !SLIDE
 # Successful #
-200 OK, Denotes a successful response. SHOULD have a message body.
+* 200 OK, Denotes a successful response. SHOULD have a message body.
 
 !SLIDE
 # Redirection #
-301 Moved Permanently, This document has found a new home. Please update links accordingly.
+* 301 Moved Permanently
+* Document has found a new home. Please update links accordingly.
 
 !SLIDE
 # Client Error #
-401 Authentication Required, Followed with a WWW-Authenticate header:
-this lets the Agent know that it must authenticate, or it's credentials are invalid.
+* 401 Authentication Required
+* MUST have a WWW-Authenticate header
 
 !SLIDE
 # Server Error #
-503 Service Unavailable, Server is overloaded. 
-If response contains a Retry-After header, indicates when the Agent can try the request again.
+* 503 Service Unavailable, Server is overloaded. 
+* MAY add a Retry-After header which indicates when the Agent can retry the request
 
 !SLIDE
 # Status Codes #
@@ -129,16 +130,21 @@ This set has been extended by multiple specifications, Webdav for instance.
 
 !SLIDE
 # HTTP is everywhere #
+* Libraries and frameworks in almost every language
+* Port 80 has seen a lot of "abuse", as it is usually open in firewalls
 
-.notes HTTP is incredibly widespread. 
-There are libraries and frameworks in almost every language you can think of. 
-Port 80, the default http port, is open in almost every firewall. It has therefore seen a lot of "abuse".
-
-!SLIDE
+!SLIDE bullets incremental
 # Session #
 * HTTP Session is not standardized.
-* Session state SHOULD be stored client side with use of COOKIES: RFC-6265
+* Session state SHOULD be stored client side with use of COOKIES
+* Problem: Authentication
 
 .notes Try to avoid server side session state. Replication nightmare.
 Cookies can be scoped, so may be more useful
-Cookies have security issues, so must be protected. See HttpOnly and secure flags.
+
+!SLIDE
+# Cookies #
+* Cookies are specified in RFC-6265
+* Security issues, see HttpOnly and secure flags
+* Abused
+* Do not Track

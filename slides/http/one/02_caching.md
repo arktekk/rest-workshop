@@ -65,12 +65,6 @@ Strong are byte-for-byte equality.
     If-None-Match: "foobar"
     If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
 
-!SLIDE commandline
-# Conditional GET - Example #
-    $ curl -v -o /dev/null -s \
-    http://gfx.dagbladet.no/labrador/\
-    217/217889/21788949/jpg/active/978x.jpg
-
 
 !SLIDE bullets
 # 304 Not Modified #
@@ -80,6 +74,13 @@ Strong are byte-for-byte equality.
 # 200 OK #
 * A new copy of the representation + metadata which must replace the cached object.
 
+!SLIDE commandline
+# Conditional GET - Example #
+    $ curl -v -o /dev/null -s \
+    http://gfx.dagbladet.no/labrador/\
+    217/217889/21788949/jpg/active/978x.jpg
 
 !SLIDE 
 # HTTP is optimized for GET #
+* about 98 % of all requests are GET
+* Remaining % of ALL other methods.

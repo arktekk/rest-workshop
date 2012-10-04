@@ -5,7 +5,7 @@
 .notes Security. transforming, caching (proxies).
 Should be illustrated with a drawing.
 
-!SLIDE bullets incremental
+!SLIDE bullets incremental small
 # Intermediary examples #
 * Reverse Caching
 * Forward Caching
@@ -14,3 +14,7 @@ Should be illustrated with a drawing.
 * Load-balancing
 
 .notes Transforming: Add a drawing for this.
+
+!SLIDE full-page
+# Transforming intermediary #
+![Transforming](transforming.png)
