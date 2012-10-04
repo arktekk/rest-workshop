@@ -12,12 +12,12 @@ Each participant needs to have these tools installed:
 Node.js and NPM
 ---------------
 
-### Linux
+**Linux**
 
 Linux users can install binaries through their distribution's package
 repository.
 
-### OS X and Windows
+**OS X and Windows**
 
 For OS X and Windows we recommend using the binaries that are
 available for download from [nodejs.org](http://nodejs.org/download/).
@@ -25,12 +25,12 @@ available for download from [nodejs.org](http://nodejs.org/download/).
 MongoDB
 -------
 
-### Linux
+**Linux**
 
 Linux users can install binaries through their distribution's package
 repository.
 
-### OSX
+**OSX**
 
 For OS X, MongoDB is available through MacPorts, Homebrew and as
 binary downloads from <http://www.mongodb.org/downloads>. Choose the
@@ -41,23 +41,22 @@ Follow the instructions on
 <http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/> for
 instructions in any case.
 
-### Windows
+**Windows**
 
 For Windows use the binaries available from
 <http://www.mongodb.org/downloads>. Follow the instructions on
 <http://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/>.
 You do not need to install it as a Windows Service.
 
-
 Git
 ---
 
-### Linux
+**Linux**
 
 Linux users can install binaries through their distribution's package
 repository.
 
-### Windows
+**Windows**
 
 There are generic git binaries available from
 <http://git-scm.com/downloads> but we recommend using [GitHub for
@@ -67,7 +66,7 @@ to the normal command line tools.
 GitHub for Windows also includes curl so you don't have to install
 curl.
 
-### OS X
+**OS X**
 
 There are generic git binaries available from
 <http://git-scm.com/downloads> but we recommend using [GitHub for
@@ -77,16 +76,16 @@ normal command line tools.
 curl
 ----
 
-### Linux
+**Linux**
 
 Linux users can install binaries through their distribution's package
 repository.
 
-### OS X
+**OS X**
 
 Curl is shipped with OS X.
 
-### Windows
+**Windows**
 
 For Windows you can download curl with Cygwin if you're already using
 Cygwin. If not, download the binaries from

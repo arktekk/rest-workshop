@@ -2,6 +2,7 @@
 MARKDOWN=\
 	template.tex \
 	preamble.md \
+	participant-requirements.md \
 	exercises-01-http-rpc.md \
 	output/exercises-01-http-rpc-example-ad.md \
 	exercises-02-basic-http.md \
@@ -38,7 +39,6 @@ PANDOC_OPTIONS += -V author='Trygve Laugstøl &lt;<a href="mailto:trygve.laugsto
 # Update on every major revision.
 PANDOC_OPTIONS += -V date='October 2012 edition'
 PANDOC_OPTIONS += --chapters
-PANDOC_OPTIONS += --number-sections
 PANDOC_OPTIONS += --listings
 PANDOC_OPTIONS += --standalone
 PANDOC_OPTIONS += --highlight-style=pygments
@@ -53,6 +53,7 @@ PANDOC_HTML_OPTIONS += -V author-meta='Trygve Laugstøl <trygve.laugstol@arktekk
 PANDOC_HTML_OPTIONS += -V date-meta='2012-10'
 
 PANDOC_PDF_OPTIONS += -t latex --template=template.tex
+PANDOC_PDF_OPTIONS += --number-sections
 PANDOC_PDF_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>, Trygve Laugstøl <trygve.laugstol@arktekk.no>'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{framed}'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{fancyvrb}'
