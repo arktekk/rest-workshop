@@ -32,6 +32,12 @@ Take a step back and see if you can think of the problem in a different manner.
 * Signals intent
 
 !SLIDE bullets incremental
+# Links #
+* Simple hyperlink
+* Forms
+* URI-templates
+
+!SLIDE bullets incremental
 # Relative links #
 * Try to allow for relative links in your designs
 * XML has this solved with the xml:base attribute.
