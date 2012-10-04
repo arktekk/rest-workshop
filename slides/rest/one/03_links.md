@@ -27,7 +27,7 @@ Then you need to understand what application means. And lastly understanding wha
 
 	<link rel="stylesheet" href="http://static.example.com/1.css">
 
-	<img src="http://static.example.com/1234.png">	
+	<script href="http://static.example.com/1234.js">	
 
 .notes as Links, or hyperlink. Forms are also useful hypertext controls, but we will get back to that later.
 

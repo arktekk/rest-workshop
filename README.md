@@ -22,16 +22,8 @@ presentations. You'll try yourself in the exercises.
 Participant Requirements
 ========================
 
-Each participant need:
-
-* node.js and npm installed. All the exercises use node.js.
-* git to clone this repository
-* curl
-* MongoDB
-
-Optional:
-
-* Chrome/Firefox with development tools, like REST client for Chrome.
+There are a few things you have to install and set up before trying out the exercises, see
+[Participant Requirements](./participant-requirements.md).
 
 Exercises
 =========
