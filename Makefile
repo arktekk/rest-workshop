@@ -103,13 +103,13 @@ PANDOC_PDF_OPTIONS += -t latex --template=book/template.tex
 
 book: book/rest-workshop-book.pdf book/rest-workshop-book.html
 book/rest-workshop-book.md: $(MARKDOWN)
-	pandoc $(PANDOC_OPTIONS) -t markdown -o $@ $(filter-out book/template.tex, $^)
+	pandoc -t markdown -o $@ $(filter-out book/template.tex, $^)
 
 book/rest-workshop-book.html: book/rest-workshop-book.md
 	pandoc $(PANDOC_HTML_OPTIONS) -o $@ $<
 
 book/rest-workshop-book.tex: book/rest-workshop-book.md
-	pandoc $(PANDOC_PDF_OPTIONS) -o $@ $<
+	pandoc $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
 
 # http://web.mit.edu/~jcrost/www/latexmake.html
 book/rest-workshop-book.pdf: book/rest-workshop-book.tex
