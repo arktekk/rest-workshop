@@ -17,8 +17,12 @@ Take a step back and see if you can think of the problem in a different manner.
 * Generic, but not too generic
 
 .notes Think of media types as a class if that helps the abstraction.
-A customer is an instance of a Contact class. 
-A Contact is a generalization of Person and Organization.
+
+!SLIDE bullets incremental
+# Data example #
+* A customer is an instance of a Contact class. 
+* Contact is a generalization of Person and Organization.
+* Presto: text/vcard
 
 !SLIDE bullets incremental
 # Links #
@@ -27,20 +31,29 @@ A Contact is a generalization of Person and Organization.
 * Strongly typed
 * Signals intent
 
-!SLIDE
+!SLIDE bullets incremental
+# Relative links #
+* Try to allow for relative links in your designs
+* XML has this solved with the xml:base attribute.
+* JSON needs a separate solution.
+
+!SLIDE bullets incremental
 # Choose a base format #
+* XML
+* JSON
 
 .notes XML or JSON.
 
 !SLIDE bullets incremental
 # XML Pros #
+* Document centric.
 * Extensible by default (namespaces)
 * elements AND attributes
 * Lots of tool-support
 
 !SLIDE bullets incremental
 # XML Cons #
-
+* Document centric.
 * Can be wordy and verbose
 * Adds boilerplate
 * No typed data
@@ -48,7 +61,7 @@ A Contact is a generalization of Person and Organization.
 
 !SLIDE bullets incremental
 # JSON Pros #
-
+* "object" based
 * Hot and "new"
 * Typed data
 * Simple model
@@ -63,33 +76,36 @@ A Contact is a generalization of Person and Organization.
 * No hypermedia support built-in
 * Simple model
 
+!SLIDE
+# Making things easy to parse #
+* Keep the number of concepts to a minimum.
+* Generic concepts MAY be re-used to represent different things, eg. HTML
+* Semantics SHOULD be expressed in link relations not in the media-type.
+
 !SLIDE bullets incremental smaller
 # Serialization #
 * DO NOT SERIALIZE OBJECTS AUTOMATICALLY
 * DO NOT SERIALIZE OBJECTS AUTOMATICALLY
 * DO NOT SERIALIZE OBJECTS AUTOMATICALLY
-* DO NOT SERIALIZE OBJECTS AUTOMATICALLY
+* If you do, you WILL get to know pain.
 
-!SLIDE bullets incremental
-# Relative links #
-* Try to allow for relative links in your designs
-* XML has this solved with the xml:base attribute.
-* JSON needs a separate solution.
 
 !SLIDE bullets incremental
 # Serialization #
-
-* Always convert to an intermediate before serializing.
-
-!SLIDE
-# Versioning #
-* Do not do this
-* Breaking changes needs a new media type.
+* Build a model for your serialization format (intermediate).
+* Always convert to the intermediate before serializing.
 
 !SLIDE
 # Evolvability #
+* This is what you are looking for.
+* Think Data, not software.
 
-.notes What you are actually looking for.
+!SLIDE
+# Versioning #
+* A solution looking for a problem
+* Do NOT do this!!!
+* Breaking changes needs a new media type.
+* http://www.mnot.net/blog/2011/10/25/web_api_versioning_smackdown
 
 !SLIDE bullets incremental
 # Extensibility #
@@ -100,6 +116,7 @@ A Contact is a generalization of Person and Organization.
 * In JSON
  * Constrain certain data
  * Allow new properties to be added to every object.
+ * Develop an extension model
 
 .notes You must ignore unknown elements and attributes
 This also helps the robustness of your parsers.
