@@ -1,15 +1,15 @@
 {
-  "01-http-rpc-example-ad.md|jinja": {
+  "exercises-01-http-rpc-example-ad.md|jinja": {
     "inputs": [
       "*.json|ct"
     ]
   },
-  "02-basic-http-example-ad.md|jinja": {
+  "exercises-02-basic-http-example-ad.md|jinja": {
     "inputs": [
       "*.json|ct"
     ]
   },
-  "03-media-types-example-ad.md|jinja": {
+  "exercises-03-media-types-example-ad.md|jinja": {
     "inputs": [
       "*.json|ct"
     ]

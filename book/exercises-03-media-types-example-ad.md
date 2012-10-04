@@ -9,7 +9,7 @@ woot
 \tt
 
 ~~~ {.json}
-{{ d['03-media-types-ad.json|ct'] }}
+{{ d['exercises-03-media-types-ad.json|ct'] }}
 ~~~
 
 \end{parbox}
