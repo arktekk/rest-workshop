@@ -8,15 +8,25 @@
 
 .notes While developing HTTP/1.1, Fielding also wrote his PhD dissertation. REST is the example in his dissertation.
 
-!SLIDE
+!SLIDE bullets incremental
 # Architectural Styles and the Design of Network-based Software Architectures #
-
-.notes Describing architectural styles are a set of constraints to obtain certain properties or qualities within a concrete software architecture. REST is a network based architectural style. RPC is another style, Pipe and Filter a third.
+* Describes constraints used to obtain certain properties
+* REST
+* Pipe And Filter
+* RPC
 
 !SLIDE
 # Connector #
 Software that communicates with the network. Typically a HTTP server, or HTTP Client.
 
+!SLIDE
+# Component #
+* Server
+* Client
+* Intermediary
+
+.notes Software which is part of the networked system. Any Piece of software within a restful architecture is
+a Component.
 
 !SLIDE
 # Resource #
@@ -24,8 +34,20 @@ Software that communicates with the network. Typically a HTTP server, or HTTP Cl
 .notes this is what you should think the most of when you are designing a RESTful architecture. 
 Think in nouns not verbs. What IS it? Not What can I do with it.
 
-!SLIDE
+!SLIDE bullets incremental
+# Resource #
+* Books
+* Products
+* Articles
+* Ads
+* Images
+
+!SLIDE bullets incremental
 # Representation #
+* Encoding of resource state transmitted over the network 
+* A Resource MAY have multiple representations
+* Hypermedia format
+* In HTTP the representation is both the body and the headers of a message (httpbis)
 
 .notes A representation is an encoding of the resource state, served over the network. 
 A representation is also known as a hypermedia format or Media Type. 

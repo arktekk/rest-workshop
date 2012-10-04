@@ -125,11 +125,6 @@ since it targets articles, blogs etc.
 * Nice for sending structured text
 
 !SLIDE
-# Error media type #
-* Meant to be used for adding application semantics on top of HTTP errors.
-
-
-!SLIDE
 # Custom media-types #
 You are allowed to create your own media type and (optionally) register it with IANA.
 

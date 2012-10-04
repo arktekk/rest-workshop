@@ -12,7 +12,7 @@ how to operate on those data.
 !SLIDE
 # Hypertext as the engine of application state #
 
-.notes to be able to understand this sentance, one must first understand what hypertext means. 
+.notes to be able to understand this sentence, one must first understand what hypertext means. 
 Then you need to understand what application means. And lastly understanding what engine in this context means.
 
 !SLIDE
@@ -22,22 +22,29 @@ Then you need to understand what application means. And lastly understanding wha
 
 !SLIDE
 # LINKS #
-	@@@ html
-	<a href="http://example.com">
+	  @@@ html
+	  <a href="http://example.com">
 
-	<link rel="stylesheet" href="http://static.example.com/1.css">
+	  <link rel="stylesheet" href="http://static.example.com/1.css">
 
-	<script href="http://static.example.com/1234.js">	
+	  <script href="http://static.example.com/1234.js">	
 
 .notes as Links, or hyperlink. Forms are also useful hypertext controls, but we will get back to that later.
 
 !SLIDE
 # Why are links important #
 * Links helps decouple server and client. 
-* An agent does not need to know how the server works internally.
+* A Component does not need to know how the server works internally.
 * Intent can be expressed in a link.
 
 .notes Navigation in a result set, for instance pagination, filtering of result sets, creating new items in a collection. etc.
+
+!SLIDE
+#Examples #
+* Search
+* Pagination
+* Filtering
+* Creating new items in a collection.
 
 !SLIDE
 # Use links to let your client application know what is possible to do next #
