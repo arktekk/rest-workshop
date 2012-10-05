@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Erlend Hamnaberg">
+  <meta name="author" content="Trygve Laugstøl">
+  <meta name="dcterms.date" content="2012-10">
+  <title>Ads'r'us API (with existing media types)</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="book.css">
+</head>
+<body>
+<div class="container">
+<div class="row">
+<header>
+<h1 class="title">Ads'r'us API (with existing media types)</h1>
+<h4 class="author">Erlend Hamnaberg</h4>
+<h4 class="author">Trygve Laugstøl</h4>
+<h4 class="date">October 2012 edition</h4>
+</header>
+<h1 class="toc">Table of Contents</h1>
+<nav id="TOC">
+<ul>
+<li><a href="#about-this-document">About this document</a></li>
+<li><a href="#adsrus-api-with-existing-media-types">Ads'r'us API (with existing media types)</a><ul>
+<li><a href="#general-architecture-rules">General Architecture Rules</a></li>
+<li><a href="#expected-usage">Expected usage</a></li>
+<li><a href="#ad-serialization-inside-collectionjson">Ad Serialization Inside Collection+JSON</a><ul>
+<li><a href="#data-fields">Data Fields</a></li>
+<li><a href="#links">Links</a></li>
+<li><a href="#link-relations">Link Relations</a></li>
+<li><a href="#example">Example</a></li>
+</ul></li>
+<li><a href="#single-ad-vs-list-of-ad-resources">Single Ad vs List of Ad Resources</a></li>
+</ul></li>
+</ul>
+</nav>
+<section class="level1" id="about-this-document">
+<h1><a href="#TOC">About this document</a></h1>
+<p>This document is an example on how one can document an API by using the REST principles. This version of the API use a domain specific media type with JSON serialization.</p>
+</section>
+<section class="level1" id="adsrus-api-with-existing-media-types">
+<h1><a href="#TOC">Ads'r'us API (with existing media types)</a></h1>
+<p>This document describes an architecture for how agents should interact with Ads'r'us. Interactions with Ads'r'us follow the general architecture and constraints described in the REST dissertation and add some domain specific constraints.</p>
+<p>We only implement a HTTP interface to our resources which come with its own set of constraints. Most of our data resources (non-binary) uses the existing <code>application/vnd.collection+json</code> media type, commonly known as <a href="http://amundsen.com/media-types/collection/">&quot;Collection+JSON&quot;</a>:</p>
+<blockquote>
+<p>Collection+JSON is a JSON-based read/write hypermedia-type designed to support management and querying of simple collections. It is similar to the The Atom Syndication Format (RFC4287) and the The Atom Publishing Protocol (RFC5023) . However, Collection+JSON defines both the format and the semantics in a single media type. It also includes support for Query Templates and expanded write support through the use of a Write Template.</p>
+</blockquote>
+<p>As the world progresses, new specifications, updates and enhancements arrive and we try to stay as much as possible in line. However, we will always remain backwards compatible with our own published specifications.</p>
+<p><em>Make sure to check back regularly to get the latest version of this specification!</em></p>
+<section class="level2" id="general-architecture-rules">
+<h2><a href="#TOC">General Architecture Rules</a></h2>
+<p>These are general rules and principles used. They apply as long as a specific interaction/resource does not specify something else.</p>
+<p>It is expected that the domain and objects that the resources describe evolve over time and thus new fields and link relations might be introduced later on. Clients must silently ignore unknown fieds and should not expect optional fields to be present.</p>
+</section>
+<section class="level2" id="expected-usage">
+<h2><a href="#TOC">Expected usage</a></h2>
+<p>It is assumed that clients are pre-programmed with a link to an ad list when starting to interact with us.</p>
+</section>
+<section class="level2" id="ad-serialization-inside-collectionjson">
+<h2><a href="#TOC">Ad Serialization Inside Collection+JSON</a></h2>
+<section class="level3" id="data-fields">
+<h3><a href="#TOC">Data Fields</a></h3>
+<p>When serializing an ad inside a Collection+JSON, these fields are available:</p>
+<ul>
+<li><code>title</code>: The one-line title of the ad. MUST be present.</li>
+<li><code>body</code>: The body part of the ad. MAY span multiple lines. MUST be present.</li>
+<li><code>lastModified</code>: The timestamp of the ad. MUST use Atom's date format. See <a href="http://tools.ietf.org/html/rfc4287#section-3.3">3.3: Date Constructs</a>. SHOULD be present when served from a server. MAY be present when a client sends one to the server.</li>
+</ul>
+</section>
+<section class="level3" id="links">
+<h3><a href="#TOC">Links</a></h3>
+<ul>
+<li><code>add-picture</code>: Send pictures here to add them to an ad.</li>
+</ul>
+</section>
+<section class="level3" id="link-relations">
+<h3><a href="#TOC">Link Relations</a></h3>
+<p>In addition to the link relations specified by Collection+JSON, we use the <code>picture</code> relation to reference pictures that are related to the current resource.</p>
+</section>
+<section class="level3" id="example">
+<h3><a href="#TOC">Example</a></h3>
+<pre class="sourceCode json figure" caption="awesome"><code class="sourceCode json">
+{ <span class="dt">&quot;collection&quot;</span> :
+  {
+    <span class="dt">&quot;version&quot;</span>: <span class="st">&quot;1.0&quot;</span>,
+    <span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://localhost:3000/ads&quot;</span>,
+    
+    <span class="dt">&quot;links&quot;</span>: [
+      {<span class="dt">&quot;rel&quot;</span>: <span class="st">&quot;self&quot;</span>, <span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://localhost:3000/ads&quot;</span>}
+      {<span class="dt">&quot;rel&quot;</span>: <span class="st">&quot;collection&quot;</span>, <span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://localhost:3000/ads&quot;</span>}
+      {<span class="dt">&quot;rel&quot;</span>: <span class="st">&quot;feed&quot;</span>, <span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://localhost:3000/ads.atom&quot;</span>}
+    ],
+    
+    <span class="dt">&quot;items&quot;</span>: [
+      {
+        <span class="dt">&quot;href&quot;</span> : <span class="st">&quot;...&quot;</span>,
+        <span class="dt">&quot;data&quot;</span> : [
+          {<span class="dt">&quot;name&quot;</span> : <span class="st">&quot;title&quot;</span>, <span class="dt">&quot;value&quot;</span> : <span class="st">&quot;Nice house for sale!&quot;</span>, <span class="dt">&quot;prompt&quot;</span> : <span class="st">&quot;Title&quot;</span>},
+          {<span class="dt">&quot;name&quot;</span> : <span class="st">&quot;body&quot;</span>, <span class="dt">&quot;value&quot;</span> : <span class="st">&quot;Four rooms, huge bath.&quot;</span>, <span class="dt">&quot;prompt&quot;</span> : <span class="st">&quot;Ad Body&quot;</span>}
+        ],
+        <span class="dt">&quot;links&quot;</span> : [
+          {<span class="dt">&quot;rel&quot;</span> : <span class="st">&quot;add-picture&quot;</span>, <span class="dt">&quot;href&quot;</span> : <span class="st">&quot;...&quot;</span>}
+          {<span class="dt">&quot;rel&quot;</span> : <span class="st">&quot;picture&quot;</span>, <span class="dt">&quot;href&quot;</span> : <span class="st">&quot;...&quot;</span>, <span class="dt">&quot;render&quot;</span> : <span class="st">&quot;image&quot;</span>}
+          {<span class="dt">&quot;rel&quot;</span> : <span class="st">&quot;picture&quot;</span>, <span class="dt">&quot;href&quot;</span> : <span class="st">&quot;...&quot;</span>, <span class="dt">&quot;render&quot;</span> : <span class="st">&quot;image&quot;</span>}
+        ]
+      },
+      <span class="er">...</span>
+    ]
+  }
+}</code></pre>
+</section>
+</section>
+<section class="level2" id="single-ad-vs-list-of-ad-resources">
+<h2><a href="#TOC">Single Ad vs List of Ad Resources</a></h2>
+<p>As Collection+JSON does not have a way to send a single item only the context of the request specifies if the list will include one or more items.</p>
+</section>
+</section>
+</div>
+</div>
+</body>
+</html>

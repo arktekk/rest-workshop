@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Erlend Hamnaberg">
+  <meta name="author" content="Trygve Laugstøl">
+  <meta name="dcterms.date" content="2012-10">
+  <title>REST Workshop</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="book.css">
+</head>
+<body>
+<div class="container">
+<div class="row">
+<header>
+<h1 class="title">REST Workshop</h1>
+<h4 class="author">Erlend Hamnaberg</h4>
+<h4 class="author">Trygve Laugstøl</h4>
+<h4 class="date">October 2012 edition</h4>
+</header>
+<h1 class="toc">Table of Contents</h1>
+<nav id="TOC">
+<ul>
+<li><a href="#exercises">Exercises</a><ul>
+<li><a href="#background">Background</a></li>
+<li><a href="#cheat-sheets">Cheat sheets</a></li>
+<li><a href="#participant-requirements">Participant Requirements</a><ul>
+<li><a href="#node.js-and-npm">Node.js and NPM</a></li>
+<li><a href="#mongodb">MongoDB</a></li>
+<li><a href="#git">Git</a></li>
+<li><a href="#curl">curl</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#exercise-http-rpc">Exercise: HTTP RPC</a><ul>
+<li><a href="#objective">Objective</a></li>
+<li><a href="#steps">Steps</a><ul>
+<li><a href="#create-the-ad-endpoint-httplocalhost3000create-ad">Create the ad endpoint: <code>http://localhost:3000/create-ad</code></a></li>
+<li><a href="#view-ad-endpoint-httplocalhost3000adid...">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></li>
+<li><a href="#add-picture-endpoint-httplocalhost3000add-pictureid...">Add picture endpoint: <code>http://localhost:3000/add-picture?id=...</code></a></li>
+</ul></li>
+<li><a href="#hints">Hints</a><ul>
+<li><a href="#curl-1">Curl</a><ul>
+<li><a href="#post-image-file">POST image file</a></li>
+</ul></li>
+<li><a href="#mongodb-mongoose">MongoDB / Mongoose</a><ul>
+<li><a href="#insert-a-new-object">Insert a new object</a></li>
+<li><a href="#find-a-object">Find a object</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#retrospective">Retrospective</a><ul>
+<li><a href="#why-is-this-bad">Why is this bad?</a></li>
+<li><a href="#hard-coding-of-uris">Hard-coding of URIs</a></li>
+</ul></li>
+<li><a href="#example-ad.json">Example <code>ad.json</code></a></li>
+</ul></li>
+<li><a href="#exercise-basic-http">Exercise: Basic HTTP</a><ul>
+<li><a href="#objective-1">Objective</a><ul>
+<li><a href="#common-requirements-for-resources">Common Requirements for Resources</a></li>
+<li><a href="#content-types">Content Types</a></li>
+</ul></li>
+<li><a href="#steps-1">Steps</a><ul>
+<li><a href="#create-the-create-ad-endpoint-httplocalhost3000create-ad">Create the 'create ad endpoint': <code>http://localhost:3000/create-ad</code></a></li>
+<li><a href="#view-ad-endpoint-httplocalhost3000adid...-1">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></li>
+<li><a href="#add-picture-endpoint-httplocalhost3000add-picture">Add picture endpoint: <code>http://localhost:3000/add-picture</code></a></li>
+<li><a href="#create-a-client-for-creating-ads">Create a client for creating ads</a></li>
+</ul></li>
+<li><a href="#bonus-tasks">Bonus Tasks</a><ul>
+<li><a href="#proper-error-handling-in-the-client">Proper error handling in the client</a></li>
+<li><a href="#add-a-last-modified-header-to-the-responses">Add a <code>Last-Modified</code> header to the responses</a></li>
+<li><a href="#client-to-view-an-ad">Client to view an ad</a></li>
+<li><a href="#caching-client">Caching Client</a></li>
+</ul></li>
+<li><a href="#hints-1">Hints</a><ul>
+<li><a href="#curl-2">Curl</a><ul>
+<li><a href="#change-http-method">Change HTTP method</a></li>
+<li><a href="#post-image-file-1">POST image file</a></li>
+<li><a href="#add-if-none-match">Add <code>If-None-Match</code></a></li>
+<li><a href="#add-if-match">Add <code>If-Match</code></a></li>
+<li><a href="#add-if-modified-since">Add <code>If-Modified-Since</code></a></li>
+<li><a href="#add-if-unmodified-since">Add <code>If-Unmodified-Since</code></a></li>
+</ul></li>
+<li><a href="#mongodb-mongoose-1">MongoDB / Mongoose</a><ul>
+<li><a href="#insert-a-new-object-1">Insert a new object</a></li>
+<li><a href="#find-a-object-1">Find a object</a></li>
+</ul></li>
+<li><a href="#update-an-existing-object">Update an existing object</a></li>
+</ul></li>
+<li><a href="#retrospective-1">Retrospective</a><ul>
+<li><a href="#why-is-this-better-than-the-rpc-solution">Why is this better than the rpc solution?</a></li>
+<li><a href="#what-are-the-benefits-of-caching">What are the benefits of caching?</a></li>
+<li><a href="#invalidation">Invalidation</a></li>
+<li><a href="#coupling">Coupling?</a></li>
+</ul></li>
+<li><a href="#example-ad.json-1">Example <code>ad.json</code></a></li>
+</ul></li>
+<li><a href="#exercise-media-types">Exercise: Media Types</a><ul>
+<li><a href="#objective-2">Objective</a></li>
+<li><a href="#steps-2">Steps</a></li>
+<li><a href="#bonus">Bonus</a></li>
+<li><a href="#retrospective-2">Retrospective</a><ul>
+<li><a href="#what-have-we-gained-by-moving-uri-creation-out-of-the-client">What have we gained by moving URI creation out of the client?</a></li>
+</ul></li>
+<li><a href="#example-ad.json-2">Example <code>ad.json</code></a></li>
+</ul></li>
+<li><a href="#exercise-generic-media-types">Exercise: Generic Media Types</a><ul>
+<li><a href="#objective-3">Objective</a></li>
+<li><a href="#steps-3">Steps</a></li>
+<li><a href="#retrospective-3">Retrospective</a><ul>
+<li><a href="#what-is-the-gain-by-re-using-existing-media-types">What is the gain by re-using existing media-types?</a></li>
+<li><a href="#can-hypermedia-formats-be-too-generic">Can hypermedia formats be too generic?</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#exercise-hypermedia-design">Exercise: Hypermedia Design</a><ul>
+<li><a href="#goal">Goal</a></li>
+<li><a href="#background-1">Background</a><ul>
+<li><a href="#requirements">Requirements</a></li>
+</ul></li>
+<li><a href="#steps-4">Steps</a><ul>
+<li><a href="#step-1">Step 1</a></li>
+<li><a href="#step-2">Step 2</a></li>
+<li><a href="#step-3">Step 3</a></li>
+<li><a href="#step-4">Step 4</a></li>
+</ul></li>
+<li><a href="#hints-2">Hints</a><ul>
+<li><a href="#xml">XML</a><ul>
+<li><a href="#links">Links</a></li>
+</ul></li>
+<li><a href="#json">JSON</a><ul>
+<li><a href="#links-1">Links</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#bonus-1">Bonus</a></li>
+<li><a href="#retrospective-4">Retrospective</a><ul>
+<li><a href="#how-can-you-add-new-fields-without-introducing-a-breaking-change">How can you add new fields without introducing a breaking change?</a></li>
+<li><a href="#why-do-you-gain-from-hypermedia">Why do you gain from hypermedia?</a></li>
+<li><a href="#parsers">Parsers</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#curl-cheat-sheet">Curl Cheat Sheet</a><ul>
+<li><a href="#post-a-file">POST a file</a></li>
+<li><a href="#post-image-file-2">POST image file</a></li>
+<li><a href="#add-request-header">Add Request Header</a></li>
+<li><a href="#change-http-method-1">Change HTTP method</a></li>
+<li><a href="#verbose-mode">Verbose mode</a></li>
+<li><a href="#dump-response-header-data-to-stdout">Dump response header data to stdout</a></li>
+<li><a href="#do-a-get-but-ignoring-the-data">Do a GET, but ignoring the data</a></li>
+<li><a href="#add-if-none-match-1">Add <code>If-None-Match</code></a></li>
+<li><a href="#add-if-match-1">Add <code>If-Match</code></a></li>
+<li><a href="#add-if-modified-since-1">Add <code>If-Modified-Since</code></a></li>
+<li><a href="#add-if-unmodified-since-1">Add <code>If-Unmodified-Since</code></a></li>
+</ul></li>
+<li><a href="#node-cheat-sheet">Node Cheat Sheet</a><ul>
+<li><a href="#running-a-node-application">Running a node application</a></li>
+<li><a href="#getting-the-request-body-as-a-string">Getting the request body as a string</a></li>
+<li><a href="#base64-encode-binary-data-on-a-request">Base64-encode binary data on a request</a></li>
+<li><a href="#mongodb-mongoose-2">MongoDB / Mongoose</a></li>
+<li><a href="#command-line-arguments">Command line arguments</a></li>
+<li><a href="#http-client">HTTP client</a></li>
+</ul></li>
+</ul>
+</nav>
+<section class="level1" id="exercises">
+<h1><a href="#TOC">Exercises</a></h1>
+<p>Before starting on an exercise please read through the entire text to get a better overview of the exercise. Also check out the cheat sheets for Node.js and curl, they contain valuable hints and tips.</p>
+<p>Each exercise has two directories: <code>start/</code> is where you as a participant should start to solve each exercise. <code>solution/</code> contains a complete solution for the exercise. There is also a README file that describe the exercise in detail.</p>
+<section class="level2" id="background">
+<h2><a href="#TOC">Background</a></h2>
+<p>You are working for Ads'r'us; a company that sell classified advertisement online. As the company is thriving and growing your job is to implement the Ads'r'us API.</p>
+</section>
+<section class="level2" id="cheat-sheets">
+<h2><a href="#TOC">Cheat sheets</a></h2>
+<ul>
+<li><a href="#node-cheat-sheet">Node.js</a></li>
+<li><a href="#curl-cheat-sheet">curl</a></li>
+</ul>
+</section>
+<section class="level2" id="participant-requirements">
+<h2><a href="#TOC">Participant Requirements</a></h2>
+<p>Each participant needs to have these tools installed:</p>
+<ul>
+<li>node.js and npm. All the exercises use node.js.</li>
+<li>MongoDB</li>
+<li>git to clone this repository</li>
+<li>curl - a command line HTTP client. Useful for scripting and debugging http servers</li>
+</ul>
+<section class="level3" id="node.js-and-npm">
+<h3><a href="#TOC">Node.js and NPM</a></h3>
+<p><strong>Linux</strong></p>
+<p>Linux users can install binaries through their distribution's package repository.</p>
+<p><strong>OS X and Windows</strong></p>
+<p>For OS X and Windows we recommend using the binaries that are available for download from <a href="http://nodejs.org/download/">nodejs.org</a>.</p>
+</section>
+<section class="level3" id="mongodb">
+<h3><a href="#TOC">MongoDB</a></h3>
+<p><strong>Linux</strong></p>
+<p>Linux users can install binaries through their distribution's package repository.</p>
+<p><strong>OSX</strong></p>
+<p>For OS X, MongoDB is available through MacPorts, Homebrew and as binary downloads from <a href="http://www.mongodb.org/downloads">mongodb.org</a>. Choose the binary download unless you're already familiar with MacPorts or Homebrew.</p>
+<p>The <a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/">instructions</a> describes how to get started in any case.</p>
+<p><strong>Windows</strong></p>
+<p>For Windows use the binaries available from <a href="http://www.mongodb.org/downloads">http://mongodb.org</a> and follow the <a href="http://docs.mongodb.org/manual/tutorial/install-mongodb-on-windows/">instructions</a>. You do not need to install it as a Windows Service.</p>
+</section>
+<section class="level3" id="git">
+<h3><a href="#TOC">Git</a></h3>
+<p><strong>Linux</strong></p>
+<p>Linux users can install binaries through their distribution's package repository.</p>
+<p><strong>Windows</strong></p>
+<p>There are generic git binaries available from <a href="http://git-scm.com/downloads">git-scm.com</a> but we recommend using <a href="http://windows.github.com/">GitHub for Windows</a> as it includes a GUI in addition to the normal command line tools.</p>
+<p>GitHub for Windows also includes curl so you don't have to install curl.</p>
+<p><strong>OS X</strong></p>
+<p>There are generic git binaries available from <a href="http://git-scm.com/downloads">git-scm.com</a> but we recommend using <a href="http://mac.github.com/">GitHub for Mac</a> as it includes a GUI in addition to the normal command line tools.</p>
+</section>
+<section class="level3" id="curl">
+<h3><a href="#TOC">curl</a></h3>
+<p><strong>Linux</strong></p>
+<p>Linux users can install binaries through their distribution's package repository.</p>
+<p><strong>OS X</strong></p>
+<p>Curl is shipped with OS X.</p>
+<p><strong>Windows</strong></p>
+<p>For Windows you can download curl with Cygwin if you're already using Cygwin. If not, download the binaries from <a href="http://curl.haxx.se/download.html">curl.haxx.se</a>. Search for &quot;win32&quot; or &quot;win64&quot; depending on your platform.</p>
+</section>
+</section>
+</section>
+<section class="level1" id="exercise-http-rpc">
+<h1><a href="#TOC">Exercise: HTTP RPC</a></h1>
+<section class="level2" id="objective">
+<h2><a href="#TOC">Objective</a></h2>
+<p>Create a classic &quot;RPC over HTTP&quot; application for creating ads with pictures.</p>
+<p>The application will encode the result of each operation in the body of the request.</p>
+<p>For now, you only need to implement the server side. Use curl for testing the responses from the server.</p>
+</section>
+<section class="level2" id="steps">
+<h2><a href="#TOC">Steps</a></h2>
+<section class="level3" id="create-the-ad-endpoint-httplocalhost3000create-ad">
+<h3><a href="#TOC">Create the ad endpoint: <code>http://localhost:3000/create-ad</code></a></h3>
+<p>This is where clients should POST a json object to create a new ad. The JSON that's sent to the server should look like this:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>
+}</code></pre>
+<p>To test the endpoint you can use the example <code>ad.json</code> file like this:</p>
+<pre><code>curl --data-binary @../ad.json http://localhost:3000/create-ad</code></pre>
+<p>The server should return a document like this:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;ok&quot;</span>,
+  <span class="dt">&quot;data&quot;</span>: {
+    <span class="dt">&quot;id&quot;</span>: <span class="st">&quot;4fc494d10b6a9fcb09000001&quot;</span>, 
+    <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>, 
+    <span class="dt">&quot;pictures&quot;</span>: [], 
+    <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>
+  },
+}</code></pre>
+<p>The <code>id</code> field inside the <code>data</code> object is used later on when generating URLs.</p>
+<p>Similar for any unknown error, <code>result</code> should be <code>error</code>:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;error&quot;</span>
+}</code></pre>
+</section>
+<section class="level3" id="view-ad-endpoint-httplocalhost3000adid...">
+<h3><a href="#TOC">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></h3>
+<p>Clients can GET this with an &quot;id&quot; query parameter. The server will respond with something like this:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;ok&quot;</span>,
+  <span class="dt">&quot;data&quot;</span>: {
+    <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+    <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>
+  }
+}</code></pre>
+<p>If the ad does not exist, <code>result</code> should be <code>notFound</code>:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;notFound&quot;</span>
+}</code></pre>
+</section>
+<section class="level3" id="add-picture-endpoint-httplocalhost3000add-pictureid...">
+<h3><a href="#TOC">Add picture endpoint: <code>http://localhost:3000/add-picture?id=...</code></a></h3>
+<p>There are some example pictures available under <a href="./pictures/">pictures/</a>.</p>
+</section>
+</section>
+<section class="level2" id="hints">
+<h2><a href="#TOC">Hints</a></h2>
+<section class="level3" id="curl-1">
+<h3><a href="#TOC">Curl</a></h3>
+<section class="level4" id="post-image-file">
+<h4><a href="#TOC">POST image file</a></h4>
+<pre><code>curl -X POST -T &lt;path-to-file&gt; &lt;url&gt;</code></pre>
+</section>
+</section>
+<section class="level3" id="mongodb-mongoose">
+<h3><a href="#TOC">MongoDB / Mongoose</a></h3>
+<section class="level4" id="insert-a-new-object">
+<h4><a href="#TOC">Insert a new object</a></h4>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> ad = <span class="kw">new</span> <span class="kw">Db</span>.<span class="fu">Ad</span>();
+<span class="kw">ad</span>.<span class="fu">title</span> = <span class="kw">payload</span>.<span class="fu">title</span>;
+<span class="kw">ad</span>.<span class="fu">body</span> = <span class="kw">payload</span>.<span class="fu">body</span>;
+<span class="kw">ad</span>.<span class="fu">save</span>();</code></pre>
+<p>When an object has been saved, the id of the object is available as the <code>_id</code> attribute.</p>
+</section>
+<section class="level4" id="find-a-object">
+<h4><a href="#TOC">Find a object</a></h4>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Db.Ad</span>.<span class="fu">findOne</span>({<span class="dt">_id</span>: &lt;my id&gt;}, <span class="kw">function</span>(err, doc) {
+   ....
+});</code></pre>
+<p><code>err</code> will be set if there was an error while talking to the DB. <code>doc</code> will null if not found, or the object if found.</p>
+<p>Update an existing object:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> cmd = {$<span class="dt">push</span>: {<span class="dt">arr</span>: item}}
+<span class="kw">Db.Ad</span>.<span class="fu">update</span>({<span class="dt">_id</span>: &lt;my id&gt;}, cmd, {}, <span class="kw">function</span>(err, numAffected) {
+ ....
+});</code></pre>
+</section>
+</section>
+</section>
+<section class="level2" id="retrospective">
+<h2><a href="#TOC">Retrospective</a></h2>
+<section class="level3" id="why-is-this-bad">
+<h3><a href="#TOC">Why is this bad?</a></h3>
+<p>We are tunneling application semantics through an application level protocol. We should rather delegate to HTTP to do the error handling, and delivery of correct status code. We are by every definition not a good Web citizen.</p>
+<p>When implementing a real application, you would delegate routing to a framework, for instance Express, or whatever you use in your programming language.</p>
+</section>
+<section class="level3" id="hard-coding-of-uris">
+<h3><a href="#TOC">Hard-coding of URIs</a></h3>
+<p>All URIs are hard-coded in the client, we have a lot of coupling between our service, data and client.</p>
+<p>If you only have one client and server, this might be a diserable property, but once you have more than one client, this may be come unmanageable. You have to upgrade all clients at the same time as you upgrade your clients.</p>
+</section>
+</section>
+<section class="level2" id="example-ad.json">
+<h2><a href="#TOC">Example <code>ad.json</code></a></h2>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>
+}</code></pre>
+</section>
+</section>
+<section class="level1" id="exercise-basic-http">
+<h1><a href="#TOC">Exercise: Basic HTTP</a></h1>
+<section class="level2" id="objective-1">
+<h2><a href="#TOC">Objective</a></h2>
+<p>The background and requirements are similar to the &quot;RPC over HTTP&quot; application, but now it's time to become a better and more &quot;correct&quot; HTTP component.</p>
+<p>We will improve the application by moving generic application semantics one level down to the HTTP layer. We'll do this with proper use of status codes and headers.</p>
+<p>We're expanding on the previous server, but this time we're also adding a client.</p>
+<section class="level3" id="common-requirements-for-resources">
+<h3><a href="#TOC">Common Requirements for Resources</a></h3>
+<p>The application shall follow these general requirements:</p>
+<ul>
+<li>All data/non-binary content types should be 'application/json'. This applies both for both requests and responses.</li>
+</ul>
+<p>Status codes:</p>
+<ul>
+<li>200: Everything is ok!</li>
+<li>404: Unknown resource.</li>
+<li>406: The client posted an unprocessable type.</li>
+<li>500: Unknown server-side fault.</li>
+</ul>
+<p>Methods:</p>
+<ul>
+<li>GET: Used to fetch data. Does not change the object</li>
+<li>POST: Used to create new objects.</li>
+</ul>
+</section>
+<section class="level3" id="content-types">
+<h3><a href="#TOC">Content Types</a></h3>
+<p>Use <code>application/json</code> for all normal messages, and <code>text/plain</code> for error messages.</p>
+</section>
+</section>
+<section class="level2" id="steps-1">
+<h2><a href="#TOC">Steps</a></h2>
+<section class="level3" id="create-the-create-ad-endpoint-httplocalhost3000create-ad">
+<h3><a href="#TOC">Create the 'create ad endpoint': <code>http://localhost:3000/create-ad</code></a></h3>
+<p>This is where clients should POST a json object to create a new ad. The JSON that's sent to the server should look like this:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>
+}</code></pre>
+<p>The server should return <code>200 Ok</code> and a document like this:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;type&quot;</span>: <span class="st">&quot;ad&quot;</span>,
+  <span class="dt">&quot;id&quot;</span>: <span class="st">&quot;4fc494d10b6a9fcb09000001&quot;</span>, 
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>, 
+  <span class="dt">&quot;pictures&quot;</span>: [], 
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>
+}</code></pre>
+<p>Try to send an invalid object (for example an empty document like <code>/dev/null</code> on unix or <code>nul</code> on windows) and make sure you're getting a proper 500 error code back.</p>
+</section>
+<section class="level3" id="view-ad-endpoint-httplocalhost3000adid...-1">
+<h3><a href="#TOC">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></h3>
+<p>Clients can GET this with an &quot;id&quot; query parameter. The server will respond with something like this:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;type&quot;</span>: <span class="st">&quot;ad&quot;</span>,
+  <span class="dt">&quot;id&quot;</span>: <span class="st">&quot;4fc494d10b6a9fcb09000001&quot;</span>, 
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>, 
+  <span class="dt">&quot;pictures&quot;</span>: [], 
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>
+}</code></pre>
+<p>Try to fetch an ad that doesn't exist and make sure you're getting a 404 error.</p>
+</section>
+<section class="level3" id="add-picture-endpoint-httplocalhost3000add-picture">
+<h3><a href="#TOC">Add picture endpoint: <code>http://localhost:3000/add-picture</code></a></h3>
+<p>There are some example pictures available under <a href="./pictures/">pictures/</a>.</p>
+<p>See the node cheat sheet on how to add pictures to a Mongo object.</p>
+</section>
+<section class="level3" id="create-a-client-for-creating-ads">
+<h3><a href="#TOC">Create a client for creating ads</a></h3>
+<p>The client shall first create the ad and then attach all the pictures to the ad.</p>
+<p>Suggested command line API:</p>
+<pre><code>$ ./add-ad.js &quot;Nice house for sale&quot; &quot;Four rooms, huge bath.&quot; car.jpg dinosaur.jpg</code></pre>
+<p>The client must assert the status codes and content types returned. Proper error handling is not important now so just throw an exception on any failure.</p>
+</section>
+</section>
+<section class="level2" id="bonus-tasks">
+<h2><a href="#TOC">Bonus Tasks</a></h2>
+<section class="level3" id="proper-error-handling-in-the-client">
+<h3><a href="#TOC">Proper error handling in the client</a></h3>
+<p>If the server returns an unexpected result or unprocessable content, do not crash but rather try to show the error message to the user. If the server returns <code>text/plain</code>, the user can be shown the text directly.</p>
+</section>
+<section class="level3" id="add-a-last-modified-header-to-the-responses">
+<h3><a href="#TOC">Add a <code>Last-Modified</code> header to the responses</a></h3>
+</section>
+<section class="level3" id="client-to-view-an-ad">
+<h3><a href="#TOC">Client to view an ad</a></h3>
+<p>Create a client that displays an ad.</p>
+<p>Suggested command line API:</p>
+<pre><code>$ ./view-ad.js &lt;id&gt;
+Fetching ad ...
+Last-Modified: &lt;time&gt;
+Title: &lt;title&gt;
+Body: &lt;body&gt;</code></pre>
+</section>
+<section class="level3" id="caching-client">
+<h3><a href="#TOC">Caching Client</a></h3>
+<p>Improve the client and store the ad as <code>ad-&lt;id&gt;.js</code>. If executed twice it should do a conditional GET.</p>
+</section>
+</section>
+<section class="level2" id="hints-1">
+<h2><a href="#TOC">Hints</a></h2>
+<p>NOTE: Headers in the node.js http request object are ALWAYS in lower-case.</p>
+<p>Setting status codes from node:</p>
+<p>response.writeHead(200, headers);</p>
+<section class="level3" id="curl-2">
+<h3><a href="#TOC">Curl</a></h3>
+<section class="level4" id="change-http-method">
+<h4><a href="#TOC">Change HTTP method</a></h4>
+<pre><code>-X GET|PUT|POST|DELETE|OPTIONS</code></pre>
+</section>
+<section class="level4" id="post-image-file-1">
+<h4><a href="#TOC">POST image file</a></h4>
+<pre><code>curl -X POST -H &#39;Content-Type: image/jpeg&#39; -T pictures/car.jpg &lt;url&gt;</code></pre>
+</section>
+<section class="level4" id="add-if-none-match">
+<h4><a href="#TOC">Add <code>If-None-Match</code></a></h4>
+<p>This header is mostly useful on conditional GET requests:</p>
+<pre><code>-H &#39;If-None-Match: &lt;value-of-etag-header&gt;&#39;</code></pre>
+</section>
+<section class="level4" id="add-if-match">
+<h4><a href="#TOC">Add <code>If-Match</code></a></h4>
+<p>This header is mostly useful on conditional PUT|POST requests:</p>
+<pre><code>-H &#39;If-Match: &lt;value-of-etag-header&gt;&#39;</code></pre>
+</section>
+<section class="level4" id="add-if-modified-since">
+<h4><a href="#TOC">Add <code>If-Modified-Since</code></a></h4>
+<p>This header is mostly useful on conditional GET requests:</p>
+<pre><code>-H &#39;If-Modified-Since: &lt;value-of-last-modified-header&gt;&#39;</code></pre>
+</section>
+<section class="level4" id="add-if-unmodified-since">
+<h4><a href="#TOC">Add <code>If-Unmodified-Since</code></a></h4>
+<p>This header is mostly useful on conditional PUT|POST requests:</p>
+<pre><code>-H &#39;If-Unmodified-Since: &lt;value-of-last-modified-header&gt;&#39;</code></pre>
+</section>
+</section>
+<section class="level3" id="mongodb-mongoose-1">
+<h3><a href="#TOC">MongoDB / Mongoose</a></h3>
+<section class="level4" id="insert-a-new-object-1">
+<h4><a href="#TOC">Insert a new object</a></h4>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> ad = <span class="kw">new</span> <span class="kw">Db</span>.<span class="fu">Ad</span>();
+<span class="kw">ad</span>.<span class="fu">title</span> = <span class="kw">payload</span>.<span class="fu">title</span>;
+<span class="kw">ad</span>.<span class="fu">body</span> = <span class="kw">payload</span>.<span class="fu">body</span>;
+<span class="kw">ad</span>.<span class="fu">save</span>();</code></pre>
+<p>When an object has been saved, the id of the object is available as the <code>_id</code> attribute.</p>
+</section>
+<section class="level4" id="find-a-object-1">
+<h4><a href="#TOC">Find a object</a></h4>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Db.Ad</span>.<span class="fu">findOne</span>({<span class="dt">_id</span>: &lt;my id&gt;}, <span class="kw">function</span>(err, doc) {
+   ....
+});</code></pre>
+<p><code>err</code> will be set if there was an error while talking to the DB. <code>doc</code> will null if not found, or the object if found.</p>
+</section>
+</section>
+<section class="level3" id="update-an-existing-object">
+<h3><a href="#TOC">Update an existing object</a></h3>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> cmd = {$<span class="dt">push</span>: {<span class="dt">arr</span>: item}}
+<span class="kw">Db.Ad</span>.<span class="fu">update</span>({<span class="dt">_id</span>: &lt;my id&gt;}, cmd, {}, <span class="kw">function</span>(err, numAffected) {
+ ....
+});</code></pre>
+</section>
+</section>
+<section class="level2" id="retrospective-1">
+<h2><a href="#TOC">Retrospective</a></h2>
+<section class="level3" id="why-is-this-better-than-the-rpc-solution">
+<h3><a href="#TOC">Why is this better than the rpc solution?</a></h3>
+<p>We have not utilized HTTP as an application protocol, mening we are delivering the application semantics through the protocol instead of layering on top.</p>
+<p>We have started using HTTP the way it was intended to be used.</p>
+<p>Delivering status codes, with the correct content-type headers allows us to become better Web citizens.</p>
+<p>When implementing a real application, you would delegate routing and content-negotiation to a framework, for instance Express, or whatever you use in your programming language.</p>
+</section>
+<section class="level3" id="what-are-the-benefits-of-caching">
+<h3><a href="#TOC">What are the benefits of caching?</a></h3>
+<p>Caching allows us to utiltize the scaling properties of the Web.</p>
+<p>HTTP is optimized for GET and polling. Meaning that if we don't cache, we put a lot of strain on the origin server. Adding caching allows us to potentially never go to the origin server, except for verification of the representation of the resource.</p>
+</section>
+<section class="level3" id="invalidation">
+<h3><a href="#TOC">Invalidation</a></h3>
+<p>This is a difficult problem to solve, because of the distributed nature of HTTP's caching model.</p>
+<p>There are a few methods:</p>
+<ul>
+<li>Using a different method than GET or HEAD (invalidates the current resource)</li>
+<li>Using PURGE on a cache server (Does not invalidate local caches)</li>
+<li>Cache-Channels</li>
+<li>Edge Side Includes (ESI)</li>
+<li><a href="http://tools.ietf.org/html/draft-nottingham-linked-cache-inv-03">Linked Cache Invalidation</a></li>
+</ul>
+</section>
+<section class="level3" id="coupling">
+<h3><a href="#TOC">Coupling?</a></h3>
+<p>There are still a lot of coupling between the client and the server. We are still hard-coding the URIs which we use.</p>
+</section>
+</section>
+<section class="level2" id="example-ad.json-1">
+<h2><a href="#TOC">Example <code>ad.json</code></a></h2>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>
+}</code></pre>
+</section>
+</section>
+<section class="level1" id="exercise-media-types">
+<h1><a href="#TOC">Exercise: Media Types</a></h1>
+<section class="level2" id="objective-2">
+<h2><a href="#TOC">Objective</a></h2>
+<p>In this exercise it's time to move from <code>application/json</code> to use Ads'r'us' own media type. We will also remove all URL generation from the clients. The server will decide which interactions that are allowed.</p>
+</section>
+<section class="level2" id="steps-2">
+<h2><a href="#TOC">Steps</a></h2>
+<p>Implement the API described in <a href="ads-r-us-api-with-specific-media-types.html">Ads'r'us API (with domain-specific media types)</a>. Continue with the implementation you completed in the previous exercise.</p>
+<p>Replace the usage of <code>application/json</code> with <code>application/vnd.ad+json</code> and <code>application/vnd.ad-list+json</code>. Update the <code>add-ad.js</code> client to start from the &quot;ad list&quot; URL and find the <code>add-ad</code> URL from the list document. In the end, the client should not hard code or generate any URLs.</p>
+</section>
+<section class="level2" id="bonus">
+<h2><a href="#TOC">Bonus</a></h2>
+<p>Work with another person/group and try your client against the other groups server. Add extra fields and headers to the responses to try to get the other client to fail. Make sure that you stay within the specification when adding fields and headers. It is also possible to change the URL that's served to the client.</p>
+</section>
+<section class="level2" id="retrospective-2">
+<h2><a href="#TOC">Retrospective</a></h2>
+<section class="level3" id="what-have-we-gained-by-moving-uri-creation-out-of-the-client">
+<h3><a href="#TOC">What have we gained by moving URI creation out of the client?</a></h3>
+<p>We can now change the servers URI scheme, except from the initial URI, to whatever we want. We have thereby reduced the coupling of the client to the server.</p>
+<p>We can now introduce new network components into the stack without having to change the client and how it works. For instance adding servers, and changing the links to point to another if the current server is overloaded.</p>
+<p>The connection points are:</p>
+<ul>
+<li>The initial URI</li>
+<li>Link relations used</li>
+<li>the data formats used.</li>
+</ul>
+</section>
+</section>
+<section class="level2" id="example-ad.json-2">
+<h2><a href="#TOC">Example <code>ad.json</code></a></h2>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>
+}</code></pre>
+</section>
+</section>
+<section class="level1" id="exercise-generic-media-types">
+<h1><a href="#TOC">Exercise: Generic Media Types</a></h1>
+<section class="level2" id="objective-3">
+<h2><a href="#TOC">Objective</a></h2>
+<p>Now we're moving from a domain specific media type to encode the same concepts by using an existing media type.</p>
+</section>
+<section class="level2" id="steps-3">
+<h2><a href="#TOC">Steps</a></h2>
+<p>Update the server and client to use the new variant of the <a href="ads-r-us-api-with-existing-media-types.html">Ads'r'us API (with existing media types)</a>.</p>
+</section>
+<section class="level2" id="retrospective-3">
+<h2><a href="#TOC">Retrospective</a></h2>
+<section class="level3" id="what-is-the-gain-by-re-using-existing-media-types">
+<h3><a href="#TOC">What is the gain by re-using existing media-types?</a></h3>
+<p>First of all, reusing existing parsers, is a good idea, as most bugs have been ironed out when you use them. Existing mindshare is also a desirable property.</p>
+</section>
+<section class="level3" id="can-hypermedia-formats-be-too-generic">
+<h3><a href="#TOC">Can hypermedia formats be too generic?</a></h3>
+<p>Yes, they can also be too specific, making them hard to change. HAL is an example of a too generic media type.</p>
+</section>
+</section>
+</section>
+<section class="level1" id="exercise-hypermedia-design">
+<h1><a href="#TOC">Exercise: Hypermedia Design</a></h1>
+<section class="level2" id="goal">
+<h2><a href="#TOC">Goal</a></h2>
+<p>Create a hypermedia type that represents an Ad. You should learn how to create a document which is extensible, and allows change.</p>
+<p>This exercise should be done as a group.</p>
+</section>
+<section class="level2" id="background-1">
+<h2><a href="#TOC">Background</a></h2>
+<p>You are building Ads'r'us' new RESTful webservice and need to build a hypermedia type which expresses a classified advertisement with metadata.</p>
+<section class="level3" id="requirements">
+<h3><a href="#TOC">Requirements</a></h3>
+<p>You may choose either XML or JSON as your base type.</p>
+<p>The following fields MUST be modeled in your format:</p>
+<dl>
+<dt>published</dt>
+<dd><p>The published date of the ad</p>
+</dd>
+<dt>created</dt>
+<dd><p>The created date of the ad</p>
+</dd>
+<dt>last-modified</dt>
+<dd><p>The last-modified date of the ad</p>
+</dd>
+<dt>title</dt>
+<dd><p>The title of the ad</p>
+</dd>
+<dt>body</dt>
+<dd><p>The body of the ad.</p>
+</dd>
+<dt>creator</dt>
+<dd><p>A representation of the creator of the ad. This may be a person or an organization.</p>
+</dd>
+<dt>images</dt>
+<dd><p>A list of attached images.</p>
+</dd>
+</dl>
+<p>There are also other types of fields in an ad:</p>
+<dl>
+<dt>subtitle</dt>
+<dd><p>A subtitle, optional.</p>
+</dd>
+<dt>lead</dt>
+<dd><p>Lead text, optional.</p>
+</dd>
+</dl>
+<p>The named listed above are concepts, which your format must contain, the encoding of concepts to elements/attributes/properties are up to you.</p>
+<p>More fields MAY appear at a different date. You must choose a strategy for modeling optional fields.</p>
+<p>There must also be some hypermedia controls in the format which identifies resources connected to the ad-representation.</p>
+<p>There might be advantages to choosing a generic format for representing links, but you are free to choose which solution you want.</p>
+<p>The images which are connected to the ad, must be displayed. Depending on which hypermedia factor you choose, it should be up to the user agent, on when to download and display the images.</p>
+<p>Choosing for instance LE, Link Embed, then the user agent can know ahead of time, that the image is important to the ad, and should thereby be preloaded, this is for instance how &lt;img src=&quot;&quot;&gt; works in HTML.</p>
+<p>There MUST be a way of identifying which ad we are looking at. The id MUST NOT be a simple identifier.</p>
+</section>
+</section>
+<section class="level2" id="steps-4">
+<h2><a href="#TOC">Steps</a></h2>
+<section class="level3" id="step-1">
+<h3><a href="#TOC">Step 1</a></h3>
+<p>Choose base format (XML or JSON) and add required fields.</p>
+</section>
+<section class="level3" id="step-2">
+<h3><a href="#TOC">Step 2</a></h3>
+<p>Find a way of adding new fields without breaking backward compability</p>
+</section>
+<section class="level3" id="step-3">
+<h3><a href="#TOC">Step 3</a></h3>
+<p>Discuss the format you have created with the group.</p>
+</section>
+<section class="level3" id="step-4">
+<h3><a href="#TOC">Step 4</a></h3>
+<p>Implement server and client which understands the new format.</p>
+</section>
+</section>
+<section class="level2" id="hints-2">
+<h2><a href="#TOC">Hints</a></h2>
+<p>Useful link relations:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>alternate</code></li>
+<li><code>contact</code></li>
+<li><code>organization</code></li>
+<li><code>person</code></li>
+<li><code>image</code></li>
+</ul>
+<p>More link relations may be found at <a href="http://www.iana.org/assignments/link-relations">IANA's link-relations page</a>.</p>
+<p>For date-times you SHOULD use <a href="http://tools.ietf.org/html/rfc3339">RFC3339</a>. Example: <code>2012-06-05T12:00:02.52Z</code>.</p>
+<p>Embedding images is not a good idea, so we need to link to them.</p>
+<p>Embedding other formats, like HTML, within a format is a common trick for instance adding LE, Link Embed, for displaying images/video etc.</p>
+<p>Use the <a href="http://www.amundsen.com/hypermedia/hfactor/">hypermedia factors</a></p>
+<section class="level3" id="xml">
+<h3><a href="#TOC">XML</a></h3>
+<p>Use attributes where it makes sense instead of elements.</p>
+<section class="level4" id="links">
+<h4><a href="#TOC">Links</a></h4>
+<p>In Atom, a hypermedia format, there's defined a link type which looks like this:</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;atom:link</span><span class="ot"> href=</span><span class="st">&quot;http://example.com/ad/1&quot;</span><span class="ot"> rel=</span><span class="st">&quot;self&quot;</span><span class="kw">&gt;</span></code></pre>
+<p>Domain specific</p>
+<pre class="sourceCode xml"><code class="sourceCode xml"><span class="kw">&lt;ad</span><span class="ot"> href=</span><span class="st">&quot;http://example.com/ad/1&quot;</span><span class="kw">/&gt;</span></code></pre>
+<p>Experiment, and try to find the best solution for your format.</p>
+</section>
+</section>
+<section class="level3" id="json">
+<h3><a href="#TOC">JSON</a></h3>
+<p>It is very easy to introduce incompatible changes in JSON, thereby it's very important that one is diligent when designing the format.</p>
+<section class="level4" id="links-1">
+<h4><a href="#TOC">Links</a></h4>
+<p>Like XML, JSON does not have any hypermedia controls built in. There are a couple of different ways of modeling links in JSON:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;id&quot;</span>: <span class="st">&quot;http://example.com/ad/1&quot;</span>,
+  <span class="dt">&quot;property-1&quot;</span>: <span class="st">&quot;property-value&quot;</span>,
+  <span class="dt">&quot;property-2&quot;</span>: <span class="st">&quot;property-value&quot;</span>,
+  <span class="dt">&quot;property-3&quot;</span>: <span class="st">&quot;property-value&quot;</span>
+}</code></pre>
+<p>Collection+JSON-style:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;href&quot;</span> : <span class="st">&quot;http://example.com/ad/1&quot;</span>
+  <span class="st">&quot;links&quot;</span><span class="er">:</span> [
+    {<span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://example.com/ad/1&quot;</span>, <span class="dt">&quot;rel&quot;</span>: <span class="st">&quot;self&quot;</span>, <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;The current Ad&quot;</span>}
+  ]
+}</code></pre>
+<p>HAL-style: <code>json {   &quot;property-1&quot;: &quot;property-value&quot;,   &quot;links&quot;: {     &quot;self&quot;: &quot;http://example.com/ad/1&quot;   } }</code></p>
+</section>
+</section>
+</section>
+<section class="level2" id="bonus-1">
+<h2><a href="#TOC">Bonus</a></h2>
+<ul>
+<li>Add a list-version of the current format.</li>
+<li>Add more links to other resources.</li>
+<li>Test against other servers.</li>
+</ul>
+</section>
+<section class="level2" id="retrospective-4">
+<h2><a href="#TOC">Retrospective</a></h2>
+<section class="level3" id="how-can-you-add-new-fields-without-introducing-a-breaking-change">
+<h3><a href="#TOC">How can you add new fields without introducing a breaking change?</a></h3>
+<p>This depends on your design. Adding a MUST-IGNORE property to your design allows you to add new fields without having to rewrite parsers to allow new field.</p>
+</section>
+<section class="level3" id="why-do-you-gain-from-hypermedia">
+<h3><a href="#TOC">Why do you gain from hypermedia?</a></h3>
+<p>Hypermedia is a way of adding runtime components to your formats, it allows you to utilize the late-binding constraint which SHOULD be part of your design.</p>
+<p>Adding hypermedia controls allows you to discover new services as they become available, enabling you to add features to your service without having to upgrade your clients on every server change.</p>
+</section>
+<section class="level3" id="parsers">
+<h3><a href="#TOC">Parsers</a></h3>
+<p>What requirements should parsers have?</p>
+<p>The parsers need to conform to spec, meaning that if the design allows for extensions, the intermediary model should also allow for that.</p>
+<p></p>
+</section>
+</section>
+</section>
+<section class="level1" id="curl-cheat-sheet">
+<h1><a href="#TOC">Curl Cheat Sheet</a></h1>
+<section class="level2" id="post-a-file">
+<h2><a href="#TOC">POST a file</a></h2>
+<pre><code>curl --data-binary @/path/to/file &lt;url&gt;</code></pre>
+<p>By adding <code>--data-binary</code>, curl will change the method to <code>POST</code> and set the <code>Content-Type</code> header to <code>application/x-www-form-urlencoded</code>.</p>
+</section>
+<section class="level2" id="post-image-file-2">
+<h2><a href="#TOC">POST image file</a></h2>
+<pre><code>curl -X POST -H &#39;Content-Type: image/jpeg&#39; -T pictures/car.jpg &lt;url&gt;</code></pre>
+</section>
+<section class="level2" id="add-request-header">
+<h2><a href="#TOC">Add Request Header</a></h2>
+<pre><code>-H &#39;&lt;Header-Name&gt;: &lt;Header-Value&gt;&#39;</code></pre>
+</section>
+<section class="level2" id="change-http-method-1">
+<h2><a href="#TOC">Change HTTP method</a></h2>
+<pre><code>-X GET|PUT|POST|DELETE|OPTIONS</code></pre>
+</section>
+<section class="level2" id="verbose-mode">
+<h2><a href="#TOC">Verbose mode</a></h2>
+<p>See what curl is actually doing:</p>
+<pre><code>curl -v</code></pre>
+</section>
+<section class="level2" id="dump-response-header-data-to-stdout">
+<h2><a href="#TOC">Dump response header data to stdout</a></h2>
+<pre><code>curl -D -</code></pre>
+</section>
+<section class="level2" id="do-a-get-but-ignoring-the-data">
+<h2><a href="#TOC">Do a GET, but ignoring the data</a></h2>
+<p>On unix:</p>
+<pre><code>curl -o /dev/null &lt;other-options&gt; &lt;url&gt;</code></pre>
+<p>On Windows:</p>
+<pre><code>curl -o nul &lt;other-options&gt; &lt;url&gt;</code></pre>
+<p>This is useful if combined with <code>-D</code> to give you the headers only:</p>
+<pre><code>curl -D - -o /dev/null &lt;url&gt;</code></pre>
+</section>
+<section class="level2" id="add-if-none-match-1">
+<h2><a href="#TOC">Add <code>If-None-Match</code></a></h2>
+<p>This header is mostly useful on conditional GET requests:</p>
+<pre><code>-H &#39;If-None-Match: &lt;value-of-etag-header&gt;&#39;</code></pre>
+</section>
+<section class="level2" id="add-if-match-1">
+<h2><a href="#TOC">Add <code>If-Match</code></a></h2>
+<p>This header is mostly useful on conditional PUT|POST requests:</p>
+<pre><code>-H &#39;If-Match: &lt;value-of-etag-header&gt;&#39;</code></pre>
+</section>
+<section class="level2" id="add-if-modified-since-1">
+<h2><a href="#TOC">Add <code>If-Modified-Since</code></a></h2>
+<p>This header is mostly useful on conditional GET requests:</p>
+<pre><code>-H &#39;If-Modified-Since: &lt;value-of-last-modified-header&gt;&#39;</code></pre>
+</section>
+<section class="level2" id="add-if-unmodified-since-1">
+<h2><a href="#TOC">Add <code>If-Unmodified-Since</code></a></h2>
+<p>This header is mostly useful on conditional PUT|POST requests:</p>
+<pre><code>-H &#39;If-Unmodified-Since: &lt;value-of-last-modified-header&gt;&#39;</code></pre>
+</section>
+</section>
+<section class="level1" id="node-cheat-sheet">
+<h1><a href="#TOC">Node Cheat Sheet</a></h1>
+<p>References:</p>
+<ul>
+<li><a href="http://nodejs.org">Node home page</a></li>
+<li><a href="http://nodejs.org/api/all.html">Full documentation</a></li>
+</ul>
+<section class="level2" id="running-a-node-application">
+<h2><a href="#TOC">Running a node application</a></h2>
+<pre><code>$ node server.js</code></pre>
+</section>
+<section class="level2" id="getting-the-request-body-as-a-string">
+<h2><a href="#TOC">Getting the request body as a string</a></h2>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">http</span>.<span class="fu">createServer</span>(<span class="kw">function</span>(req, res) {
+  <span class="kw">var</span> chunk = <span class="st">&quot;&quot;</span>;
+  <span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;data&#39;</span>, <span class="kw">function</span>(chunk) {
+    s += chunk;
+  });
+  <span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;end&#39;</span>, <span class="kw">function</span>() {
+    <span class="co">// &#39;s&#39; is now a string with all the data that the client sent</span>
+  });
+});</code></pre>
+</section>
+<section class="level2" id="base64-encode-binary-data-on-a-request">
+<h2><a href="#TOC">Base64-encode binary data on a request</a></h2>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> data = [];
+<span class="kw">var</span> datalength = <span class="dv">0</span>;
+<span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;data&#39;</span>, <span class="kw">function</span>(chunk) {
+  <span class="kw">data</span>.<span class="fu">push</span>(chunk);
+  datalength += <span class="kw">chunk</span>.<span class="fu">length</span>;
+});
+
+<span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;end&#39;</span>, <span class="kw">function</span>() {
+  <span class="kw">var</span> buf = <span class="kw">new</span> Buffer(datalength);
+  <span class="kw">data</span>.<span class="fu">forEach</span>(<span class="kw">function</span>(d) { <span class="kw">d</span>.<span class="fu">copy</span>(buf); });
+  <span class="kw">var</span> base64 = <span class="kw">buf</span>.<span class="fu">toString</span>(<span class="st">&quot;base64&quot;</span>);
+  <span class="co">//do something with the data.</span>
+});</code></pre>
+<p>NOTE: Headers in the node.js http request object are ALWAYS in lower-case.</p>
+</section>
+<section class="level2" id="mongodb-mongoose-2">
+<h2><a href="#TOC">MongoDB / Mongoose</a></h2>
+<p>Import mongoose:</p>
+<pre><code>var mongoose = require(&#39;mongoose&#39;);</code></pre>
+<p>Declare your types and your database:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> Ad = <span class="kw">new</span> <span class="kw">mongoose</span>.<span class="fu">Schema</span>({
+    <span class="dt">title    </span>: <span class="kw">String</span>
+  , <span class="dt">body     </span>: <span class="kw">String</span>
+  , <span class="dt">pictures </span>: [<span class="kw">String</span>]
+});
+
+<span class="kw">var</span> Db = {
+  <span class="dt">Ad</span>: <span class="kw">mongoose</span>.<span class="fu">model</span>(<span class="ch">&#39;Ad&#39;</span>, Ad)
+};</code></pre>
+<p>Wrap your entire application with an Mongo connection:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">mongoose</span>.<span class="fu">connect</span>(<span class="ch">&#39;mongodb://localhost/exercise-1&#39;</span>, <span class="kw">function</span>() {
+  <span class="co">// Add http.createServer() etc here</span>
+});</code></pre>
+<p>Insert a new object:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> ad = <span class="kw">new</span> <span class="kw">Db</span>.<span class="fu">Ad</span>();
+<span class="kw">ad</span>.<span class="fu">title</span> = <span class="kw">payload</span>.<span class="fu">title</span>;
+<span class="kw">ad</span>.<span class="fu">body</span> = <span class="kw">payload</span>.<span class="fu">body</span>;
+<span class="kw">ad</span>.<span class="fu">save</span>();
+<span class="kw">res</span>.<span class="fu">write</span>(<span class="kw">JSON</span>.<span class="fu">stringify</span>(<span class="st">&quot;id=&quot;</span> + <span class="kw">ad</span>._<span class="fu">id</span>));</code></pre>
+<!-- _foo -->
+
+<p>When an object has been saved, the id of the object is available as the <code>_id</code> attribute:</p>
+<p>Find a object:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">Db.Ad</span>.<span class="fu">findOne</span>({<span class="dt">_id</span>: &lt;my id&gt;}, <span class="kw">function</span>(err, doc) {
+    ....
+});</code></pre>
+<!-- _foo -->
+
+<p><code>err</code> will be set if there was an error while talking to the DB. <code>doc</code> will null if not found, or the object if found.</p>
+<!-- _foo -->
+
+<p>Update an existing object:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> cmd = {$<span class="dt">push</span>: {<span class="dt">arr</span>: item}}
+<span class="kw">Db.Ad</span>.<span class="fu">update</span>({<span class="dt">_id</span>: &lt;my id&gt;}, cmd, {}, <span class="kw">function</span>(err, numAffected) {
+    ....
+});</code></pre>
+<!-- _foo -->
+
+<p>Store an image inside of an object (this is not something you should do normally):</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// Collect all the data buffers into an array</span>
+<span class="kw">var</span> data = [];
+<span class="kw">var</span> datalength = <span class="dv">0</span>;
+<span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;data&#39;</span>, <span class="kw">function</span>(chunk) {
+    <span class="kw">data</span>.<span class="fu">push</span>(chunk);
+    datalength += <span class="kw">chunk</span>.<span class="fu">length</span>;
+});
+<span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;end&#39;</span>, <span class="kw">function</span>() {
+    <span class="co">// Create a new, huge buffer.</span>
+    <span class="kw">var</span> buf = <span class="kw">new</span> Buffer(datalength);
+    <span class="co">// Copy all the buffers into the huge buffer.</span>
+    <span class="kw">data</span>.<span class="fu">forEach</span>(<span class="kw">function</span>(d) { <span class="kw">d</span>.<span class="fu">copy</span>(buf); });
+    <span class="co">// base-64 encode the data.</span>
+    <span class="kw">var</span> cmd = {$<span class="dt">push</span>: {<span class="dt">pictures</span>: <span class="kw">buf</span>.<span class="fu">toString</span>(<span class="st">&quot;base64&quot;</span>)}}
+    <span class="co">// Store the picture on the object.</span>
+    <span class="kw">Db.Ad</span>.<span class="fu">update</span>({<span class="dt">_id</span>: id}, cmd, {}, <span class="kw">function</span>(err, numAffected) {
+        ...
+    });
+});</code></pre>
+</section>
+<section class="level2" id="command-line-arguments">
+<h2><a href="#TOC">Command line arguments</a></h2>
+<p>Node.js has the command line arguments available in the global object <code>process</code>. They can be accessed using:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> args = <span class="kw">process.argv</span>.<span class="fu">slice</span>(<span class="dv">2</span>); <span class="co">//Removes node + &quot;name of your javascript file&quot;</span></code></pre>
+</section>
+<section class="level2" id="http-client">
+<h2><a href="#TOC">HTTP client</a></h2>
+<p>Use &quot;request&quot; module:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> request = require(<span class="ch">&#39;request&#39;</span>);</code></pre>
+<p>Upload image to URI:</p>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">function</span> uploadImage(uri, file) {
+  <span class="kw">fs</span>.<span class="fu">createReadStream</span>(file).<span class="fu">pipe</span>(<span class="kw">request</span>.<span class="fu">post</span>(uri));
+}</code></pre>
+</section>
+</section>
+</div>
+</div>
+</body>
+</html>

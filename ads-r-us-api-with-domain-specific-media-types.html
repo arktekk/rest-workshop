@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Erlend Hamnaberg">
+  <meta name="author" content="Trygve Laugstøl">
+  <meta name="dcterms.date" content="2012-10">
+  <title>Ads'r'us API (with domain-specific media types)</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="book.css">
+</head>
+<body>
+<div class="container">
+<div class="row">
+<header>
+<h1 class="title">Ads'r'us API (with domain-specific media types)</h1>
+<h4 class="author">Erlend Hamnaberg</h4>
+<h4 class="author">Trygve Laugstøl</h4>
+<h4 class="date">October 2012 edition</h4>
+</header>
+<h1 class="toc">Table of Contents</h1>
+<nav id="TOC">
+<ul>
+<li><a href="#about-this-document">About this document</a></li>
+<li><a href="#adsrus-api-with-domain-specific-media-types">Ads'r'us API (with domain-specific media types)</a><ul>
+<li><a href="#general-architecture-rules">General Architecture Rules</a><ul>
+<li><a href="#on-creating-new-resources">On Creating New Resources</a></li>
+<li><a href="#on-links-and-allowed-methods">On Links and Allowed Methods</a></li>
+</ul></li>
+<li><a href="#expected-usage">Expected usage</a></li>
+<li><a href="#media-type-single-ad-applicationvnd.adjson">Media Type: Single Ad / <code>application/vnd.ad+json</code></a><ul>
+<li><a href="#updating-ads">Updating Ads</a></li>
+</ul></li>
+<li><a href="#media-type-ad-list-applicationvnd.ad-listjson">Media Type: Ad List / <code>application/vnd.ad-list+json</code></a></li>
+</ul></li>
+</ul>
+</nav>
+<section class="level1" id="about-this-document">
+<h1><a href="#TOC">About this document</a></h1>
+<p>This document is an example on how one can document an API by using the REST principles. This version of the API use a domain specific media type with JSON serialization.</p>
+</section>
+<section class="level1" id="adsrus-api-with-domain-specific-media-types">
+<h1><a href="#TOC">Ads'r'us API (with domain-specific media types)</a></h1>
+<p>This document describes an architecture for how agents should interact with Ads'r'us. Interactions with Ads'r'us follow the general architecture and constraints described in the REST dissertation and add some domain specific constraints.</p>
+<p>We only implement a HTTP interface to our resources which come with its own set of constraints. As the world progresses, new specifications, updates and enhancements arrive and we try to stay as much as possible in line. However, we will always remain backwards compatible with our own published specifications.</p>
+<p><em>Make sure to check back regularly to get the latest version of this specification!</em></p>
+<section class="level2" id="general-architecture-rules">
+<h2><a href="#TOC">General Architecture Rules</a></h2>
+<p>These are general rules and principles used. They apply as long as a specific interaction/resource does not specify something else.</p>
+<p>All resources should return an <code>Allow</code> header if the method is not allowed/supported.</p>
+<p>It is expected that the domain and objects that the resources describe evolve over time and thus the media types will need evolve over time too. Clients must silently ignore unknown fieds and should not expect optional fields to be present.</p>
+<section class="level3" id="on-creating-new-resources">
+<h3><a href="#TOC">On Creating New Resources</a></h3>
+<p>When a new resource is created, the server MUST return the status code <code>201</code> and a <code>Location</code> header pointing to the newly created resource.</p>
+</section>
+<section class="level3" id="on-links-and-allowed-methods">
+<h3><a href="#TOC">On Links and Allowed Methods</a></h3>
+<p>Many resources will include URIs to other resources and operations available for the client. The resources will include all links, even if the client may not be authorized to use them.</p>
+</section>
+</section>
+<section class="level2" id="expected-usage">
+<h2><a href="#TOC">Expected usage</a></h2>
+<p>It is assumed that clients are pre-programmed with a link to an ad list when starting to interact with us.</p>
+</section>
+<section class="level2" id="media-type-single-ad-applicationvnd.adjson">
+<h2><a href="#TOC">Media Type: Single Ad / <code>application/vnd.ad+json</code></a></h2>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
+  <span class="dt">&quot;body&quot;</span>: <span class="st">&quot;Four rooms, huge bath.&quot;</span>,
+  <span class="dt">&quot;pictures&quot;</span>: [
+    <span class="er">URI</span>, <span class="er">...</span>
+  ]
+  <span class="st">&quot;self&quot;</span><span class="er">:</span> <span class="er">URI</span>,
+  <span class="dt">&quot;add-picture&quot;</span>: <span class="er">URI</span>,
+  <span class="dt">&quot;publish&quot;</span>: <span class="er">URI</span>,
+  <span class="er">...</span>
+}</code></pre>
+<p>Fields:</p>
+<ul>
+<li><code>title</code>: the title and body of the ad. Available: summary</li>
+<li><code>body</code>: the title and body of the ad.</li>
+<li><code>self</code>: the canonical URI for this ad. Can be used to send a link to other agents or when editing the ad.</li>
+<li><code>pictures</code>: A JSON list of URLs that point to image files.</li>
+<li><code>add-picture</code>: Send pictures here to add them to an ad.</li>
+</ul>
+<section class="level3" id="updating-ads">
+<h3><a href="#TOC">Updating Ads</a></h3>
+<p>When updating the ad, only these fields needs to be sent:</p>
+<ul>
+<li><code>title</code></li>
+<li><code>body</code></li>
+</ul>
+<p>There is no described way to update only a subset of the fields in an ad.</p>
+</section>
+</section>
+<section class="level2" id="media-type-ad-list-applicationvnd.ad-listjson">
+<h2><a href="#TOC">Media Type: Ad List / <code>application/vnd.ad-list+json</code></a></h2>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;count&quot;</span>: <span class="dv">10</span>,
+  <span class="dt">&quot;add-ad&quot;</span>: <span class="er">URI</span>,
+  <span class="dt">&quot;ads&quot;</span>: [
+    {
+      <span class="er">//</span> <span class="er">See</span> <span class="er">specification</span> <span class="er">for</span> <span class="er">application/vnd.ad+json</span>
+    }
+  ],
+  <span class="dt">&quot;next-page&quot;</span>: <span class="er">URI</span>,
+  <span class="dt">&quot;prev-page&quot;</span>: <span class="er">URI</span>,
+  <span class="er">...</span>
+}</code></pre>
+<p>To insert a new ad into the list, send the data to the <code>add-ad</code> URI.</p>
+</section>
+</section>
+</div>
+</div>
+</body>
+</html>
