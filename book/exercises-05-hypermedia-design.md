@@ -6,6 +6,8 @@ Goal
 Create a hypermedia type that represents an Ad. You should learn how
 to create a document which is extensible, and allows change.
 
+This exercise should be done as a group.
+
 Background
 ----------
 You are building Ads'r'us' new RESTful webservice and need to build a
@@ -58,6 +60,17 @@ strategy for modeling optional fields.
 There must also be some hypermedia controls in the format which
 identifies resources connected to the ad-representation.
 
+There might be advantages to choosing a generic format for representing links,
+but you are free to choose which solution you want.
+
+The images which are connected to the ad, must be displayed.
+Depending on which hypermedia factor you choose, it should be
+up to the user agent, on when to download and display the images.
+
+Choosing for instance LE, Link Embed, then the user agent can know
+ahead of time, that the image is important to the ad, and should thereby
+be preloaded, this is for instance how &lt;img src=""&gt; works in HTML.
+
 There MUST be a way of identifying which ad we are looking at. The id
 MUST NOT be a simple identifier.
 
@@ -74,8 +87,15 @@ Find a way of adding new fields without breaking backward compability
 
 ### Step 3
 
+Discuss the format you have created with the group.
+
+### Step 4
+
 Implement server and client which understands the new format.
 
+
+Hints
+---------
 Useful link relations:
 
 * `self`
@@ -89,13 +109,12 @@ More link relations may be found at [IANA's link-relations page](http://www.iana
 
 For date-times you SHOULD use [RFC3339](http://tools.ietf.org/html/rfc3339). Example: `2012-06-05T12:00:02.52Z`.
 
-Hints
------
 Embedding images is not a good idea, so we need to link to them.
 
-Use the hypermedia factors: 
-http://www.amundsen.com/hypermedia/hfactor/
+Embedding other formats, like HTML, within a format is a common trick for instance adding
+LE, Link Embed, for displaying images/video etc.
 
+Use the [hypermedia factors](http://www.amundsen.com/hypermedia/hfactor/)
 
 ### XML
 
@@ -118,7 +137,7 @@ Experiment, and try to find the best solution for your format.
 
 ### JSON
 
-It is very easy to introduce incompatible changes in JSON, thereby it's important that
+It is very easy to introduce incompatible changes in JSON, thereby it's very important that
 one is diligent when designing the format.
 
 #### Links
@@ -162,8 +181,6 @@ HAL-style:
 
 Bonus
 ------
-
-* Implement server and client which understands the new format.
 * Add a list-version of the current format.
 * Add more links to other resources.
 * Test against other servers.
