@@ -1,0 +1,8 @@
+haskell-platform
+pandoc > 1.9
+texlive-fonts-extra
+texlive-fonts-recommended
+texlive-latex
+texlive-latex-extra 
+dexy
+
