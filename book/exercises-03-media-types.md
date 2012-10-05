@@ -1,5 +1,5 @@
-Media Types
-===========
+Exercise: Media Types
+=====================
 
 Objective
 ---------

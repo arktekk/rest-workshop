@@ -1,8 +1,8 @@
 # Order is important
-MARKDOWN=\
+INDEX_MD_MARKDOWN=\
 	template.tex \
 	preamble.md \
-	participant-requirements.md \
+	exercises-introduction.md \
 	exercises-01-http-rpc.md \
 	output/exercises-01-http-rpc-example-ad.md \
 	exercises-02-basic-http.md \
@@ -10,13 +10,17 @@ MARKDOWN=\
 	exercises-03-media-types.md \
 	output/exercises-03-media-types-example-ad.md \
 	exercises-04-generic-media-types.md \
+	exercises-05-hypermedia-design.md \
 	appendix.md \
-	exercises-03-media-types-ads-r-us-api.md \
-	exercises-04-generic-media-types-ads-r-us-api.md \
-	tests.md \
+	curl-cheat-sheet.md \
+	node-cheat-sheet.md \
 
-all: rest-workshop-book.html
-#rest-workshop-book.pdf
+#	exercises-03-media-types-ads-r-us-api.md
+#	exercises-04-generic-media-types-ads-r-us-api.md
+
+all: html/index.html \
+	html/book.css \
+#	html/rest-workshop.pdf
 
 dexy:
 	dexy
@@ -47,6 +51,7 @@ PANDOC_HTML_OPTIONS += -t html5 --template=template.html
 PANDOC_HTML_OPTIONS += --toc
 PANDOC_HTML_OPTIONS += --section-divs
 PANDOC_HTML_OPTIONS += --css=book.css
+PANDOC_HTML_OPTIONS += -V pagetitle="REST Workshop"
 PANDOC_HTML_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>'
 PANDOC_HTML_OPTIONS += -V author-meta='Trygve Laugstøl <trygve.laugstol@arktekk.no>'
 # Follow http://www.w3.org/TR/NOTE-datetime for html
@@ -58,15 +63,23 @@ PANDOC_PDF_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{framed}'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{fancyvrb}'
 
-rest-workshop-book.md: $(MARKDOWN)
+tmp/index.md: $(INDEX_MD_MARKDOWN)
+	@mkdir -p tmp
 	pandoc -t markdown -o $@ $(filter-out template.tex, $^)
 
-rest-workshop-book.html: rest-workshop-book.md
-	pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
+html/book.html: tmp/index.md
 
-rest-workshop-book.tex: rest-workshop-book.md
+tmp/rest-workshop.tex: tmp/index.md
 	pandoc $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
 
+html/%.css: %.css
+	cp $< $@
+
+html/%.html: tmp/%.md
+	@mkdir -p html
+	pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
+
 # http://web.mit.edu/~jcrost/www/latexmake.html
-rest-workshop-book.pdf: rest-workshop-book.tex
-	pdflatex $(patsubst book/%,%,$<)
+html/%.pdf: tmp/%.tex
+	@mkdir -p html
+	pdflatex $<

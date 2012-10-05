@@ -9,9 +9,39 @@ h1 > a:hover code, h2 > a:hover code, h3 > a:hover code, h4 > a:hover code, h5 >
 	color: #005580;
 }
 
-h1 code, h2 code, h3 code, nav code {
+h1 code, h2 code, h3 code, h4 code, h5 code, h6 code, nav code {
 	padding: 0;
 	border: 0;
+}
+
+h1 code {
+	font-size: 36px;
+	line-height: 40px;
+}
+
+h2 code {
+	font-size: 30px;
+	line-height: 40px;
+}
+
+h3 code {
+	font-size: 24px;
+	line-height: 40px;
+}
+
+h4 code {
+	font-size: 18px;
+	line-height: 20px;
+}
+
+h5 code {
+	font-size: 14px;
+	line-height: 20px;
+}
+
+h6 code {
+	font-size: 12px;
+	line-height: 20px;
 }
 
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
