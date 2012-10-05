@@ -241,6 +241,20 @@ cache, we put a lot of strain on the origin server. Adding caching
 allows us to potentially never go to the origin server, except for
 verification of the representation of the resource.
 
+Invalidation.
+-------------
+This is a difficult problem to solve, because of the distributed
+nature of HTTP's caching model.
+
+There are a few methods:
+
+* Using a different method than GET or HEAD (invalidates the current resource)
+* Using PURGE on a cache server (Does not invalidate local caches)
+* Cache-Channels
+* Edge Side Includes (ESI)
+* [Linked Cache Invalidation](http://tools.ietf.org/html/draft-nottingham-linked-cache-inv-03)
+
+
 Coupling?
 ---------
 
