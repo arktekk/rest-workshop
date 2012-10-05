@@ -85,4 +85,50 @@ If the ad does not exist, `result` should be `notFound`:
 There are some example pictures available under
 [../../pictures](../../pictures/).
 
-See the node cheat sheet on how to add pictures to a Mongo object.
+Hints:
+=======
+
+
+Curl
+-------
+
+### POST image file
+
+    curl -X POST -T <path-to-file> <url>
+
+
+MongoDB / Mongoose
+------------------
+
+Insert a new object:
+
+~~~javascript
+var ad = new Db.Ad();
+ad.title = payload.title;
+ad.body = payload.body;
+ad.save();
+~~~
+
+
+When an object has been saved, the id of the object is available as
+the `_id` attribute:
+
+Find a object:
+
+~~~javascript
+Db.Ad.findOne({_id: <my id>}, function(err, doc) {
+   ....
+});
+~~~
+
+`err` will be set if there was an error while talking to the DB. `doc`
+will null if not found, or the object if found.
+
+Update an existing object:
+~~~javascript
+var cmd = {$push: {arr: item}}
+Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
+ ....
+});
+~~~
+

@@ -11,4 +11,4 @@ Steps
 -----
 
 Update the server and client to use the new variant of the
-[API](ads-r-us-api.md).
+[API](exercises-04-generic-media-types-ads-r-us-api.md).

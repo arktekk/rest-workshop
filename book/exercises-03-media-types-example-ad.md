@@ -1,7 +1,5 @@
 ## Example `ad.json`
 
-woot
-
 \begin{framed}
 \begin{parbox}[t]{\textwidth}
 {\hfill\it\large Example ad.json}

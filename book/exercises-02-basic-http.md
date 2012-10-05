@@ -133,3 +133,78 @@ Suggested command line API:
 
 Improve the client and store the ad as `ad-<id>.js`. If executed twice
 it should do a conditional GET.
+
+
+Hints
+========
+
+NOTE: Headers in the node.js http request object are ALWAYS in
+lower-case.
+
+Setting status codes from node:
+
+response.writeHead(200, headers);
+
+Curl
+-------
+
+### Change HTTP method
+
+    -X GET|PUT|POST|DELETE|OPTIONS
+
+
+### POST image file
+
+    curl -X POST -H 'Content-Type: image/jpeg' -T pictures/car.jpg <url>
+
+
+### Add `If-None-Match`
+
+This header is mostly useful on conditional GET requests:
+
+    -H 'If-None-Match: <value-of-etag-header>'
+
+### Add `If-Match`
+
+This header is mostly useful on conditional PUT|POST requests:
+
+    -H 'If-Match: <value-of-etag-header>'
+
+### Add `If-Modified-Since`
+
+This header is mostly useful on conditional GET requests:
+
+    -H 'If-Modified-Since: <value-of-last-modified-header>'
+
+### Add `If-Unmodified-Since`
+
+This header is mostly useful on conditional PUT|POST requests:
+
+    -H 'If-Unmodified-Since: <value-of-last-modified-header>'
+
+
+MongoDB / Mongoose
+-------------------
+
+When an object has been saved, the id of the object is available as
+the `_id` attribute:
+
+Find a object:
+
+~~~javascript
+Db.Ad.findOne({_id: <my id>}, function(err, doc) {
+   ....
+});
+~~~
+
+`err` will be set if there was an error while talking to the DB. `doc`
+will null if not found, or the object if found.
+
+Update an existing object:
+~~~javascript
+var cmd = {$push: {arr: item}}
+Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
+ ....
+});
+~~~
+

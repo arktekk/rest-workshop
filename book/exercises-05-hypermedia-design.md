@@ -81,7 +81,10 @@ example:
 
 Hints
 ---------
-Embedding images are not a good idea, so we need to link to them.
+Embedding images is not a good idea, so we need to link to them.
+
+Use the hypermedia factors: 
+http://www.amundsen.com/hypermedia/hfactor/
 
 ## XML
 
@@ -148,11 +151,9 @@ Step 1:
 Step 2:
 - Find a way of adding new fields without breaking backward compability
 
-Step 3:
-- Implement server and client which understands the new format.
-
 Bonus
 ------
+Implement server and client which understands the new format.
 
 Add a list-version of the current format.
 

@@ -12,7 +12,7 @@ allowed.
 Steps
 -----
 
-Implement the API described in [Ads'r'us API](ads-r-us-api.md).
+Implement the API described in [Ads'r'us API](exercises-03-media-types-ads-r-us-api.md).
 Continue with the implementation you completed in the previous
 exercise.
 
