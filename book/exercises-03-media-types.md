@@ -12,9 +12,9 @@ allowed.
 Steps
 -----
 
-Implement the API described in [Ads'r'us API](ads-r-us-api.md).
-Continue with the implementation you completed in the previous
-exercise.
+Implement the API described in [Ads'r'us API (with domain-specific media
+types)](ads-r-us-api-with-specific-media-types.html). Continue
+with the implementation you completed in the previous exercise.
 
 Replace the usage of `application/json` with `application/vnd.ad+json`
 and `application/vnd.ad-list+json`. Update the `add-ad.js` client to

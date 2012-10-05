@@ -82,7 +82,6 @@ If the ad does not exist, `result` should be `notFound`:
 
 ### Add picture endpoint: `http://localhost:3000/add-picture?id=...`
 
-There are some example pictures available under
-[../../pictures](../../pictures/).
+There are some example pictures available under [pictures/](./pictures/).
 
 See the node cheat sheet on how to add pictures to a Mongo object.

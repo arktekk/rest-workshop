@@ -90,8 +90,7 @@ Try to fetch an ad that doesn't exist and make sure you're getting a
 
 ### Add picture endpoint: `http://localhost:3000/add-picture`
 
-There are some example pictures available under
-[../../pictures](../../pictures/).
+There are some example pictures available under [pictures/](./pictures/).
 
 See the node cheat sheet on how to add pictures to a Mongo object.
 

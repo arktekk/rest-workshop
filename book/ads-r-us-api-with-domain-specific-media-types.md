@@ -1,9 +1,16 @@
-_This document is an example on how one can document an API by using
-the REST principles. This version of the API use a domain specific
-media type with JSON serialization._
+% Ads'r'us API (with domain-specific media types)
+% Erlend Hamnaberg
+  Trygve Laugstøl
 
-Ads'r'us API
-============
+About this document
+===================
+
+This document is an example on how one can document an API by using
+the REST principles. This version of the API use a domain specific
+media type with JSON serialization.
+
+Ads'r'us API (with domain-specific media types)
+===============================================
 
 This document describes an architecture for how agents should interact
 with Ads'r'us. Interactions with Ads'r'us follow the general

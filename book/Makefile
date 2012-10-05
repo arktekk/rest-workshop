@@ -1,7 +1,6 @@
 # Order is important
 INDEX_MD_MARKDOWN=\
-	template.tex \
-	preamble.md \
+	title.md \
 	exercises-introduction.md \
 	exercises-01-http-rpc.md \
 	output/exercises-01-http-rpc-example-ad.md \
@@ -14,12 +13,14 @@ INDEX_MD_MARKDOWN=\
 	appendix.md \
 	curl-cheat-sheet.md \
 	node-cheat-sheet.md \
-
-#	exercises-03-media-types-ads-r-us-api.md
-#	exercises-04-generic-media-types-ads-r-us-api.md
+	template.tex \
+	template.html
 
 all: html/index.html \
 	html/book.css \
+	html/ads-r-us-api-with-domain-specific-media-types.html \
+	html/ads-r-us-api-with-existing-media-types.html \
+	$(addprefix html/, $(wildcard pictures/*.jpg)) \
 #	html/rest-workshop.pdf
 
 dexy:
@@ -29,19 +30,17 @@ dexy-setup:
 	dexy setup
 
 clean:
-	rm *.aux *.html *.log *.out *.pdf *.tex *.toc
+	rm -f $(wildcard *.aux *.log *.out *.pdf *.toc)
+	rm -rf html
 	if [ -x `which dexy 2>/dev/null` ]; then dexy cleanup; fi
 
 PANDOC_OPTIONS  = -f markdown
 PANDOC_OPTIONS += -V documentclass=book
 PANDOC_OPTIONS += -V lang=english
-PANDOC_OPTIONS += -V title='REST Workshop'
-PANDOC_OPTIONS += -V title-meta='REST Workshop'
-PANDOC_OPTIONS += -V author='Erlend Hamnaberg &lt;<a href="mailto:erlend.hamnaberg@arktekk.no">erlend.hamnaberg@arktekk.no</a>&gt;'
-PANDOC_OPTIONS += -V author='Trygve Laugstøl &lt;<a href="mailto:trygve.laugstol@arktekk.no">trygve.laugstol@arktekk.no</a>&gt;'
-# Remember to update date-meta for HTML too.
 # Update on every major revision.
 PANDOC_OPTIONS += -V date='October 2012 edition'
+# Follow http://www.w3.org/TR/NOTE-datetime for html. Only used by the html output
+PANDOC_OPTIONS += -V date-meta='2012-10'
 PANDOC_OPTIONS += --chapters
 PANDOC_OPTIONS += --listings
 PANDOC_OPTIONS += --standalone
@@ -51,11 +50,6 @@ PANDOC_HTML_OPTIONS += -t html5 --template=template.html
 PANDOC_HTML_OPTIONS += --toc
 PANDOC_HTML_OPTIONS += --section-divs
 PANDOC_HTML_OPTIONS += --css=book.css
-PANDOC_HTML_OPTIONS += -V pagetitle="REST Workshop"
-PANDOC_HTML_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>'
-PANDOC_HTML_OPTIONS += -V author-meta='Trygve Laugstøl <trygve.laugstol@arktekk.no>'
-# Follow http://www.w3.org/TR/NOTE-datetime for html
-PANDOC_HTML_OPTIONS += -V date-meta='2012-10'
 
 PANDOC_PDF_OPTIONS += -t latex --template=template.tex
 PANDOC_PDF_OPTIONS += --number-sections
@@ -65,21 +59,34 @@ PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{fancyvrb}'
 
 tmp/index.md: $(INDEX_MD_MARKDOWN)
 	@mkdir -p tmp
-	pandoc -t markdown -o $@ $(filter-out template.tex, $^)
-
-html/book.html: tmp/index.md
+	@echo '*.md => $@'
+	@pandoc --standalone -t markdown -o $@ $(filter-out template.%, $^)
 
 tmp/rest-workshop.tex: tmp/index.md
-	pandoc $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
+	@echo '*.md => $@'
+	@pandoc $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
 
 html/%.css: %.css
 	cp $< $@
 
-html/%.html: tmp/%.md
+html/%.jpg: html/pictures %.jpg
+	cp $(filter %.jpg,$^) $@
+
+html/pictures:
+	mkdir $@
+
+html/index.html: tmp/index.md template.html
 	@mkdir -p html
-	pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
+	@echo '$< => $@'
+	@pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
+
+html/%.html: %.md template.html
+	@mkdir -p html
+	@echo '$< => $@'
+	@pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
 
 # http://web.mit.edu/~jcrost/www/latexmake.html
 html/%.pdf: tmp/%.tex
 	@mkdir -p html
-	pdflatex $<
+	@echo '$< => $@'
+	@pdflatex $<

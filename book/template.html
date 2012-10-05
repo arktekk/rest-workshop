@@ -43,15 +43,15 @@ $if(title)$
 <header>
 <h1 class="title">$title$</h1>
 $for(author)$
-<h2 class="author">$author$</h2>
+<h4 class="author">$author$</h4>
 $endfor$
 $if(date)$
-<h3 class="date">$date$</h3>
+<h4 class="date">$date$</h4>
 $endif$
 </header>
 $endif$
 $if(toc)$
-<h1>Table of Contents</h1>
+<h1 class="toc">Table of Contents</h1>
 <nav id="$idprefix$TOC">
 $toc$
 </nav>
