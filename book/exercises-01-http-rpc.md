@@ -84,4 +84,74 @@ If the ad does not exist, `result` should be `notFound`:
 
 There are some example pictures available under [pictures/](./pictures/).
 
-See the node cheat sheet on how to add pictures to a Mongo object.
+
+Hints:
+=======
+
+
+Curl
+-------
+
+### POST image file
+
+    curl -X POST -T <path-to-file> <url>
+
+
+MongoDB / Mongoose
+------------------
+
+Insert a new object:
+
+~~~javascript
+var ad = new Db.Ad();
+ad.title = payload.title;
+ad.body = payload.body;
+ad.save();
+~~~
+
+
+When an object has been saved, the id of the object is available as
+the `_id` attribute:
+
+Find a object:
+
+~~~javascript
+Db.Ad.findOne({_id: <my id>}, function(err, doc) {
+   ....
+});
+~~~
+
+`err` will be set if there was an error while talking to the DB. `doc`
+will null if not found, or the object if found.
+
+Update an existing object:
+~~~javascript
+var cmd = {$push: {arr: item}}
+Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
+ ....
+});
+~~~
+
+Retrospective
+==============
+
+Why is this bad?
+----------------
+
+We are tunneling application semantics through an application level protocol. 
+We should rather delegate to HTTP to do the error handling, 
+and delivery of correct status code. 
+We are by every definition not a good Web citizen.
+
+When implementing a real application, you would delegate routing to a framework, 
+for instance Express, or whatever you use in your programming language.
+
+
+Hard-coding of URIs
+-------------------
+
+All URIs are hard-coded in the client, we have a lot of coupling between our service, data and client.
+
+If you only have one client and server, this might be a diserable property, but
+once you have more than one client, this may be come unmanageable. You have to
+upgrade all clients at the same time as you upgrade your clients.
