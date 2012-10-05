@@ -1,5 +1,5 @@
-Basic HTTP
-==========
+Exercise: Basic HTTP
+====================
 
 Objective
 ---------
@@ -21,13 +21,16 @@ The application shall follow these general requirements:
 
 * All data/non-binary content types should be 'application/json'. This
   applies both for both requests and responses.
-* TODO: remove? Each resource should the appropriate caching information.
-* Status codes:
+
+Status codes:
+
  * 200: Everything is ok!
  * 404: Unknown resource.
  * 406: The client posted an unprocessable type.
  * 500: Unknown server-side fault.
-* Methods:
+
+Methods:
+
  * GET: Used to fetch data. Does not change the object
  * POST: Used to create new objects.
 

@@ -1,5 +1,5 @@
-Generic Media Types
-===================
+Exercise: Generic Media Types
+=============================
 
 Objective
 ---------

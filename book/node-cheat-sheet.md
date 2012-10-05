@@ -7,12 +7,12 @@ References:
 * [Full documentation](http://nodejs.org/api/all.html)
 
 Running a node application
-==========================
+--------------------------
 
     $ node server.js
 
 Getting the request body as a string
-====================================
+------------------------------------
 
 ~~~javascript
 http.createServer(function(req, res) {
@@ -27,7 +27,7 @@ http.createServer(function(req, res) {
 ~~~
 
 Base64-encode binary data on a request
-======================================
+--------------------------------------
 
 ~~~javascript
 var data = [];
@@ -49,11 +49,11 @@ NOTE: Headers in the node.js http request object are ALWAYS in
 lower-case.
 
 MongoDB / Mongoose
-==================
+------------------
 
 Import mongoose:
 
-    mongoose = require('mongoose');
+    var mongoose = require('mongoose');
 
 Declare your types and your database:
 
@@ -96,7 +96,7 @@ Find a object:
 
 ~~~javascript
 Db.Ad.findOne({_id: <my id>}, function(err, doc) {
-   ....
+	....
 });
 ~~~
 
@@ -108,44 +108,43 @@ will null if not found, or the object if found.
 <!-- _foo -->
 
 Update an existing object:
+
 ~~~javascript
 var cmd = {$push: {arr: item}}
 Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
- ....
+	....
 });
 ~~~
 
 <!-- _foo -->
 
 Store an image inside of an object (this is not something you should
-    do normally):
+		do normally):
 
 ~~~javascript
 // Collect all the data buffers into an array
 var data = [];
 var datalength = 0;
 req.on('data', function(chunk) {
-  data.push(chunk);
-  datalength += chunk.length;
+	data.push(chunk);
+	datalength += chunk.length;
 });
 req.on('end', function() {
-  // Create a new, huge buffer.
-  var buf = new Buffer(datalength);
-  // Copy all the buffers into the huge buffer.
-  data.forEach(function(d) { d.copy(buf); });
-  // base-64 encode the data.
-  var cmd = {$push: {pictures: buf.toString("base64")}}
-  // Store the picture on the object.
-  Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
-    ...
-  });
+	// Create a new, huge buffer.
+	var buf = new Buffer(datalength);
+	// Copy all the buffers into the huge buffer.
+	data.forEach(function(d) { d.copy(buf); });
+	// base-64 encode the data.
+	var cmd = {$push: {pictures: buf.toString("base64")}}
+	// Store the picture on the object.
+	Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
+		...
+	});
 });
 ~~~
 
-<!-- _foo -->
-
 Command line arguments
-======================
+----------------------
 Node.js has the command line arguments available in the global object `process`.
 They can be accessed using:
 
@@ -154,9 +153,13 @@ var args = process.argv.slice(2); //Removes node + "name of your javascript file
 ~~~
 
 HTTP client
-===========
+-----------
 
-Use "request" module
+Use "request" module:
+
+~~~javascript
+var request = require('request');
+~~~
 
 Upload image to URI:
 

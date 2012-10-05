@@ -1,5 +1,5 @@
-HTTP RPC
-========
+Exercise: HTTP RPC
+==================
 
 Objective
 ---------
