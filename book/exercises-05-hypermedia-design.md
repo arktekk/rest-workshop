@@ -162,7 +162,31 @@ Bonus
 * Add more links to other resources.
 * Test against other servers.
 
+
 Retrospective
 -------------
 
 How can you add new fields without introducing a breaking change?
+
+This depends on your design. Adding a MUST-IGNORE property to your design
+allows you to add new fields without having to rewrite parsers to 
+allow new field.
+
+
+Why do you gain from hypermedia?
+
+Hypermedia is a way of adding runtime components to your formats, it allows
+you to utilize the late-binding constraint which SHOULD be part of your
+design.  
+
+Adding hypermedia controls allows you to discover new services as 
+they become available, enabling you to add features to your service without
+having to upgrade your clients on every server change.
+
+Parsers
+-------
+
+What requirements should parsers have?
+
+The parsers need to conform to spec, meaning that if the design allows for 
+extensions, the intermediary model should also allow for that.

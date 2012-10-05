@@ -211,3 +211,38 @@ Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
 });
 ~~~
 
+Retrospective
+=============
+
+Why is this better than the rpc solution?
+-----------------------------------------
+
+We have not utilized HTTP as an application protocol, mening we are
+delivering the application semantics through the protocol instead of 
+layering on top.
+
+We have started using HTTP the way it was intended to be used.
+
+Delivering status codes, with the correct content-type headers
+allows us to become better Web citizens.
+
+When implementing a real application, you would delegate routing 
+and content-negotiation to a framework, for instance Express, 
+or whatever you use in your programming language.
+
+
+What are the benefits of caching?
+---------------------------------
+
+Caching allows us to utiltize the scaling properties of the Web.
+
+HTTP is optimized for GET and polling. Meaning that if we don't 
+cache, we put a lot of strain on the origin server. Adding caching
+allows us to potentially never go to the origin server, except for
+verification of the representation of the resource.
+
+Coupling?
+---------
+
+There are still a lot of coupling between the client and the server.
+We are still hard-coding the URIs which we use.

@@ -85,6 +85,7 @@ If the ad does not exist, `result` should be `notFound`:
 There are some example pictures available under
 [../../pictures](../../pictures/).
 
+
 Hints:
 =======
 
@@ -132,3 +133,26 @@ Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
 });
 ~~~
 
+Retrospective
+==============
+
+Why is this bad?
+----------------
+
+We are tunneling application semantics through an application level protocol. 
+We should rather delegate to HTTP to do the error handling, 
+and delivery of correct status code. 
+We are by every definition not a good Web citizen.
+
+When implementing a real application, you would delegate routing to a framework, 
+for instance Express, or whatever you use in your programming language.
+
+
+Hard-coding of URIs
+-------------------
+
+All URIs are hard-coded in the client, we have a lot of coupling between our service, data and client.
+
+If you only have one client and server, this might be a diserable property, but
+once you have more than one client, this may be come unmanageable. You have to
+upgrade all clients at the same time as you upgrade your clients.
