@@ -140,12 +140,17 @@ Collection+JSON-style:
 {
   "href" : "http://example.com/ad/1"
   "links": [
-    {"href": "http://example.com/ad/1", "rel": "self", "title": "The current Ad"}
+    {
+	  "href": "http://example.com/ad/1",
+	  "rel": "self",
+	  "title": "The current Ad"
+	}
   ]
 }
 ```
 
 HAL-style:
+
 ```json
 {
   "property-1": "property-value",

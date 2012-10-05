@@ -42,7 +42,9 @@ error messages.
 Steps
 -----
 
-### Create the 'create ad endpoint': `http://localhost:3000/create-ad`
+### Create the 'create ad endpoint'
+
+Endpoint URL: `http://localhost:3000/create-ad`
 
 This is where clients should POST a json object to create a new ad.
 The JSON that's sent to the server should look like this:
@@ -70,7 +72,9 @@ Try to send an invalid object (for example an empty document like
 `/dev/null` on unix or `nul` on windows) and make sure you're getting
 a proper 500 error code back.
 
-### View ad endpoint:  `http://localhost:3000/ad?id=...`
+### View ad endpoint
+
+Endpoint URL: `http://localhost:3000/ad?id=...`
  
 Clients can GET this with an "id" query parameter. The server will
 respond with something like this:
@@ -88,7 +92,9 @@ respond with something like this:
 Try to fetch an ad that doesn't exist and make sure you're getting a
 404 error.
 
-### Add picture endpoint: `http://localhost:3000/add-picture`
+### Add picture endpoint
+
+Endpoint URL: `http://localhost:3000/add-picture`
 
 There are some example pictures available under [pictures/](./pictures/).
 

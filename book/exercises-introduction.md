@@ -31,7 +31,7 @@ Each participant needs to have these tools installed:
 * node.js and npm. All the exercises use node.js.
 * MongoDB
 * git to clone this repository
-* curl - a command line HTTP client. Useful for scripting and
+* curl, a command line HTTP client. Useful for scripting and
   debugging http servers
 
 ### Node.js and NPM

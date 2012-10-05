@@ -149,7 +149,8 @@ Node.js has the command line arguments available in the global object `process`.
 They can be accessed using:
 
 ~~~javascript
-var args = process.argv.slice(2); //Removes node + "name of your javascript file"
+// Removes node + "name of your javascript file"
+var args = process.argv.slice(2)
 ~~~
 
 HTTP client

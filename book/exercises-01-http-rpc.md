@@ -16,7 +16,9 @@ testing the responses from the server.
 Steps
 -----
 
-### Create the ad endpoint: `http://localhost:3000/create-ad`
+### Create the ad endpoint
+
+Endpoint URL: `http://localhost:3000/create-ad`
 
 This is where clients should POST a json object to create a new ad.
 The JSON that's sent to the server should look like this:
@@ -57,7 +59,9 @@ Similar for any unknown error, `result` should be `error`:
 }
 ~~~
 
-### View ad endpoint:  `http://localhost:3000/ad?id=...`
+### View ad endpoint
+
+Endpoint URL: `http://localhost:3000/ad?id=...`
  
 Clients can GET this with an "id" query parameter. The server will
 respond with something like this:
@@ -80,7 +84,9 @@ If the ad does not exist, `result` should be `notFound`:
 }
 ~~~
 
-### Add picture endpoint: `http://localhost:3000/add-picture?id=...`
+### Add picture endpoint
+
+Endpoint URL: `http://localhost:3000/add-picture?id=...`
 
 There are some example pictures available under [pictures/](./pictures/).
 

@@ -1,6 +1,7 @@
 # Order is important
 INDEX_MD_MARKDOWN=\
 	title.md \
+	preamble-tex.md \
 	exercises-introduction.md \
 	exercises-01-http-rpc.md \
 	output/exercises-01-http-rpc-example-ad.md \
@@ -20,8 +21,9 @@ all: html/index.html \
 	html/book.css \
 	html/ads-r-us-api-with-domain-specific-media-types.html \
 	html/ads-r-us-api-with-existing-media-types.html \
-	$(addprefix html/, $(wildcard pictures/*.jpg)) \
-#	html/rest-workshop.pdf
+	$(addprefix html/, $(wildcard pictures/*.jpg))
+
+pdf: html/rest-workshop.pdf
 
 dexy:
 	dexy
@@ -32,13 +34,13 @@ dexy-setup:
 clean:
 	rm -f $(wildcard *.aux *.log *.out *.pdf *.toc)
 	rm -rf html
-	if [ -x `which dexy 2>/dev/null` ]; then dexy cleanup; fi
+	if [ -x `which dexy 2>/dev/null` ]; then dexy cleanup && dexy setup && dexy; fi
 
 PANDOC_OPTIONS  = -f markdown
 PANDOC_OPTIONS += -V documentclass=book
 PANDOC_OPTIONS += -V lang=english
 # Update on every major revision.
-PANDOC_OPTIONS += -V date='October 2012 edition'
+PANDOC_OPTIONS += -V date='October 2012 Edition'
 # Follow http://www.w3.org/TR/NOTE-datetime for html. Only used by the html output
 PANDOC_OPTIONS += -V date-meta='2012-10'
 PANDOC_OPTIONS += --chapters
@@ -56,13 +58,19 @@ PANDOC_PDF_OPTIONS += --number-sections
 PANDOC_PDF_OPTIONS += -V author-meta='Erlend Hamnaberg <erlend.hamnaberg@arktekk.no>, Trygve Laugstøl <trygve.laugstol@arktekk.no>'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{framed}'
 PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{fancyvrb}'
+PANDOC_PDF_OPTIONS += -V header-includes='\usepackage{upquote}'
 
-tmp/index.md: $(INDEX_MD_MARKDOWN)
+tmp/index.html.md: $(INDEX_MD_MARKDOWN)
 	@mkdir -p tmp
 	@echo '*.md => $@'
-	@pandoc --standalone -t markdown -o $@ $(filter-out template.%, $^)
+	@pandoc --standalone -t markdown -o $@ $(filter-out template.%, $(filter-out %-tex.md, $^))
 
-tmp/rest-workshop.tex: tmp/index.md
+tmp/index.tex.md: $(INDEX_MD_MARKDOWN)
+	@mkdir -p tmp
+	@echo '*.md => $@'
+	@pandoc --standalone -t markdown -o $@ $(filter-out template.%, $(filter-out %-html.md, $^))
+
+tmp/rest-workshop.tex: tmp/index.tex.md
 	@echo '*.md => $@'
 	@pandoc $(PANDOC_OPTIONS) $(PANDOC_PDF_OPTIONS) -o $@ $<
 
@@ -75,7 +83,7 @@ html/%.jpg: html/pictures %.jpg
 html/pictures:
 	mkdir $@
 
-html/index.html: tmp/index.md template.html
+html/index.html: tmp/index.tex.md template.html
 	@mkdir -p html
 	@echo '$< => $@'
 	@pandoc $(PANDOC_OPTIONS) $(PANDOC_HTML_OPTIONS) -o $@ $<
@@ -89,4 +97,7 @@ html/%.html: %.md template.html
 html/%.pdf: tmp/%.tex
 	@mkdir -p html
 	@echo '$< => $@'
-	@pdflatex $<
+	mkdir -p tmp/pdf
+	pdflatex -output-directory=tmp/pdf $<
+	pdflatex -output-directory=tmp/pdf $<
+	cp tmp/pdf/*.pdf $@
