@@ -38,7 +38,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 class="title">REST Workshop</h1>
 <h4 class="author">Erlend Hamnaberg</h4>
 <h4 class="author">Trygve Laugstøl</h4>
-<h4 class="date">October 2012 edition</h4>
+<h4 class="date">October 2012 Edition</h4>
 </header>
 <h1 class="toc">Table of Contents</h1>
 <nav id="TOC">
@@ -56,11 +56,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#exercise-http-rpc">Exercise: HTTP RPC</a><ul>
 <li><a href="#objective">Objective</a></li>
 <li><a href="#steps">Steps</a><ul>
-<li><a href="#create-the-ad-endpoint-httplocalhost3000create-ad">Create the ad endpoint: <code>http://localhost:3000/create-ad</code></a></li>
-<li><a href="#view-ad-endpoint-httplocalhost3000adid...">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></li>
-<li><a href="#add-picture-endpoint-httplocalhost3000add-pictureid...">Add picture endpoint: <code>http://localhost:3000/add-picture?id=...</code></a></li>
+<li><a href="#create-the-ad-endpoint">Create the ad endpoint</a></li>
+<li><a href="#view-ad-endpoint">View ad endpoint</a></li>
+<li><a href="#add-picture-endpoint">Add picture endpoint</a></li>
 </ul></li>
 <li><a href="#hints">Hints</a><ul>
+<li><a href="#converting-json-string-to-object">Converting JSON string to object</a></li>
+<li><a href="#converting-javascript-object-to-string">Converting javascript object to string</a></li>
 <li><a href="#curl-1">Curl</a><ul>
 <li><a href="#post-image-file">POST image file</a></li>
 </ul></li>
@@ -81,9 +83,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#content-types">Content Types</a></li>
 </ul></li>
 <li><a href="#steps-1">Steps</a><ul>
-<li><a href="#create-the-create-ad-endpoint-httplocalhost3000create-ad">Create the 'create ad endpoint': <code>http://localhost:3000/create-ad</code></a></li>
-<li><a href="#view-ad-endpoint-httplocalhost3000adid...-1">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></li>
-<li><a href="#add-picture-endpoint-httplocalhost3000add-picture">Add picture endpoint: <code>http://localhost:3000/add-picture</code></a></li>
+<li><a href="#create-the-create-ad-endpoint">Create the 'create ad endpoint'</a></li>
+<li><a href="#view-ad-endpoint-1">View ad endpoint</a></li>
+<li><a href="#add-picture-endpoint-1">Add picture endpoint</a></li>
 <li><a href="#create-a-client-for-creating-ads">Create a client for creating ads</a></li>
 </ul></li>
 <li><a href="#bonus-tasks">Bonus Tasks</a><ul>
@@ -93,6 +95,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#caching-client">Caching Client</a></li>
 </ul></li>
 <li><a href="#hints-1">Hints</a><ul>
+<li><a href="#converting-json-string-to-object-1">Converting JSON string to object</a></li>
+<li><a href="#converting-javascript-object-to-string-1">Converting javascript object to string</a></li>
 <li><a href="#curl-2">Curl</a><ul>
 <li><a href="#change-http-method">Change HTTP method</a></li>
 <li><a href="#post-image-file-1">POST image file</a></li>
@@ -175,12 +179,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#running-a-node-application">Running a node application</a></li>
 <li><a href="#getting-the-request-body-as-a-string">Getting the request body as a string</a></li>
 <li><a href="#base64-encode-binary-data-on-a-request">Base64-encode binary data on a request</a></li>
+<li><a href="#converting-json-string-to-object-2">Converting JSON string to object</a></li>
+<li><a href="#converting-javascript-object-to-string-2">Converting javascript object to string</a></li>
 <li><a href="#mongodb-mongoose-2">MongoDB / Mongoose</a></li>
 <li><a href="#command-line-arguments">Command line arguments</a></li>
 <li><a href="#http-client">HTTP client</a></li>
 </ul></li>
 </ul>
 </nav>
+<p></p>
 <section class="level1" id="exercises">
 <h1><a href="#TOC">Exercises</a></h1>
 <p>Before starting on an exercise please read through the entire text to get a better overview of the exercise. Also check out the cheat sheets for Node.js and curl, they contain valuable hints and tips.</p>
@@ -203,7 +210,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li>node.js and npm. All the exercises use node.js.</li>
 <li>MongoDB</li>
 <li>git to clone this repository</li>
-<li>curl - a command line HTTP client. Useful for scripting and debugging http servers</li>
+<li>curl, a command line HTTP client. Useful for scripting and debugging http servers</li>
 </ul>
 <section class="level3" id="node.js-and-npm">
 <h3><a href="#TOC">Node.js and NPM</a></h3>
@@ -253,8 +260,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </section>
 <section class="level2" id="steps">
 <h2><a href="#TOC">Steps</a></h2>
-<section class="level3" id="create-the-ad-endpoint-httplocalhost3000create-ad">
-<h3><a href="#TOC">Create the ad endpoint: <code>http://localhost:3000/create-ad</code></a></h3>
+<section class="level3" id="create-the-ad-endpoint">
+<h3><a href="#TOC">Create the ad endpoint</a></h3>
+<p>Endpoint URL: <code>http://localhost:3000/create-ad</code></p>
 <p>This is where clients should POST a json object to create a new ad. The JSON that's sent to the server should look like this:</p>
 <pre class="sourceCode json"><code class="sourceCode json">{
   <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
@@ -278,8 +286,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;error&quot;</span>
 }</code></pre>
 </section>
-<section class="level3" id="view-ad-endpoint-httplocalhost3000adid...">
-<h3><a href="#TOC">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></h3>
+<section class="level3" id="view-ad-endpoint">
+<h3><a href="#TOC">View ad endpoint</a></h3>
+<p>Endpoint URL: <code>http://localhost:3000/ad?id=...</code></p>
 <p>Clients can GET this with an &quot;id&quot; query parameter. The server will respond with something like this:</p>
 <pre class="sourceCode json"><code class="sourceCode json">{
   <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;ok&quot;</span>,
@@ -293,13 +302,22 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <span class="dt">&quot;result&quot;</span>: <span class="st">&quot;notFound&quot;</span>
 }</code></pre>
 </section>
-<section class="level3" id="add-picture-endpoint-httplocalhost3000add-pictureid...">
-<h3><a href="#TOC">Add picture endpoint: <code>http://localhost:3000/add-picture?id=...</code></a></h3>
+<section class="level3" id="add-picture-endpoint">
+<h3><a href="#TOC">Add picture endpoint</a></h3>
+<p>Endpoint URL: <code>http://localhost:3000/add-picture?id=...</code></p>
 <p>There are some example pictures available under <a href="./pictures/">pictures/</a>.</p>
 </section>
 </section>
 <section class="level2" id="hints">
 <h2><a href="#TOC">Hints</a></h2>
+<section class="level3" id="converting-json-string-to-object">
+<h3><a href="#TOC">Converting JSON string to object</a></h3>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> object = <span class="kw">JSON</span>.<span class="fu">parse</span>(data);</code></pre>
+</section>
+<section class="level3" id="converting-javascript-object-to-string">
+<h3><a href="#TOC">Converting javascript object to string</a></h3>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> str = <span class="kw">JSON</span>.<span class="fu">stringify</span>({<span class="dt">hello</span>: <span class="st">&quot;world&quot;</span>});</code></pre>
+</section>
 <section class="level3" id="curl-1">
 <h3><a href="#TOC">Curl</a></h3>
 <section class="level4" id="post-image-file">
@@ -385,8 +403,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </section>
 <section class="level2" id="steps-1">
 <h2><a href="#TOC">Steps</a></h2>
-<section class="level3" id="create-the-create-ad-endpoint-httplocalhost3000create-ad">
-<h3><a href="#TOC">Create the 'create ad endpoint': <code>http://localhost:3000/create-ad</code></a></h3>
+<section class="level3" id="create-the-create-ad-endpoint">
+<h3><a href="#TOC">Create the 'create ad endpoint'</a></h3>
+<p>Endpoint URL: <code>http://localhost:3000/create-ad</code></p>
 <p>This is where clients should POST a json object to create a new ad. The JSON that's sent to the server should look like this:</p>
 <pre class="sourceCode json"><code class="sourceCode json">{
   <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;Nice house for sale!&quot;</span>,
@@ -402,8 +421,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 }</code></pre>
 <p>Try to send an invalid object (for example an empty document like <code>/dev/null</code> on unix or <code>nul</code> on windows) and make sure you're getting a proper 500 error code back.</p>
 </section>
-<section class="level3" id="view-ad-endpoint-httplocalhost3000adid...-1">
-<h3><a href="#TOC">View ad endpoint: <code>http://localhost:3000/ad?id=...</code></a></h3>
+<section class="level3" id="view-ad-endpoint-1">
+<h3><a href="#TOC">View ad endpoint</a></h3>
+<p>Endpoint URL: <code>http://localhost:3000/ad?id=...</code></p>
 <p>Clients can GET this with an &quot;id&quot; query parameter. The server will respond with something like this:</p>
 <pre class="sourceCode json"><code class="sourceCode json">{
   <span class="dt">&quot;type&quot;</span>: <span class="st">&quot;ad&quot;</span>,
@@ -414,8 +434,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
 }</code></pre>
 <p>Try to fetch an ad that doesn't exist and make sure you're getting a 404 error.</p>
 </section>
-<section class="level3" id="add-picture-endpoint-httplocalhost3000add-picture">
-<h3><a href="#TOC">Add picture endpoint: <code>http://localhost:3000/add-picture</code></a></h3>
+<section class="level3" id="add-picture-endpoint-1">
+<h3><a href="#TOC">Add picture endpoint</a></h3>
+<p>Endpoint URL: <code>http://localhost:3000/add-picture</code></p>
 <p>There are some example pictures available under <a href="./pictures/">pictures/</a>.</p>
 <p>See the node cheat sheet on how to add pictures to a Mongo object.</p>
 </section>
@@ -453,9 +474,17 @@ Body: &lt;body&gt;</code></pre>
 </section>
 <section class="level2" id="hints-1">
 <h2><a href="#TOC">Hints</a></h2>
+<section class="level3" id="converting-json-string-to-object-1">
+<h3><a href="#TOC">Converting JSON string to object</a></h3>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> object = <span class="kw">JSON</span>.<span class="fu">parse</span>(data);</code></pre>
+</section>
+<section class="level3" id="converting-javascript-object-to-string-1">
+<h3><a href="#TOC">Converting javascript object to string</a></h3>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> str = <span class="kw">JSON</span>.<span class="fu">stringify</span>({<span class="dt">hello</span>: <span class="st">&quot;world&quot;</span>});</code></pre>
 <p>NOTE: Headers in the node.js http request object are ALWAYS in lower-case.</p>
 <p>Setting status codes from node:</p>
 <p>response.writeHead(200, headers);</p>
+</section>
 <section class="level3" id="curl-2">
 <h3><a href="#TOC">Curl</a></h3>
 <section class="level4" id="change-http-method">
@@ -729,10 +758,20 @@ Body: &lt;body&gt;</code></pre>
 <pre class="sourceCode json"><code class="sourceCode json">{
   <span class="dt">&quot;href&quot;</span> : <span class="st">&quot;http://example.com/ad/1&quot;</span>
   <span class="st">&quot;links&quot;</span><span class="er">:</span> [
-    {<span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://example.com/ad/1&quot;</span>, <span class="dt">&quot;rel&quot;</span>: <span class="st">&quot;self&quot;</span>, <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;The current Ad&quot;</span>}
+    {
+      <span class="dt">&quot;href&quot;</span>: <span class="st">&quot;http://example.com/ad/1&quot;</span>,
+      <span class="dt">&quot;rel&quot;</span>: <span class="st">&quot;self&quot;</span>,
+      <span class="dt">&quot;title&quot;</span>: <span class="st">&quot;The current Ad&quot;</span>
+    }
   ]
 }</code></pre>
-<p>HAL-style: <code>json {   &quot;property-1&quot;: &quot;property-value&quot;,   &quot;links&quot;: {     &quot;self&quot;: &quot;http://example.com/ad/1&quot;   } }</code></p>
+<p>HAL-style:</p>
+<pre class="sourceCode json"><code class="sourceCode json">{
+  <span class="dt">&quot;property-1&quot;</span>: <span class="st">&quot;property-value&quot;</span>,
+  <span class="dt">&quot;links&quot;</span>: {
+    <span class="dt">&quot;self&quot;</span>: <span class="st">&quot;http://example.com/ad/1&quot;</span>
+  }
+}</code></pre>
 </section>
 </section>
 </section>
@@ -861,6 +900,14 @@ Body: &lt;body&gt;</code></pre>
 });</code></pre>
 <p>NOTE: Headers in the node.js http request object are ALWAYS in lower-case.</p>
 </section>
+<section class="level2" id="converting-json-string-to-object-2">
+<h2><a href="#TOC">Converting JSON string to object</a></h2>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> object = <span class="kw">JSON</span>.<span class="fu">parse</span>(data);</code></pre>
+</section>
+<section class="level2" id="converting-javascript-object-to-string-2">
+<h2><a href="#TOC">Converting javascript object to string</a></h2>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> str = <span class="kw">JSON</span>.<span class="fu">stringify</span>({<span class="dt">hello</span>: <span class="st">&quot;world&quot;</span>});</code></pre>
+</section>
 <section class="level2" id="mongodb-mongoose-2">
 <h2><a href="#TOC">MongoDB / Mongoose</a></h2>
 <p>Import mongoose:</p>
@@ -928,7 +975,8 @@ Body: &lt;body&gt;</code></pre>
 <section class="level2" id="command-line-arguments">
 <h2><a href="#TOC">Command line arguments</a></h2>
 <p>Node.js has the command line arguments available in the global object <code>process</code>. They can be accessed using:</p>
-<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> args = <span class="kw">process.argv</span>.<span class="fu">slice</span>(<span class="dv">2</span>); <span class="co">//Removes node + &quot;name of your javascript file&quot;</span></code></pre>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="co">// Removes node + &quot;name of your javascript file&quot;</span>
+<span class="kw">var</span> args = <span class="kw">process.argv</span>.<span class="fu">slice</span>(<span class="dv">2</span>)</code></pre>
 </section>
 <section class="level2" id="http-client">
 <h2><a href="#TOC">HTTP client</a></h2>
