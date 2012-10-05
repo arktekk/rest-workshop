@@ -1,6 +1,6 @@
 ## Example `ad.json`
 
-~~~ {.json .numberLines}
+~~~ {.json}
 {{ d['exercises-03-media-types-ad.json|ct'] }}
 ~~~
 

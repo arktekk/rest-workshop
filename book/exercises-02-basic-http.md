@@ -136,9 +136,8 @@ Suggested command line API:
 Improve the client and store the ad as `ad-<id>.js`. If executed twice
 it should do a conditional GET.
 
-
 Hints
-========
+-----
 
 NOTE: Headers in the node.js http request object are ALWAYS in
 lower-case.
@@ -147,51 +146,55 @@ Setting status codes from node:
 
 response.writeHead(200, headers);
 
-Curl
--------
+### Curl
 
-### Change HTTP method
+#### Change HTTP method
 
     -X GET|PUT|POST|DELETE|OPTIONS
 
-
-### POST image file
+#### POST image file
 
     curl -X POST -H 'Content-Type: image/jpeg' -T pictures/car.jpg <url>
 
-
-### Add `If-None-Match`
+#### Add `If-None-Match`
 
 This header is mostly useful on conditional GET requests:
 
     -H 'If-None-Match: <value-of-etag-header>'
 
-### Add `If-Match`
+#### Add `If-Match`
 
 This header is mostly useful on conditional PUT|POST requests:
 
     -H 'If-Match: <value-of-etag-header>'
 
-### Add `If-Modified-Since`
+#### Add `If-Modified-Since`
 
 This header is mostly useful on conditional GET requests:
 
     -H 'If-Modified-Since: <value-of-last-modified-header>'
 
-### Add `If-Unmodified-Since`
+#### Add `If-Unmodified-Since`
 
 This header is mostly useful on conditional PUT|POST requests:
 
     -H 'If-Unmodified-Since: <value-of-last-modified-header>'
 
+### MongoDB / Mongoose
 
-MongoDB / Mongoose
--------------------
+#### Insert a new object
+
+~~~javascript
+var ad = new Db.Ad();
+ad.title = payload.title;
+ad.body = payload.body;
+ad.save();
+~~~
 
 When an object has been saved, the id of the object is available as
-the `_id` attribute:
+the `_id` attribute.
 
-Find a object:
+#### Find a object
 
 ~~~javascript
 Db.Ad.findOne({_id: <my id>}, function(err, doc) {
@@ -202,7 +205,8 @@ Db.Ad.findOne({_id: <my id>}, function(err, doc) {
 `err` will be set if there was an error while talking to the DB. `doc`
 will null if not found, or the object if found.
 
-Update an existing object:
+### Update an existing object
+
 ~~~javascript
 var cmd = {$push: {arr: item}}
 Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
@@ -211,10 +215,9 @@ Db.Ad.update({_id: <my id>}, cmd, {}, function(err, numAffected) {
 ~~~
 
 Retrospective
-=============
+-------------
 
-Why is this better than the rpc solution?
------------------------------------------
+### Why is this better than the rpc solution?
 
 We have not utilized HTTP as an application protocol, mening we are
 delivering the application semantics through the protocol instead of 
@@ -229,9 +232,7 @@ When implementing a real application, you would delegate routing
 and content-negotiation to a framework, for instance Express, 
 or whatever you use in your programming language.
 
-
-What are the benefits of caching?
----------------------------------
+### What are the benefits of caching?
 
 Caching allows us to utiltize the scaling properties of the Web.
 
@@ -240,8 +241,8 @@ cache, we put a lot of strain on the origin server. Adding caching
 allows us to potentially never go to the origin server, except for
 verification of the representation of the resource.
 
-Invalidation.
--------------
+### Invalidation
+
 This is a difficult problem to solve, because of the distributed
 nature of HTTP's caching model.
 
@@ -253,9 +254,7 @@ There are a few methods:
 * Edge Side Includes (ESI)
 * [Linked Cache Invalidation](http://tools.ietf.org/html/draft-nottingham-linked-cache-inv-03)
 
-
-Coupling?
----------
+### Coupling?
 
 There are still a lot of coupling between the client and the server.
 We are still hard-coding the URIs which we use.

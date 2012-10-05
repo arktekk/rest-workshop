@@ -31,11 +31,10 @@ get the other client to fail. Make sure that you stay within the
 specification when adding fields and headers. It is also possible to
 change the URL that's served to the client.
 
-
 Retrospective
 -------------
 
-What have we gained by moving URI creation out of the client?
+### What have we gained by moving URI creation out of the client?
 
 We can now change the servers URI scheme, except from the initial URI,
 to whatever we want. We have thereby reduced the coupling of the client
