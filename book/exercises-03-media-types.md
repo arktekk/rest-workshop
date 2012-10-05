@@ -30,3 +30,23 @@ groups server. Add extra fields and headers to the responses to try to
 get the other client to fail. Make sure that you stay within the
 specification when adding fields and headers. It is also possible to
 change the URL that's served to the client.
+
+
+Retrospective
+-------------
+
+What have we gained by moving URI creation out of the client?
+
+We can now change the servers URI scheme, except from the initial URI,
+to whatever we want. We have thereby reduced the coupling of the client
+to the server.
+
+We can now introduce new network components into the stack without having
+to change the client and how it works. For instance adding servers, and
+changing the links to point to another if the current server is overloaded.
+
+The connection points are:
+
+* The initial URI
+* Link relations used
+* the data formats used.
