@@ -1,0 +1,313 @@
+<!doctype html>  
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    
+    <title>HTTP</title>
+
+    <meta name="description" content="HTTP slides">
+    <meta name="author" content="Erlend Hamnaberg">
+    <meta name="author" content="Trygve Laugstøl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
+
+    <style>
+      .reveal section pre {
+        font-size: 1em;
+      }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+  <section>
+    <h1>REST</h1>
+  </section>
+  <section>
+    
+    <h1>History</h1>
+
+    <ul>
+      <li>First Coined by Roy T. Fielding in his dissertation</li>
+    </ul>
+
+    <aside class="notes"> While developing HTTP/1.1, Fielding also wrote his PhD dissertation. REST is the example in his dissertation.</aside>
+  </section>
+  <section>
+    <h2>Architectural Styles and the Design of Network-based Software Architectures</h2>
+    <h3>Describes constraints used to obtain certain properties</h3>
+  </section>
+  <section>
+    <h2>Example Architectural Styles</h2>
+    <ul>
+      <li>REST</li>
+      <li>Pipe And Filter</li>
+      <li>RPC</li>
+    </ul>
+  </section>
+  <section>
+    <h1>Connector</h1>
+    <h3>Software that communicates with the network. Typically a HTTP server, or HTTP Client</h3>
+  </section>
+  <section>
+    <h1>Component</h1>
+    <ul>
+      <li>Server</li>
+      <li>Client</li>
+      <li>Intermediary</li>
+    </ul>
+    <aside class="notes">Software which is part of the networked system. Any Piece of software within a restful architecture is
+      a Component.</aside>
+
+  </section>
+  <section>
+    <h1>Resource</h1>
+
+    <aside class="notes">this is what you should think the most of when you are designing a RESTful architecture. 
+Think in nouns not verbs. What IS it? Not What can I do with it.</aside>
+
+  </section>
+  <section>
+    <h1>Resource</h1>
+    <ul>
+      <li>Books</li>
+      <li>Products</li>
+      <li>Articles</li>
+      <li>Ads</li>
+      <li>Images</li>
+    </ul>
+  </section>
+  <section>
+    <h1>Representation</h1>
+    <ul>
+      <li>Encoding of resource state transmitted over the network</li>
+      <li>A Resource MAY have multiple representations</li>
+      <li>Hypermedia format</li>
+      <li>In HTTP the representation is both the body and the headers of a message (httpbis)</li>
+    </ul>
+    <aside class="notes">A representation is an encoding of the resource state, served over the network. 
+A representation is also known as a hypermedia format or Media Type. 
+This will be explained in detail later.
+    </aside>
+  </section>
+  <section>
+    <img src="one/amazon.png" alt="amazon"/>
+  </section>
+  <section>
+    <img src="one/amazon-representation.png" alt="amazon"/>
+  </section>
+        
+  <section>
+    <h1>Constraints</h1>
+
+  </section>
+<section>
+  <img src="one/client-server.gif" alt="Client Server"/>
+</section>
+<section>
+  <h1>Uniform Interface</h1>
+  <ul>
+    <li>Identifying resources using URIs</li>
+    <li>Manipulation of resources through representations</li>
+    <li>Self-descriptive messaging</li>
+  </ul>
+<aside class="notes">The same methods are available everywhere.</aside>
+</section>
+<section>
+  <pre style="font-size:0.83em">
+interface Resource {
+  URI id;
+  Representation process(Representation r);
+  Representation update(Representation r);
+  Representation download();
+  Representation remove();
+}
+
+  </pre>
+
+</section>
+<section>
+<h1>Stateless protocol</h1>
+<ul>
+  <li>Request must be self-contained</li>
+  <li>No server-side temporary state (HTTP Session)</li>
+</ul>
+
+<aside class="notes">Everything that the server needs to satisfy the request must be part of the request.
+Authentication, freshness rules, Which resource is being requested, capabilities of the agent.</aside>
+</section>
+<section>
+
+<h1>Layered System</h1>
+<ul>
+  <li>Caching</li>
+  <li>Security</li>
+  <li>Transparent to the network</li>
+  <li>Network Components may be added after deployment</li>
+
+<aside class="notes">Layered System. Since we are using HTTP, we get this for free.  This means that Components may be injected into the 
+network stack to offload origin servers, or add capabilities of their own. For instance Security.
+</aside>
+</section>
+<section>
+<h1>Caching</h1>
+<ul>
+  <li>Makes REST Scale</li>
+  <li>Part of the layered system</li>
+  <li>May be placed anywhere in the network stack</li>
+  <li>Use client-caches</li>
+
+  <aside class="notes">Important part for scalability. Caches may be placed anywhere in the stack. As we remember 
+  from the HTTP talk, caching means that polling works fine.</aside>
+</section>
+<section>
+  <h1>Code on Demand (optional)</h1>
+  <ul>
+    <li>Adds additional capabilities to an Agent, by downloding code</li>
+    <li>Browsers, JavaScript</li>
+    <li>ScalaScript</li>
+    <li>Python</li>
+  </ul>
+  <aside class="notes">An Agent may download additional code to be able to add new capabilities for the Agent.
+  In browsers this means javascript.</aside>
+</section>
+
+<section>
+<h2>Elevating data as a first-class architectural element</h2>
+
+<aside class="notes">Since we need to care about data, the structure of data and how it should be operated upon, becomes important. 
+Structure becomes important, the data needs to be parsed, and contain something that lets clients know
+how to operate on those data.</adata>
+</section>
+<section>
+<h1>HATEOAS</h1>
+<h3>"The scary part of REST"</h3>
+</section>
+<section>
+<h2> Hypertext as the engine of application state </h2>
+
+<aside class="notes">to be able to understand this sentence, one must first understand what hypertext means. 
+Then you need to understand what application means. And lastly understanding what engine in this context means.</aside>
+</section>
+<section>
+
+<h1>The "link" constraint</h1>
+
+<aside class="notes">This is something that "restafarians" keep scaring people with. Basically this can be thought of (click)</aside>
+</section>
+<section>
+<h1>LINKS</h1>
+<pre>
+    
+&lt;a href="http://example.com"&gt;Example&lt;/a&gt;
+
+&lt;link rel="stylesheet" href="http://static.example.com/1.css"/&gt;
+
+&lt;script href="http://static.example.com/1234.js"&gt;&lt;/script&gt;
+</pre>
+<aside class="notes"> as Links, or hyperlink. Forms are also useful hypertext controls, but we will get back to that later.</aside>
+</section>
+<section>
+
+<h1>Why are links important</h1>
+<ul>
+  <li>Links helps decouple server and client. </li>
+  <li>A Component does not need to know how the server works internally.</li>
+  <li>Intent can be expressed in a link.</li>
+  <li>Links helps REST to scale</li>
+
+<aside class="notes">Navigation in a result set, for instance pagination, filtering of result sets, creating new items in a collection. etc.</aside>
+</section>
+<section>
+<h1>Examples</h1>
+<ul>
+  <li>Search</li>
+  <li>Pagination</li>
+  <li>Filtering</li>
+  <li>Creating new items in a collection.</li>
+</ul>
+</section>
+<section>
+<h2>Use links to let your client application know what is possible to do next </h2>
+
+<aside class="notes"> Links may take many forms and sizes, We will return to this subject later.</aside>
+
+</section>
+<section>
+<h2>MUD Example</h2>
+<pre style="font-size:0.8em">
+You are in a room, there is a wizard here. 
+There are exits to the NORTH, SOUTH and EAST.
+There is an empty whisky BOTTLE on the floor. 
+You can hear the wizard snoring.
+    
+What would you like to do> GO NORTH    
+</pre>    
+<aside class="notes"> Anyone seen something like this? *Hands* 
+This can be thought of a representation with links to NORTH, SOUTH, EAST.
+You could always try to GO another direction, like WEST, the MUD server would then
+give you an error message. There would be a limited set of operations the player could use, so
+this would map to the Uniform interface. You could for instance try to PICK UP NORTH.
+</aside>
+</section>
+
+
+      </div>
+      
+    </div>
+
+    <script src="../reveal.js/lib/js/head.min.js"></script>
+    <script src="../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+      
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        rollingLinks: false,
+        
+        theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../reveal.js/lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+          { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../reveal.js/lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../reveal.js/lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+          { src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+        ]
+      });
+      
+    </script>
+
+  </body>
+</html>
