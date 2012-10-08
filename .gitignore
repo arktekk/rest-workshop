@@ -6,6 +6,7 @@ mongo
 *.html
 *.tex
 !/book/template.html
+!/slides/**/*.html
 book/html
 book/tmp
 .DS_Store

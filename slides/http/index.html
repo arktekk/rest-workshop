@@ -1,0 +1,637 @@
+<!doctype html>  
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    
+    <title>HTTP</title>
+
+    <meta name="description" content="HTTP slides">
+    <meta name="author" content="Erlend Hamnaberg">
+    <meta name="author" content="Trygve Laugstøl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
+
+    <style>
+      .reveal section pre {
+        font-size: 1em;
+      }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <h1>HTTP</h1>
+        </section>
+        <section>
+          <h1>History</h1>
+          <ul>
+            <li>HTTP 0.9 was first publicly available by Tim Berners-Lee et al in 1992.</li>
+            <li>HTTP/1.1 1999 Roy T. Fielding et. al</li>
+            <li>HTTP/2.0 is now under development at IETF, chaired by Mark Nottingham.</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Standardized</h1>
+          <ul>
+            <li>RFC-2616</li>
+            <li>http://www.iana.org/protocols/</li>
+          </ul>
+          <aside class="notes">
+            HTTP is a request/response-based protocol. The communication protocol is stateless. 
+Most servers do have some form of server-side session management. This is, however, not part of the specification.
+HTTP is extended all the time. This usually is done in the form of Internet Drafts, and becoming RFCs if they are approved by the
+IETF (Internet Engineering Task Force).
+
+            </aside>
+        </section>
+        <section>
+          <pre>
+GET /message/1
+Host: example.com
+
+200 OK HTTP/1.1
+Date: Thu, 01 Dec 2012 16:00:00 GMT
+Content-Type: application/json
+Content-Length: 27
+
+{"message": "Hello World!"}
+
+          </pre>
+          <aside class="notes">
+             HTTP is a text based format, It consists of Headers and Body. The headers are separated by \r\n and the body is separated 
+from the headers with a double \r\n.
+The envelope is based on the MIME-format also used in email.
+MIME allows the body to be all kinds for formats, it just needs to be correctly encoded into a MIME-message.
+
+          </aside>
+        </section>
+        <section>
+          <h1>HTTP headers</h1>
+          <h3>Metadata which describes the request or response.</h3>
+        </section>
+        <section>
+          <h1>Some useful headers</h1>
+          <pre>
+Content-Type
+Allow
+Cache-Control
+ETag
+Last-Modified
+Retry-After
+User-Agent
+Vary
+
+          </pre>
+        </section>
+        <section>
+          <h1>Headers</h1>
+          <a href="http://tools.ietf.org/html/rfc2616#section-14"><h3>http://tools.ietf.org/html/rfc2616#section-14</h3></a>
+        </section>
+        <section>
+          <h1>Status Codes</h1>
+          <ul>
+            <li>Informational (1xx)</li>
+            <li>Successful (2xx)</li>
+            <li>Redirection (3xx)</li>
+            <li>Client Error (4xx)</li>
+            <li>Server Error (5xx)</li>
+          </ul>
+          <aside class="notes">
+            HTTPbis has been refining a lot of these status codes.
+          </aside>
+        </section>
+
+        <section>
+          <h1>Successful</h1>
+          <h3>200 OK</h3>
+          <ul>
+            <li>Denotes a successful response. SHOULD have a message body.</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Redirection</h1>
+          <h3>301 Moved Permanently</h3>
+          <ul>
+            <li>Document has found a new home. Please update links accordingly.</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Client Error</h1>
+          <h3>401 Authentication Required</h3>
+          <ul>
+            <li>MUST have a WWW-Authenticate header</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Server Error</h1>
+          <h3>503 Service Unavailable</h3>
+          <ul>  
+            <li>Server is overloaded. </li>
+            <li>MAY add a Retry-After header which indicates when the Agent can retry the request</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Status Codes</h1>
+          <a href="http://tools.ietf.org/html/rfc2616#section-10"><h3>http://tools.ietf.org/html/rfc2616#section-10</h3></a>
+        </section>
+        <section>
+          <h1>HTTP Methods</h1>
+          <pre style="font-size: 1em;">
+GET
+PUT
+POST
+HEAD
+OPTIONS
+DELETE
+TRACE
+CONNECT           
+          </pre>
+          <aside class="notes"> These methods are defined by RFC-2616
+I have never seen TRACE in use. (Erlend)
+This set has been extended by multiple specifications, Webdav for instance.
+          </aside>
+        </section>
+
+        <section>         
+<h1>HTTP Methods</h1>
+          <pre>
+| Method  | Safe   | Idempotent |
+|---------|--------|------------|
+| GET     | yes    | yes        |
+| PUT     | no     | yes        |
+| POST    | no     | no         |
+| HEAD    | yes    | yes        |
+| OPTIONS | no     | yes        |
+| DELETE  | no     | yes        |
+| TRACE   | no     | yes        |
+| CONNECT | no     | no         | 
+          </pre>
+        </section>
+
+        <section>
+          <h1>Example</h1>
+          <code>
+curl http://www.vg.no
+          </code>
+          <aside class="notes">curl -o /dev/null -D - -s http://www.vg.no</aside>
+        </section>
+
+        <section>
+          <h1>HTTP is everywhere</h1>
+          <ul>
+            <li>Libraries and frameworks in almost every language</li>
+            <li>Port 80 has seen a lot of "abuse", as it is usually open in firewalls</li>
+          </ul>
+        </section>
+        <section>
+          <h1>Session</h1>
+          <ul>
+            <li>HTTP Session is not standardized.</li>
+            <li>Session state SHOULD be stored client side with use of Cookies</li>
+            <li>Problem: Authentication</li>
+          </ul>
+          <aside class="notes"> 
+            Try to avoid server side session state. Replication nightmare.
+            Cookies can be scoped, so may be more useful
+          </aside>
+        </section>
+        <section>
+          <h1>Cookies</h1>
+          <ul>
+            <li>Cookies are specified in RFC-6265</li>
+            <li>Security issues, see HttpOnly and secure flags</li>
+            <li>Abused</li>
+          </ul>
+        </section>
+
+<section>
+<h1>Caching</h1>
+<ul>
+  <li>Expiration based</li>
+  <li>Validation based</li>
+
+<aside class="notes"> Headers that notify clients and intermediaries of how long a response should be considered fresh.
+HTTP advocates use of expiration over validation, but both may be used together.
+One caveat: Browsers prefer accuracy over latency, thereby trying to use the validation model 
+even if the response is considered fresh by the server.
+To reduce traffic when writing browser based clients, consider only having expiration based caches. //TODO: Verify this
+</aside>
+</section>
+
+<section>
+<h1>Expiration based</h1>
+
+<aside class="notes"> 
+  Reduces the the latency of the application, thereby increasing the perceived speed of your application.
+</aside>
+</section>
+<section>
+<h1>Expires header</h1>
+<pre>
+Expires: Thu, 01 Dec 2012 16:00:00 GMT
+</pre>
+<aside class="notes"> 
+Inheritance from HTTP/1.0
+Format: HTTP Date in the future until the representation should be considered fresh.
+if a response includes a Cache-Control field with the max-age directive, that directive overrides the Expires field.
+Expiry dates more than a year are generally not useful. Can be considered cached forever.
+
+</aside>
+
+</section>
+
+<section>
+<h1>Max-Age</h1>
+<pre>
+Cache-Control: max-age=3600
+</pre>
+<aside class="notes"> 
+This denotes the representation to be fresh for one hour. The resolution for max-age are seconds.
+Expiry dates more than a year are generally not useful. max-age > 31536000. Can be considered cached forever.
+</aside> 
+</section>
+
+<section>
+<h1>Validation based</h1>
+<aside class="notes"> Takes either the ETag or Last-Modified from the previous response and applies it to next request.
+Improves the accuracy of the service. Requires conditional-gets, will be explained in a bit. 
+Does not reduce the network traffic, but may reduce the number of bytes sent in a response.
+</aside>
+</section>
+<section>
+<h1>ETag</h1>
+<pre>
+ETag: "foobar"
+</pre>
+<ul><li>An opaque string which only have meaning for the server.</li></ul>
+
+<aside class="notes"> Also known as an Entity Tag.
+This may for instance be a hashed md5 of the body.
+It may be a calculated string based on values of the backend.
+There are two versions of Etag: Weak and Strong. 
+Weak should be considered a semantic tag.
+Strong are byte-for-byte equality.
+</aside> 
+</section>
+
+<section>
+
+<h1>Last-Modified</h1>
+<ul>
+  <li>A HTTP date for when this resource was last modified</li>
+  <li>Caveat: Max resolution of dates in HTTP are seconds.</li>
+</section>
+<section>
+<h1>Last-Modified</h1>
+<pre>
+Last-Modified: Sat, 26 May 2012 11:44:04 GMT
+</pre>
+</section>
+<section>
+<h1>Conditional GET</h1>
+<pre>
+If-None-Match: "foobar"
+If-Modified-Since: Sat, 26 May 2012 11:44:04 GMT
+</pre>
+</section>
+<section>
+
+<h1>304 Not Modified</h1>
+<ul><li>Updated headers so the cache can update the metadata for the cached representation.</li></ul>
+</section>
+<section>
+<h1>200 OK</h1>
+<ul><li>A new copy of the representation + metadata which must replace the cached object.</li></ul>
+</section>
+
+<section>
+
+<h1>Example</h1>
+<code>
+$ curl -v -o /dev/null -s \
+http://gfx.dagbladet.no/labrador/\
+217/217889/21788949/jpg/active/978x.jpg
+</code>
+
+</section>
+<section>
+<h1>Optimized for GET</h1>
+<ul>
+  <li>About 98 % of all requests are GET</li>
+  <li>About 2% is ALL other methods.</li>
+</ul>
+</section>
+<section>
+<h1>Content Negotiation</h1>
+<ul><li>Server-side negotiation</li>
+<li>Agent negotiation</li>
+</ul>
+<aside class="notes"> There are two types of conneg. </aside>
+</section>
+<section>
+
+<h1>Server-side negotiation</h1>
+<pre>
+Accept
+Accept-Language
+Accept-Encoding
+Accept-Charset
+</pre>
+<aside class="notes"> Accept* headers</aside>
+</section>
+<section>
+<h1>Server-side negotiation</h1>
+<h3>Server is unable to fulfill the request</h3>
+<code>
+406 Not Acceptable
+</code>
+</section>
+<section>
+
+<h1>Server-side negotiation</h1>
+</h3>Successful request</h3>
+<code>
+200 OK
+</code>
+
+<aside class="notes">The server SHOULD add a Vary header which lets
+any intermediaries and the Agent know how the request 
+was negotiated.
+</aside>
+</section>
+<section>
+
+<h1>Accept* header quality</h1>
+<pre>
+Accept: application/json;q=0.4, application/xml, 
+*.*;q=0.3, application/xhtml+xml; q=0.8
+</pre>
+<aside class="notes">Sorted preferred list of acceptable media-types.
+All the accept headers have a similar quality syntax.
+</aside>
+</section>
+<section>
+
+<h1>Accept* header qualifiers</h1>
+<pre>
+Accept: application/xml; q=1.0, application/xhtml+xml; q=0.8, 
+application/json;q=0.4, *.*;q=0.3 
+ </pre>
+</section>
+<section>
+<h1>Vary</h1>
+<pre>
+Vary: Accept
+Vary: Accept-Language, Accept, Accept-Charset
+</pre>
+<aside class="notes"> If the server selects a representation for you without redirecting, the server SHOULD add
+a Vary Header. This is to let caches know that the response varies on selection data.
+</aside>
+</section>
+<section>
+
+<h1>Agent negotiation</h1>
+
+<ul><li>Agent selects from a set of links which is the most applicable for the current context.</li>
+<li>HTTP Defines status codes: 406 Not Acceptable and 300 Multiple Choices for agent based conneg.</li>
+
+<aside class="notes"> May require more than one request.
+Can be improved by having @hreflang and @type in links
+</aside>
+</section>
+<section>
+<h2>Agent Negotiation</h2>
+ <pre style="font-size:0.7em;"> 
+{
+  "collection": {
+    "links": [
+      {
+        "href": "http://example.com", 
+        "rel": "alternate", 
+        "prompt": "Main Site"
+      },
+      {
+        "href": "http://example.org", 
+        "rel": "alternate", 
+        "prompt": "Main Site 2"
+      }
+    ]
+  }    
+}
+ </pre>
+</section>   
+<section>
+   
+<h2>Agent Negotiation</h2>
+
+<pre style="font-size:0.7em;">
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+      &lt;body&gt;
+        &lt;a href="http://example.org" rel="alternate" 
+        hreflang="en"&gt;Main Site&lt;/a&gt;
+        &lt;a href="http://example.no" rel="alternate" 
+        hreflang="no"&gt;Main Site in Norwegian&lt;/a&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+</pre>
+
+</section>
+<section>
+<h1>Intermediaries</h1>
+<h3>Servers which sits between server and client and provides some form of value-add service</h3>
+
+<aside class="notes"> Security. transforming, caching (proxies).
+Should be illustrated with a drawing.
+</aside>
+</section>
+
+<section>
+
+<h1>Intermediary examples</h1>
+<ul>
+  <li>Reverse Caching</li>
+  <li>Forward Caching</li>
+  <li>Pre-lookup of DNS based on links and history of the current client's request history.</li>
+  <li>Transforming</li>
+  <li>Load-balancing</li>
+</section>
+<section>
+<h2>Transforming intermediary</h2>
+<img src="one/transforming.png" alt="Transforming"/>
+</section>
+
+<section>
+<h1>Security</h1>
+</section>
+<section>
+
+<h1>Authentication - RFC-2617</h1>
+<ul>
+<li>Authentication framework for HTTP</li>
+<li>WWW-Authenticate</li>
+<li>Authorization</li>
+<li>Authentication-Info</li>
+</ul>
+</section>
+<section>
+
+<h1>Basic Authentication</h1>
+<ul>
+  <li>Sends username:password encoded in base64</li>
+  <li>Not secure, unless sent over HTTPS</li>
+</ul>
+<aside class="notes"> Simple, easy to deploy.
+SHOULD NOT be used unless using HTTPS.
+</aside>
+</section>
+<section>
+<h1>Basic Authentication</h1>
+<pre>
+WWW-Authenticate: Basic realm="Example"
+</pre>
+</section>
+<section>
+<h1>Basic Authentication</h1>
+<pre>
+Authorization: Basic QWxhZGluOnNlc2FtIG9wZW4=
+</pre>
+
+<ul>
+  <li>User: Aladin</li>
+  <li>Password: sesam open</li>
+</ul>
+
+</section>
+<section>
+
+<h1>Digest Authentication</h1>
+<ul>
+
+<li>Does not send password over the wire</li>
+<li>More secure than Basic</li>
+<li>Requires some form of HTTP state server-side</li>
+<li>Prone to man-in-the-middle attacks</li>
+</ul>
+<aside class="notes"> Requires HTTPS to be really secure.
+Server side state suX0rs
+</aside>
+</section>
+
+<section>
+<h1>Digest Authentication</h1>
+
+<pre style="font-size:0.75em;">
+WWW-Authenticate: Digest realm="testrealm@host.com",
+  qop="auth,auth-int",
+  nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",
+  opaque="5ccc069c403ebaf9f0171e9517f40e41"
+
+</pre>
+</section>
+<section>
+<h1>Digest Authentication</h1>
+<pre style="font-size:0.8em;">
+Authorization: Digest username="Mufasa", 
+  realm="testrealm@host.com", 
+  nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", 
+  uri="/dir/index.html", 
+  qop=auth, 
+  nc=00000001,
+  cnonce="0a4f113b",
+  response="6629fae49393a05397450978507c4ef1",
+  opaque="5ccc069c403ebaf9f0171e9517f40e41"
+</pre>
+
+</section>
+<section>
+
+<h1>OAuth 2</h1>
+<ul>
+  <li>Authorization framework, not Authentication</li>
+  <li>Requires HTTPS for initial handshake</li>
+  <li>Bearer spec requires HTTPS</li>
+  <li>MAC spec does not require HTTPS</li>
+  <li>Complex framework (enterprise proof)</li>
+</ul>
+<aside class="notes"> Draft 31 at the time of writing.
+</aside>
+</section>
+<section>
+<h1>Other</h1>
+<ul>
+  <li>OpenId (Browsers only)</li>
+  <li>Mozilla Persona (Browsers only)</li>
+  <li>AWS (SHOULD have been a standard)</li>
+</ul>
+</section>
+<section>
+<h1>HTTPS</h1>
+<ul>
+  <li>HTTP + SSL</li>
+  <li>Only transport-level security</li>
+  <li>Loses intermediary support, as HTTPS in HTTP/1.1 is end-to-end, not hop-by-hop</li>
+</ul>
+<aside class="notes"> HTTPS could be added by having a HTTPS loadbalancer.</aside>
+</section>
+
+      </div>
+      
+    </div>
+
+    <script src="../reveal.js/lib/js/head.min.js"></script>
+    <script src="../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+      
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        rollingLinks: false,
+        
+        theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../reveal.js/lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+          { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../reveal.js/lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../reveal.js/lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+          { src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+        ]
+      });
+      
+    </script>
+
+  </body>
+</html>
