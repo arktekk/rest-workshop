@@ -48,6 +48,20 @@ req.on('end', function() {
 NOTE: Headers in the node.js http request object are ALWAYS in
 lower-case.
 
+Converting JSON string to object
+-----------------------------------
+~~~javascript
+var object = JSON.parse(data);
+~~~
+
+Converting javascript object to string
+-----------------------------------
+
+~~~javascript
+var str = JSON.stringify({hello: "world"});
+~~~
+
+
 MongoDB / Mongoose
 ------------------
 

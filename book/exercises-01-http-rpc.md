@@ -93,6 +93,19 @@ There are some example pictures available under [pictures/](./pictures/).
 Hints
 -----
 
+### Converting JSON string to object
+
+~~~javascript
+var object = JSON.parse(data);
+~~~
+
+### Converting javascript object to string
+
+~~~javascript
+var str = JSON.stringify({hello: "world"});
+~~~
+
+
 ### Curl
 
 #### POST image file
