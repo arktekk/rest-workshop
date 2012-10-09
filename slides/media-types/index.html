@@ -1,0 +1,319 @@
+<!doctype html>  
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Media Types</title>
+
+    <meta name="description" content="Media Types slides">
+    <meta name="author" content="Erlend Hamnaberg">
+    <meta name="author" content="Trygve Laugstøl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
+
+    <style>
+      .reveal section pre {
+        font-size: 1em;
+      }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+<section>
+<h1>Media Types</h1>
+</section>
+<section>
+<h1>Internet media type</h1>
+<ul>
+  <li>Used for classification of content on the Web.</li>
+<li>Type and subtype</li>
+<li>The type denotes the area of use</li>
+</li>Subtype indicates processing model.</li>
+</ul>
+<aside class="notes">
+  Type denotes the area of use.
+</aside>
+</section>
+
+<section>
+<h1>The <strong>image</strong> type</h1>
+The media type <strong>image/png</strong> lets you know that this is an Image and should be processed as 
+a lossless PNG image.
+
+</section>
+
+<section>
+<h1>MIME type</h1>
+<ul>
+  <li>Multipurpose Internet Mail Extensions</li>
+  <li>Non-ascii parts of email messages.</li>
+  <li>Email clients are unable to understand attachments without it.</li>
+</ul>
+<aside class="notes">
+The original name MIME type referred to usage to identify non-ASCII parts of email messages composed using the MIME (Multipurpose Internet Mail Extensions) specification. Without MIME types, email clients would not be able to understand if an attachment file were a PNG file or a spreadsheet and would not be able to show the attachment appropriately.
+
+</aside>
+</section>
+<section>
+<h1>Media type registry</h1>
+<h3>There are 100s of registered media types in the <a href="http://www.iana.org/assignments/media-types/index.html">IANA Registry</a></h3>
+</section>
+
+<section>
+
+<h1>Examples</h1>
+
+<pre>
+application/json
+application/xml
+application/xhtml+xml
+application/atom+xml
+application/vnd.collection+json
+text/html
+text/plain
+image/png
+image/jpeg
+video/ogg
+video/mpeg
+</pre>
+</section>
+
+    
+<section>
+
+<h1>subtype trees</h1>
+<ul>
+  <li><strong>vnd</strong> is the vendor tree
+  <ul><li>application/vnd.collection+json</li></ul>
+</li>
+<li><strong>prs</strong> is the personal tree
+  <ul><li>application/prs.plucker</li></ul>
+</li>
+<li><strong>no-prefix</strong> is the standards tree
+  <ul><li>application/atom+xml</li></ul>
+</li>
+</section>
+
+
+<section>
+
+<h1>Specific media-types</h1>
+<ul>
+  <li><strong>image/png</strong> is an example of a specific media type.</li>
+</ul>
+
+</section>
+<section>
+
+<h1>Generic media-types</h1>
+<ul>
+  <li><strong>application/vnd.collection+json</strong> is an example of a generic <strong>list-style</strong> media type.</li>
+  <li><strong>application/atom+xml</strong> is an example of a generic <strong>list-style</strong> media type.</li>
+</ul>
+
+</section>
+
+
+<section>
+
+<h1>application/collection+json</h1>
+<ul>
+  <li>Based on JSON</li>
+  <li>Crafted by Mike Amundsen
+    <ul><li>Author of "Building Hypermedia APIs with HTML5 and Node"</li></ul>
+  </li>
+<li><a href="http://amundsen.com/media-types/collection/">http://amundsen.com/media-types/collection/</a></li>
+
+<aside class="notes">Built on ideas from Atom, but has a lot of extra hypermedia controls not built into atom.</aside>
+
+</section>
+
+<section>
+
+<pre style="font-size: 0.6em;">    
+{ 
+  "collection": {
+  "version": "1.0",
+  "href": "http://example.com",
+  "items": [
+    {
+      "href": "http://example.com/item/1",
+      "data": [
+        {"name": "title", "prompt": "Title", "value": "My Ad"}
+      ]
+    }
+  ],
+  "queries": [
+    {   
+      "href": "http://example.com/item"
+      "rel": "alternate search"
+      "data": [
+        {"name": "q", "prompt": "Fulltext Query"}
+      ]
+    }
+  ]            
+  }
+}
+</pre>
+</section>
+<section>
+
+<h1>Atom</h1>
+<pre style="font-size: 0.6em;">
+&lt;feed xmlns="http://www.w3.org/2005/Atom"&gt;
+  &lt;id&gt;urn:uuid:some-uuid-here&lt;/id&gt;
+  &lt;updated&gt;2012-05-05T12:00:00.00Z&lt;/updated&gt;
+  &lt;author&gt;
+    &lt;name&gt;foo&lt;/name&gt;
+  &lt;/author&gt;
+  &lt;link rel="self" href="http://example.com/feed"/&gt;
+  &lt;entry&gt;
+    &lt;id&gt;urn:id:123&lt;/id&gt;
+    &lt;updated&gt;2012-05-05T12:00:00.00Z&lt;/updated&gt;
+    &lt;published&gt;2012-05-05T12:00:00.00Z&lt;/published&gt;
+    &lt;content type="xhtml"&gt;
+      &lt;div xmlns="http://www.w3.org/1999/xhtml"&gt;
+       &lt;p&gt;Something is written here&lt;/p&gt;
+     &lt;/div&gt;
+   &lt;/content&gt;
+ &lt;/entry&gt;
+ ....
+&lt;/feed&gt;
+</pre>    
+<aside class="notes"> Atom is quite nice for stuff that maps to it. Its more specific than collection+json
+since it targets articles, blogs etc.
+</aside>
+</section>
+
+<section>
+
+<h1>HTML</h1>
+<ul>
+  <li>Everyone knows html</li>
+<li>Nice for sending structured text</li>
+</ul>
+</section>
+
+<section>
+
+<h1>Custom media-types</h1>
+You are allowed to create your own media type and (optionally) register it with IANA.
+
+<aside class="notes"> For an organization it is probably best of putting it into the vendor tree, and
+moving it to a standards-body if it gains traction.
+</aside>
+</section>
+<section>
+<h1>Hypermedia</h1>
+
+<blockquote cite="http://en.wikipedia.org/wiki/World_Wide_Web">
+The World Wide Web [...](the Web) is a system of interlinked hypertext documents 
+accessed via the Internet. 
+With a User Agent, one can access documents that may contain text, images, 
+videos, and other multimedia and navigate between them via hyperlinks.
+</blockquote>
+<strong>Slightly modified from http://en.wikipedia.org/wiki/World_Wide_Web</strong>
+
+<aside class="notes">Collected this can be thought of as Hypermedia. Data With Hypermedia controls.</aside>
+
+</section>
+
+
+<section>
+
+<h1>Hyperlinks</h1>
+<h3>"User interface" controls that encapsulates intent and a target URI.</h3>
+
+<aside class="notes">User interface must be interpreted quite loosely here. It includes both
+H2M and M2M.
+</aside>
+
+</section>
+
+<section>
+
+<h1>Link Relation</h1>
+<ul>
+  <li>A property of a link which signals intent.</li>
+  <li>Gives context for a User Agent</li>
+<li>Signals what the target URI is</li>
+ 
+</ul>
+
+</section>
+
+<section>
+
+<h1>Encoding of link relations</h1>
+
+<pre>
+&lt;a href="/" rel="alternate"/&gt;
+
+&lt;link rel="stylesheet" href="foo.css"/&gt;
+</pre>
+<aside class="notes">
+  can be done in a multitude of ways. Either by name of the element/property, or 
+a property/attribute on the link itself.
+</aside>
+  </section>
+
+
+      </div>
+      
+    </div>
+
+    <script src="../reveal.js/lib/js/head.min.js"></script>
+    <script src="../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+      
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        rollingLinks: false,
+        
+        theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../reveal.js/lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+          { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../reveal.js/lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../reveal.js/lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+          { src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+        ]
+      });
+      
+    </script>
+
+  </body>
+</html>
