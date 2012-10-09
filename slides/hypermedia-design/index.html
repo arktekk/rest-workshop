@@ -1,0 +1,277 @@
+<!doctype html>  
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    
+    <title>HTTP</title>
+
+    <meta name="description" content="HTTP slides">
+    <meta name="author" content="Erlend Hamnaberg">
+    <meta name="author" content="Trygve Laugstøl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
+
+    <style>
+      .reveal section pre {
+        font-size: 1em;
+      }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+      document.write( '<link rel="stylesheet" href="../reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+  <section>
+    <h1>Hypermedia Design</h1>
+  </section>
+
+<section>
+  <h1>Design</h1>
+<ul><li>Attempt to generalize what is being modeled</li>
+<li>Design for extensibility</li>
+<li>Avoid encoding too much of the domain into media types.</li>
+<li>Try to make it as easy to parse as possible.</li>
+</ul>
+
+
+<aside class="notes">If a customer is being modeled. Think of this as a person/organization.
+Take a step back and see if you can think of the problem in a different manner.
+
+</aside>
+</section>
+<section>
+<h1>Data</h1>
+<ul><li>Concepts, not objects</li>
+<li>Generic, but not too generic</li>
+</ul>
+<aside class="notes"> Think of media types as a class if that helps the abstraction.</aside>
+</section>
+
+<section>
+
+<h1>Data example</h1>
+<ul>
+  <li>A customer is an instance of a Contact class.</li>
+  <li>Contact is a generalization of Person and Organization.</li>
+  <li>Presto: text/vcard</li>
+</ul>
+</section>
+<section>
+<h1>Links</h1>
+
+<ul>
+  <li>Contextualizes the request/response</li>
+  <li>Strongly typed</li>
+  <li>Signals intent</li>
+</ul>
+
+</section>
+<section>
+<h1>Links</h1>
+<ul>
+  <li>Simple hyperlink</li>
+  <li>Forms</li>
+  <li>URI-templates</li>
+</ul>
+
+</section>
+<section>
+
+<h1>Relative links</h1>
+<ul>
+  <li>Try to allow for relative links in your designs</li>
+  <li>XML has this solved with the xml:base attribute.</li>
+  <li>JSON needs a separate solution.</li>
+</section>
+<section>
+
+<h1>Choose a base format</h1>
+<ul>
+  <li>XML</li>
+  <li>JSON</li>
+</ul>
+
+</section>
+
+<section>
+<h1>XML Pros</h1>
+  <ul>
+    <li>Document centric.</li>
+    <li>Extensible by default (namespaces)</li>
+    <li>Elements AND attributes</li>
+    <li>Lots of tool-support</li>
+</section>
+
+<section>
+<h1>XML Cons</h1>
+  <ul>
+    <li>Document centric.</li>
+    <li>Can be wordy and verbose</li>
+    <li>Adds boilerplate</li>
+    <li>No typed data</li>
+    <li>No hypermedia support built in</li>
+  </ul>
+</section>
+<section>
+
+<h1>JSON Pros</h1>
+<ul>
+  <li>"object" based</li>
+  <li>Hot and "new"</li>
+  <li>Typed data</li>
+  <li>Simple model</li>
+  <li>Easy to parse</li>
+</ul>
+</section>
+
+<section>
+<h1>JSON Cons</h1>
+
+<ul>
+  <li>Overhyped</li>
+  <li>Very easy to add backward-incompatible changes</li>
+  <li>Little tool support (improving)</li>
+  <li>No hypermedia support built-in</li>
+  <li>Simple model</li>
+</ul>
+</section>
+
+<section>
+<h1>Making things easy to parse</h1>
+<ul>
+  <li>Keep the number of concepts to a minimum.</li>
+  <li>Generic concepts MAY be re-used to represent different things, eg. HTML</li>
+  <li>Semantics SHOULD be expressed in link relations not in the media-type.</li>
+</ul>
+
+</section>
+
+<section>
+<h1>Serialization</h1>
+<ul>
+  <li>DO NOT SERIALIZE OBJECTS AUTOMATICALLY</li>
+  <li>DO NOT SERIALIZE OBJECTS AUTOMATICALLY</li>
+  <li>DO NOT SERIALIZE OBJECTS AUTOMATICALLY</li>
+  <li>If you do, you WILL get to know pain.</li>
+</ul>
+</section>
+
+<section>
+<h1>Serialization</h1>
+<ul>
+  <li>Build a model for your serialization format (intermediate).</li>
+  <li>Always convert to the intermediate before serializing.</li>
+</ul>
+</section>
+
+<section>
+<h1>Evolvability</h1>
+<ul>
+  <li>This is what you are looking for.</li>
+  <li>Think Data, not software.</li>
+</ul>
+
+</section>
+
+<section>
+<h1>Versioning</h1>
+  <ul>
+    <li>A solution looking for a problem</li>
+    <li>Do NOT do this!!!</li>
+    <li>Breaking changes needs a new media type.</li>
+    <li><a href="http://www.mnot.net/blog/2011/10/25/web_api_versioning_smackdown">http://www.mnot.net/blog/2011/10/25/web_api_versioning_smackdown</a></li>
+  </ul>
+</section>
+
+<section>
+<h1>Extensibility</h1>
+  <ul>
+    <li>MUST Ignore unknowns</li>
+    <li>In XML
+      <ul>
+        <li>Use namespaces</li>
+        <li>Allow new elements and attributes to be added in current namespace</li>
+      </ul>
+    </li>
+    <li>In JSON
+      <ul>
+        <li>Constrain certain data</li>
+        <li>Allow new properties to be added to every object.</li>
+        <li>Develop an extension model</li>
+      </ul>
+    </li>
+  </ul>
+<aside class="notes">
+You must ignore unknown elements and attributes
+This also helps the robustness of your parsers.
+</aside>
+</section>
+
+<section>
+<h1>Helping to evolve</h1>
+<ul>
+  <li>Content Negotiation</li>
+  <li>Intermediaries convert to/from old format.</li>
+  <li>Redirect if an old format is detected.</li>
+</ul>
+<aside class="notes">Utilizing HTTP and REST, makes evolvability an obtainable goal.</aside>
+</section>
+
+      </div>
+      
+    </div>
+
+    <script src="../reveal.js/lib/js/head.min.js"></script>
+    <script src="../reveal.js/js/reveal.min.js"></script>
+
+    <script>
+      
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        rollingLinks: false,
+        
+        theme: Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../reveal.js/lib/js/highlight.js', async: true, callback: function() { window.hljs.initHighlightingOnLoad(); } },
+          { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../reveal.js/lib/js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../reveal.js/lib/js/data-markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '/socket.io/socket.io.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } },
+          { src: 'plugin/speakernotes/client.js', async: true, condition: function() { return window.location.host === 'localhost:1947'; } }
+        ]
+      });
+      
+    </script>
+
+  </body>
+</html>
