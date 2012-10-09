@@ -16,7 +16,7 @@ Getting the request body as a string
 
 ~~~javascript
 http.createServer(function(req, res) {
-  var chunk = "";
+  var s = "";
   req.on('data', function(chunk) {
     s += chunk;
   });
