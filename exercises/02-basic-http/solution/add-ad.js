@@ -14,10 +14,10 @@ var images = args.slice(2);
 
 function createAd(title, body, cb) {
 	request.post({uri: createURI,
-		json: JSON.stringify({ 
+		json: { 
 			title: title,
 	    	body: body
-		})
+		}
 	}, function(err, res, body) {
   		if (err) cb(err);
   		if (res.statusCode == 200) cb(undefined, body.id);

@@ -3,10 +3,10 @@ var request = require("request")
 
 function createAd(title, body, callback) {
 	request.post({uri: "",
-		json: JSON.stringify({ 
+		json: { 
 			title: title,
 	    	body: body
-		})
+		}
 	}, function(err, res, body) {
 	});
 }
