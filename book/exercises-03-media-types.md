@@ -13,7 +13,7 @@ Steps
 -----
 
 Implement the API described in [Ads'r'us API (with domain-specific media
-types)](ads-r-us-api-with-specific-media-types.html). Continue
+types)](ads-r-us-api-with-domain-specific-media-types.html). Continue
 with the implementation you completed in the previous exercise.
 
 Replace the usage of `application/json` with `application/vnd.ad+json`
