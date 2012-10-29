@@ -61,6 +61,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#add-picture-endpoint">Add picture endpoint</a></li>
 </ul></li>
 <li><a href="#hints">Hints</a><ul>
+<li><a href="#starting-mongodb">Starting mongodb</a></li>
 <li><a href="#converting-json-string-to-object">Converting JSON string to object</a></li>
 <li><a href="#converting-javascript-object-to-string">Converting javascript object to string</a></li>
 <li><a href="#curl-1">Curl</a><ul>
@@ -128,7 +129,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </ul></li>
 <li><a href="#example-ad.json-2">Example <code>ad.json</code></a></li>
 </ul></li>
-<li><a href="#exercise-generic-media-types">Exercise: Generic Media Types</a><ul>
+<li><a href="#exercise-existing-media-types">Exercise: Existing Media Types</a><ul>
 <li><a href="#objective-3">Objective</a></li>
 <li><a href="#steps-3">Steps</a></li>
 <li><a href="#retrospective-3">Retrospective</a><ul>
@@ -176,6 +177,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <li><a href="#add-if-unmodified-since-1">Add <code>If-Unmodified-Since</code></a></li>
 </ul></li>
 <li><a href="#node-cheat-sheet">Node Cheat Sheet</a><ul>
+<li><a href="#minimal-http-server">Minimal http server</a></li>
 <li><a href="#running-a-node-application">Running a node application</a></li>
 <li><a href="#getting-the-request-body-as-a-string">Getting the request body as a string</a></li>
 <li><a href="#base64-encode-binary-data-on-a-request">Base64-encode binary data on a request</a></li>
@@ -310,6 +312,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </section>
 <section class="level2" id="hints">
 <h2><a href="#TOC">Hints</a></h2>
+<section class="level3" id="starting-mongodb">
+<h3><a href="#TOC">Starting mongodb</a></h3>
+<pre><code>cd /path/to/exercises/ &amp;&amp; ./mongo.sh</code></pre>
+</section>
 <section class="level3" id="converting-json-string-to-object">
 <h3><a href="#TOC">Converting JSON string to object</a></h3>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> object = <span class="kw">JSON</span>.<span class="fu">parse</span>(data);</code></pre>
@@ -618,8 +624,8 @@ Body: &lt;body&gt;</code></pre>
 }</code></pre>
 </section>
 </section>
-<section class="level1" id="exercise-generic-media-types">
-<h1><a href="#TOC">Exercise: Generic Media Types</a></h1>
+<section class="level1" id="exercise-existing-media-types">
+<h1><a href="#TOC">Exercise: Existing Media Types</a></h1>
 <section class="level2" id="objective-3">
 <h2><a href="#TOC">Objective</a></h2>
 <p>Now we're moving from a domain specific media type to encode the same concepts by using an existing media type.</p>
@@ -867,6 +873,14 @@ Body: &lt;body&gt;</code></pre>
 <li><a href="http://nodejs.org">Node home page</a></li>
 <li><a href="http://nodejs.org/api/all.html">Full documentation</a></li>
 </ul>
+<section class="level2" id="minimal-http-server">
+<h2><a href="#TOC">Minimal http server</a></h2>
+<pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">var</span> http = require(<span class="st">&quot;http&quot;</span>);
+
+<span class="kw">http</span>.<span class="fu">createServer</span>(<span class="kw">function</span>(req, res)) {
+    <span class="kw">res</span>.<span class="fu">end</span>(<span class="st">&quot;Hello World&quot;</span>); <span class="co">//Must be called to &quot;close&quot; the response.</span>
+});</code></pre>
+</section>
 <section class="level2" id="running-a-node-application">
 <h2><a href="#TOC">Running a node application</a></h2>
 <pre><code>$ node server.js</code></pre>
@@ -874,7 +888,7 @@ Body: &lt;body&gt;</code></pre>
 <section class="level2" id="getting-the-request-body-as-a-string">
 <h2><a href="#TOC">Getting the request body as a string</a></h2>
 <pre class="sourceCode javascript"><code class="sourceCode javascript"><span class="kw">http</span>.<span class="fu">createServer</span>(<span class="kw">function</span>(req, res) {
-  <span class="kw">var</span> chunk = <span class="st">&quot;&quot;</span>;
+  <span class="kw">var</span> s = <span class="st">&quot;&quot;</span>;
   <span class="kw">req</span>.<span class="fu">on</span>(<span class="ch">&#39;data&#39;</span>, <span class="kw">function</span>(chunk) {
     s += chunk;
   });
