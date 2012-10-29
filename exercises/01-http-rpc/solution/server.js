@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
   var db = mongoose.connection.db
   http.createServer(function(req, res) {
     var u = url.parse(req.url, true);
-    if(u.pathname == "/create-ad") {
+    if(u.pathname === "/create-ad") {
       var s = "";
       req.on('data', function(chunk) {
         s += chunk;
@@ -33,7 +33,7 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
         res.write(JSON.stringify({ result: "ok", id: ad._id }));
         res.end("\n");
       });
-    } else if(u.pathname == "/ad") {
+    } else if(u.pathname === "/ad") {
       req.on('end', function() {
         Db.Ad.findOne({_id: u.query.id}, function(err, doc) {
           console.log(arguments);
@@ -49,7 +49,7 @@ mongoose.connect('mongodb://localhost/01-http-rpc', function() {
           res.end("\n");
         });
       });
-    } else if(u.pathname == "/add-picture") {
+    } else if(u.pathname === "/add-picture") {
       var id = u.query.adId;
       var data = [];
       var datalength = 0;

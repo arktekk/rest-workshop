@@ -20,7 +20,7 @@ function createAd(title, body, cb) {
 		}
 	}, function(err, res, body) {
   		if (err) cb(err);
-  		if (res.statusCode == 200) cb(undefined, body.id);
+  		if (res.statusCode === 200) cb(undefined, body.id);
   		else cb("Unexpected status code here"); 
 	});
 }

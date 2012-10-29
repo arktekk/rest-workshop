@@ -107,7 +107,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
     var u = url.parse(req.url, true);
-    if(u.pathname == "/create-ad") {
+    if(u.pathname === "/create-ad") {
       if(assertMethod(req, res, 'POST')) {
         if(assertContentTypeAd(req, res)) {
           var s = "";
@@ -125,7 +125,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
           });
         }
       }
-    } else if(u.pathname == "/ad") {
+    } else if(u.pathname === "/ad") {
       if(assertMethod(req, res, 'GET')) {
         if(assertAcceptAd(req, res)) {
           req.on('end', function() {
@@ -147,7 +147,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
           });
         }
       }
-    } else if(u.pathname == "/ads") {
+    } else if(u.pathname === "/ads") {
       if(assertMethod(req, res, 'GET')) {
         if(assertAcceptAdList(req, res)) {
           req.on('end', function() {
@@ -169,7 +169,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
           });
         }
       }
-    } else if(u.pathname == "/add-picture") {
+    } else if(u.pathname === "/add-picture") {
       var failed = false;
       var id = u.query.adId;
       var fileId = new ObjectID();

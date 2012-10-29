@@ -41,8 +41,8 @@ function assertMethod(req, res, method) {
 
 function assertAccept(req, res, method) {
   if(typeof req.headers.accept === "undefined" ||
-    req.headers.accept == 'application/json' ||
-    req.headers.accept == '*/*') {
+    req.headers.accept === 'application/json' ||
+    req.headers.accept === '*/*') {
     return true;
   }
   var txt = 'Illegal accept, you can only use application/json';
@@ -58,7 +58,7 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
     var u = url.parse(req.url, true);
-    if(u.pathname == "/create-ad") {
+    if(u.pathname === "/create-ad") {
       if(assertMethod(req, res, 'POST')) {
         if(assertContentType(req, res, 'application/json')) {
           var s = "";
@@ -77,7 +77,7 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
           });
         }
       }
-    } else if(u.pathname == "/ad") {
+    } else if(u.pathname === "/ad") {
       if(assertMethod(req, res, 'GET')) {
         if(assertAccept(req, res)) {
           req.on('end', function() {
@@ -98,7 +98,7 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
           });
         }
       }
-    } else if(u.pathname == "/add-picture") {
+    } else if(u.pathname === "/add-picture") {
 			if(assertMethod(req, res, 'POST')) {
 				if(assertContentType(req, res, 'image/jpeg')) {
 					var id = u.query.adId;
