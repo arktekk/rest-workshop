@@ -1,8 +1,6 @@
 haskell-platform
 pandoc > 1.9
-texlive-fonts-extra
-texlive-fonts-recommended
-texlive-latex
-texlive-latex-extra 
+MacTex or texlive-fonts-extra texlive-fonts-recommended texlive-latex texlive-latex-extra 
+if (MacTex) export PATH=/Library/TeX/Root/bin/x86_64-darwin:$PATH
 dexy
 

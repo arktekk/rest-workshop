@@ -9,7 +9,7 @@ INDEX_MD_MARKDOWN=\
 	output/exercises-02-basic-http-example-ad.md \
 	exercises-03-media-types.md \
 	output/exercises-03-media-types-example-ad.md \
-	exercises-04-generic-media-types.md \
+	exercises-04-existing-media-types.md \
 	exercises-05-hypermedia-design.md \
 	appendix.md \
 	curl-cheat-sheet.md \
