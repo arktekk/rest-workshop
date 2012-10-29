@@ -93,6 +93,9 @@ There are some example pictures available under [pictures/](./pictures/).
 Hints
 -----
 
+### Starting mongodb
+	cd /path/to/exercises/ && ./mongo.sh
+
 ### Converting JSON string to object
 
 ~~~javascript
