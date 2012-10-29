@@ -1,0 +1,42 @@
+# Representational State Transfer og Hypermedia - Erlend Hamnaberg
+
+I dette kurset vil du lære deg å gjenkjenne og utvikle RESTfulle arkitekturer.
+Kurset er beregnet for programmerere og arkitekter som holder på med, eller skal
+begynne, å lage APIer.  Kurset er oppgaveorientert, og vil gi en grundig innføring
+i hvordan man skal kunne utvikle software som bruker HTTP korrekt.
+Man vil utvikle både servere og klienter. 
+
+# I kurset lærer du:
+
+o hvordan HTTP fungerer
+o hva REST er, og hva det ikke er.
+o å kunne lage hypermedia-formater
+o å kunne bruke hypermedia-formater
+o å gjenbruke eksisterende standarder og "mindshare"
+o å lage server og klienter som arbeider med hypermedia
+o å kjenne igjen gode og dårlige APIer
+
+
+# Følgende emner behandles i kurset
+
+o HTTP
+o REST
+o Arkitektoniske stiler
+o Hypermedia
+o Dataformater
+o RFC
+o dokumentasjon
+o Node.js
+
+
+# Hvem passer kurset for?
+
+Utviklere og arkitekter som holder på med eller skal begynne å lage HTTP-baserte APIer.
+
+# Om kursforfatterene
+
+Erlend Hamnaberg og Trygve Laugstøl er systemutviklere som har lang erfaring i utvikling
+av mange forskjellige applikasjoner. Erlend har jobbet med REST i over 5 år, og har hatt
+vært hovedutvikler og arkitekt på flere REST-apier. 
+Trygve Laugstøl har i flere år vært instruktør om Maven hos Programutvikling. Begge har 
+holdt flere foredrag blant annet på JavaZone.
