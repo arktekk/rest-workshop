@@ -6,6 +6,17 @@ References:
 * [Node home page](http://nodejs.org)
 * [Full documentation](http://nodejs.org/api/all.html)
 
+Minimal http server
+-----------------
+
+~~~javascript
+var http = require("http");
+
+http.createServer(function(req, res)) {
+	res.end("Hello World"); //Must be called to "close" the response.
+});
+~~~
+
 Running a node application
 --------------------------
 
