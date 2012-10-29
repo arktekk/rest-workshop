@@ -1,4 +1,4 @@
-Exercise: Generic Media Types
+Exercise: Existing Media Types
 =============================
 
 Objective
