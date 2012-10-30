@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Node & JavaScript</title>
+
+    <meta name="description" content="HTTP slides">
+    <meta name="author" content="Erlend Hamnaberg">
+    <meta name="author" content="Trygve Laugstøl">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+
+    <link rel="stylesheet" href="../reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="../reveal.js/css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
+
+    <style>
+        .reveal section pre {
+            font-size: 1em;
+        }
+    </style>
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+    <script>
+        document.write('<link rel="stylesheet" href="../reveal.js/css/print/' + ( window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">');
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+        <section>
+            <h1>Node js</h1>
+        </section>
+        <section>
+
+            <h1>At a glance</h1>
+
+            <ul>
+                <li>Runs JavaScript on the server</li>
+                <li>Built on top of Google's V8 engine</li>
+                <li>Standalone</li>
+                <li>Lightweight</li>
+                <li>Cross platform</li>
+            </ul>
+
+            <aside class="notes"> Ships with a set of core libraries, for interaction with the filesystem and network
+                among other things.Cross platform thanks to libuv
+            </aside>
+        </section>
+
+        <section>
+            <h1>History</h1>
+            <ul>
+                <li>Project started by Ryan Dahl in 2009</li>
+                <li>Gained popularity quickly</li>
+                <li>Has a large, active community worldwide</li>
+                <li>Now maintained by Joyent inc</li>
+            </ul>
+            <aside class="notes"> Ryan pondered writing an event web server. Considered LUA and other languages, but
+                settled with JavaScript
+                due to the lack of existing IO API.
+                Got lots of attention after jsconf in 09.
+            </aside>
+        </section>
+
+        <section>
+            <h1>Key principles</h1>
+            <ul>
+                <li>Single threaded - no locking</li>
+                <li>Event-driven, asynchronous I/O</li>
+                <li>Non-blocking</li>
+                <li>CPU-bound tasks dispatched to other workers</li>
+            </ul>
+            <aside class="notes"> There has been a lot of discussion surrounding Node.js' applicability for servers with
+                CPU-bound tasks.
+                This is easily solved by dispatching such tasks to a pool of other nodes, then go on to handle other
+                requests.
+                When the CPU-bound task is completed, the main node is notified and a response can be sent.
+            </aside>
+        </section>
+
+        <section>
+            <h1>Modules</h1>
+            <ul>
+                <li>The package manager: NPM</li>
+                <li>More than 10.000 modules</li>
+                <li>Something for everything, but no guarantees</li>
+            </ul>
+            <aside class="notes"> Comparable to rubygems, but favors locally installed packages. Makes it relatively
+                easy to handle versioning,
+                and dead simple to see where different dependencies are pulled in from.
+            </aside>
+        </section>
+
+        <section>
+            <h1>Component</h1>
+            <ul>
+                <li>Server</li>
+                <li>Client</li>
+                <li>Intermediary</li>
+            </ul>
+            <aside class="notes">Software which is part of the networked system. Any Piece of software within a restful
+                architecture is
+                a Component.
+            </aside>
+        </section>
+
+        <section>
+            <h1>Success factors</h1>
+            <ul>
+                <li>Well known language</li>
+                <li>Easy to use</li>
+                <li>NPM quickly hit critical mass</li>
+                <li>Event model works for hip web apps</li>
+                <li>Share code between browser and server</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>JavaScript</h1>
+            <ul>
+                <li>Released in 1995, designed by Brendan Eich</li>
+                <li>Weakly typed</li>
+                <li>Prototype-based</li>
+                <li>Multi-paradigm</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>JavaScript: Functions</h1>
+            <pre>
+function calc(bar) {
+    return bar * 2;
+}
+
+calc(10); // => 20
+            </pre>
+        </section>
+        <section>
+            <h1>JavaScript: Object-oriented</h1>
+            <pre>
+function Foo(bar) {
+    this.bar = bar;
+}
+
+Foo.prototype.calc = function() {
+    return this.bar * 2;
+}
+
+var foo = new Foo(10);
+foo.calc(); // => 20
+            </pre>
+        </section>
+
+        <section>
+            <h1>JavaScript: Functional</h1>
+            <pre>
+function squareSum(x) {
+  return function(y) {
+    return x*x + y*y;
+  }
+}
+
+squareSum(10)(20); // => 500
+            </pre>
+            <aside class="notes">Functions need not have names all the time.
+                Functions can be assigned to variables like other values.
+                A function expression cqn be written and enclosed in parentheses for application later.
+                Functions can be passed as arguments to other functions.</aside>
+        </section>
+
+        <section>
+            <h2>JavaScript is simple</h2>
+            <ul>
+                <li>New array: var a = [1, 2, 3];</li>
+                <li>New object: var o = {foo: 'hi', bar: 12};</li>
+                <li>New function: var f = function(a) {return a+1;}</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>JavaScript is weird</h2>
+            <ul>
+                <li>0 == '0' => true</li>
+                <li>0 == '' => true</li>
+                <li>" \t\r\n" == 0 => true</li>
+                <li>[] + [] => ""</li>
+                <li>{} + [] => 0</li>
+                <li>{} + {} => NaN</li>
+            </ul>
+        </section>
+        <section>
+            <h1>JavaScript is different</h1>
+            <pre>
+var foo = 1;
+function bar() {
+  if (!foo) {
+    var foo = 10;
+  }
+  alert(foo);
+}
+bar();
+            </pre>
+            <aside class="notes">Will alert 10. JavaScript has function level scopes - not block level</aside>
+        </section>
+        <section>
+            <h2>JavaScript survival tips</h2>
+            <ul>
+                <li>Use === for value AND type comparison</li>
+                <li>Avoid newline after return, when returning a value</li>
+                <li>Pay attention to scoping rules</li>
+            </ul>
+            <aside class="notes">If you include a newline, an imlicit semicolon will be inserted, and no value will actually be returned.
+                Curly braces are therefore usually not placed on new lines in JavaScript.</aside>
+        </section>
+
+        <section>
+            <h1>Live Coding</h1>
+        </section>
+        <section>
+            <h2>Basic Node.js</h2>
+            <pre>
+var http = require('http');
+
+http.createServer(function(req, res) {
+  res.writeHead(200);
+  res.write('Hello world!');
+  res.end();
+}).listen(3000);
+            </pre>
+            <aside class="notes">Use require to load modules. Note the anonymous function
+                passed to createServer - it will be called for each incoming request</aside>
+        </section>
+        <section>
+            <h2>URL & Query string parsing</h2>
+            <pre>
+var http = require('http')
+  , url = require('url');
+
+http.createServer(function(req, res) {
+  var u = url.parse(req.url, true);
+  res.writeHead(200);
+  res.write('Hello ' + u.query.name + '!');
+  res.end();
+}).listen(3000);
+            </pre>
+            <aside class="notes">Remember pass 'true' as the second parameter to parse,
+                to also parse the query string.</aside>
+        </section>
+        <section>
+            <h2>Mongoose: MongoDB with a schema</h2>
+            <pre style="font-size: 0.7em;">
+var Ad = new mongoose.Schema({
+    title    : String
+  , body     : String
+  , pictures : [String]
+});
+var Db = { Ad: mongoose.model('Ad', Ad) };
+
+mongoose.connect('mongodb://localhost/demo',
+function() {
+  var ad = Db.Ad.new();
+  ad.title = 'hi';
+  ad.save();
+
+  Db.Ad.findOne({title: 'hi'}, function(err, ad) {
+    ad.body = 'world';
+    ad.save();
+  });
+});
+            </pre>
+        </section>
+        <section>
+            <h2>Running the exercises</h2>
+            <ul>
+                <li>npm install</li>
+                <li>node server.js</li>
+            </ul>
+        </section>
+    </div>
+
+
+</div>
+
+<script src="../reveal.js/lib/js/head.min.js"></script>
+<script src="../reveal.js/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls:true,
+        progress:true,
+        history:true,
+        rollingLinks:false,
+
+        theme:Reveal.getQueryHash().theme || 'default', // available themes are in /css/theme
+        transition:Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies:[
+            { src:'../reveal.js/lib/js/highlight.js', async:true, callback:function () {
+                window.hljs.initHighlightingOnLoad();
+            } },
+            { src:'../reveal.js/lib/js/classList.js', condition:function () {
+                return !document.body.classList;
+            } },
+            { src:'../reveal.js/lib/js/showdown.js', condition:function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src:'../reveal.js/lib/js/data-markdown.js', condition:function () {
+                return !!document.querySelector('[data-markdown]');
+            } },
+            { src:'/socket.io/socket.io.js', async:true, condition:function () {
+                return window.location.host === 'localhost:1947';
+            } },
+            { src:'plugin/speakernotes/client.js', async:true, condition:function () {
+                return window.location.host === 'localhost:1947';
+            } }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
