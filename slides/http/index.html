@@ -397,7 +397,7 @@ All the accept headers have a similar quality syntax.
 </section>
 <section>
 
-<h1>Accept* header qualifiers</h1>
+<h1>Accept* header quality</h1>
 <pre>
 Accept: application/xml; q=1.0, application/xhtml+xml; q=0.8, 
 application/json;q=0.4, *.*;q=0.3 
@@ -436,9 +436,9 @@ Can be improved by having @hreflang and @type in links
         "prompt": "Main Site"
       },
       {
-        "href": "http://example.org", 
-        "rel": "alternate", 
-        "prompt": "Main Site 2"
+        "href": "http://example.no", 
+        "rel": "alternate lang-no", 
+        "prompt": "Main Site in Norwegian"
       }
     ]
   }    
@@ -595,7 +595,7 @@ Authorization: Digest username="Mufasa",
 <ul>
   <li>HTTP + SSL</li>
   <li>Only transport-level security</li>
-  <li>Loses intermediary support, as HTTPS in HTTP/1.1 is end-to-end, not hop-by-hop</li>
+  <li>Loses intermediary support</li>
 </ul>
 <aside class="notes"> HTTPS could be added by having a HTTPS loadbalancer.</aside>
 </section>
