@@ -15,8 +15,8 @@ var Db = {
   Ad: mongoose.model('Ad', Ad)
 };
 
-var mediaTypeAd = 'application/vnd.ad+json';
-var mediaTypeAdList = 'application/vnd.ad-list+json';
+var mediaTypeAd = 'application/vnd.collection+json';
+var mediaTypeAdList = 'application/vnd.collection+json';
 
 function assertContentTypeAd(req, res) {
   return assertContentType(req, res, mediaTypeAd);
@@ -85,6 +85,10 @@ UriGenerator.addAd = function(req) {
   return this.baseUri(req) + '/ads';
 }
 
+UriGenerator.ads = function(req) {
+  return this.baseUri(req) + '/ads';
+}
+
 UriGenerator.ad = function(req, id) {
   return this.baseUri(req) + '/ad?id=' + id;
 }
@@ -100,16 +104,18 @@ UriGenerator.picture = function(req, id, index) {
 function docToAd(req) {
   return function(doc) {
     var docPictures = doc.pictures || [];
-    var pictures = [];
+    var links = [{href : UriGenerator.addPicture(req, doc._id), rel: "add-picture", render: "link"}];
     for (i = 0; i < docPictures.length; i++) {
-      pictures.push(UriGenerator.picture(req, doc._id, i));
+      links.push({href: UriGenerator.picture(req, doc._id, i), rel: "picture", render: "image"});
     }
     return {
-      title: doc.title,
-      body: doc.body,
-      self: UriGenerator.ad(req, doc._id),
-      "add-picture": UriGenerator.addPicture(req, doc._id),
-      pictures: pictures
+      href: UriGenerator.ad(req, doc._id),
+      data: [
+        {name: "title", value: doc.title},
+        {name: "body", value: doc.body},
+        {name: "title", value: doc.title},      
+      ],
+      links: links,
     };
   };
 }
@@ -130,7 +136,14 @@ function findOne(u, res) {
       }
     });
   }  
+}
 
+function toDataObject(obj) {
+  var data = obj.data || [];
+  return _.reduce(data, function(obj, item) {
+    obj[item.name] = item.value;
+    return obj;
+  }, {});
 }
 
 mongoose.connect('mongodb://localhost/03-media-types', function() {
@@ -157,7 +170,14 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
           } else if(assertAcceptAd(req, res)) {
             findOne(u, req, res)(function(doc, u) {
               res.writeHead(200, {'Content-Type': mediaTypeAd });
-              res.write(JSON.stringify(docToAd(req)(doc)));        
+              var ad = docToAd(req)(doc);
+              res.write(JSON.stringify({
+                collection: {
+                  href: ad.href,
+                  items: [ad]
+                }
+              })
+              );        
               res.end('\n');
             }); 
           }                 
@@ -172,9 +192,12 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
           });
           req.on('end', function() {
             var payload = JSON.parse(s);
+            console.log("OOOOOOOOO " + payload);
+            var data = toDataObject(payload.template);
+            console.log("OOOOOOOOO " + data);
             var ad = new Db.Ad();
-            ad.title = payload.title;
-            ad.body = payload.body;
+            ad.title = data.title;
+            ad.body = data.body;
             ad.save();
             res.writeHead(201, {'Location': UriGenerator.ad(req, ad._id)});
             res.end("\n");
@@ -188,10 +211,21 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
               }
               else {
                 res.writeHead(200, {'Content-Type': mediaTypeAdList});
-                res.write(JSON.stringify({
-                  count: docs.length,
-                  addAd: UriGenerator.addAd(req),
-                  ads: _.map(docs, docToAd(req))
+                var mapper = docToAd(req);
+                res.write(JSON.stringify({                
+                  collection: {
+                    href: UriGenerator.ads(req),
+                    items: _.map(docs, mapper),
+                    links: [
+                      {href: UriGenerator.addAd(req), rel: "add-ad", render: "link"}
+                    ],
+                    template: {
+                      data: [
+                        {name: 'title', prompt: "Title text"},
+                        {name: 'body', prompt: "Body text"}
+                      ]                    
+                    }
+                  }
                 }));
               }
               res.end("\n");

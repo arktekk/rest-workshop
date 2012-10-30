@@ -4,8 +4,8 @@ var request = require('request'),
 
 var baseUri = 'http://localhost:3000';
 
-var mediaTypeAd = 'application/vnd.ad+json';
-var mediaTypeAdList = 'application/vnd.ad-list+json';
+var collectionJson = 'application/vnd.collection+json';
+
 
 function dumpResponse(res) {
   console.log(res.headers);
@@ -24,16 +24,17 @@ function() {
   request({
     method: 'GET', uri: baseUri + '/ads',
     headers: {
-      'Content-Type': mediaTypeAdList
+      'Content-Type': collectionJson
     }}, this);
 },
 function(err, res, body) { if(err) throw err;
   assert.equal(200, res.statusCode);
-  assert.equal(mediaTypeAdList, res.headers['content-type']);
-  body = JSON.parse(body);
-  assert.equal(body.count, body.ads.length);
-  count = body.count;
-  createUrl = body.addAd;
+  assert.equal(collectionJson, res.headers['content-type']);
+  body = JSON.parse(body).collection || {};
+  console.log("BODY IS: " + JSON.stringify(body));
+  var items = body.items || [];
+  count = items.length;
+  createUrl = body.href;
   console.log("count is "+  count);
   this();
 },
@@ -43,11 +44,15 @@ function(err) { if(err) throw err;
   request({
     method: 'POST', uri: createUrl,
     headers: {
-      'Content-Type': mediaTypeAd
+      'Content-Type': collectionJson
     },
     body: JSON.stringify({
-      title: 'Nice house for sale!',
-      body: 'Four rooms, huge bath.'
+      template: {
+        data: [
+          {name: 'title', value: 'Nice house for sale!'},
+          {name: 'body', value: 'Four rooms, huge bath.'}
+        ]
+      }
     })}, this);
 },
 function(err, res, body) { if(err) throw err;
@@ -64,12 +69,12 @@ function(err, adUri) { if(err) throw err;
   request({
     method: 'GET', uri: adUri,
     headers: {
-      'Accept': mediaTypeAd
+      'Accept': collectionJson
     }}, this);
 },
 function(err, res, body) { if(err) throw err;
   assert.equal(200, res.statusCode);
-  assert.ok(res.headers['content-type'], mediaTypeAd);
+  assert.ok(res.headers['content-type'], collectionJson);
   this();
 },
 
@@ -78,12 +83,12 @@ function() {
   request({
     method: 'GET', uri: baseUri + '/ads',
     headers: {
-      'Accept': mediaTypeAdList
+      'Accept': collectionJson
     }}, this);
 },
 function(err, res, body) { if(err) throw err;
-  body = JSON.parse(body);
-  assert.equal(count + 1, body.count);
+  body = JSON.parse(body).collection;
+  assert.equal(count + 1, body.items.length);
   this();
 },
 
