@@ -15,7 +15,8 @@ function dumpResponse(res) {
     console.log(body);
 }
 
-var count;
+var count, createUrl;
+
 
 Step(
 // Get the full list of ads, save the count
@@ -32,13 +33,15 @@ function(err, res, body) { if(err) throw err;
   body = JSON.parse(body);
   assert.equal(body.count, body.ads.length);
   count = body.count;
+  createUrl = body.addAd;
+  console.log("count is "+  count);
   this();
 },
 
 // Create a new ad
 function(err) { if(err) throw err;
   request({
-    method: 'POST', uri: baseUri + '/create-ad',
+    method: 'POST', uri: createUrl,
     headers: {
       'Content-Type': mediaTypeAd
     },
@@ -75,7 +78,7 @@ function() {
   request({
     method: 'GET', uri: baseUri + '/ads',
     headers: {
-      'Content-Type': mediaTypeAdList
+      'Accept': mediaTypeAdList
     }}, this);
 },
 function(err, res, body) { if(err) throw err;
