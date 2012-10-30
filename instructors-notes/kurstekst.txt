@@ -27,6 +27,7 @@ o Dataformater
 o RFC
 o dokumentasjon
 o Node.js
+o API design
 
 
 # Hvem passer kurset for?
