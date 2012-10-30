@@ -35,7 +35,11 @@ Slides
 ======
 
 The slides are available under [slides](./slides). They use
-[showoff](https://github.com/schacon/showoff) as a presentation tool.
+[Reveal.JS](https://github.com/hakimel/reveal.js) as a presentation tool.
+
+MongoDB
+=======
+There is a script for windows and *nix platforms to run mongodb.
 
 Resources and Links
 ===================
