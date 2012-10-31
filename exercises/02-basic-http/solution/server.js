@@ -1,6 +1,7 @@
 var http = require('http')
   , url = require('url')
   , util = require('util')
+  , _ = require("underscore")
   , restUtil = require('../../lib/rest-util.js')
   , mongoose = require('mongoose');
 
@@ -16,7 +17,7 @@ var Db = {
 
 function assertContentType(req, res, target) {
   var ct = req.headers['content-type'] || '';
-  if(target == ct.toLowerCase()) {
+  if(target.toLowerCase() === ct.toLowerCase()) {
     return true;
   }
   var txt = 'You have to post ' + target;
@@ -27,30 +28,43 @@ function assertContentType(req, res, target) {
   return false;
 }
 
-function assertMethod(req, res, method) {
-  if(method == req.method) {
+
+function assertMethod(req, res, methods) {
+  if(_.contains(methods, req.method)) {
     return true;
   }
-  var txt = 'Illegal method, you can only use: ' + method
-  res.writeHead(405, txt, {'Content-Type': 'text/plain', 'Allow': method});
-  res.write(txt);
-  res.write('\n');
+  var writer = maybeGetWriter(req, res);
+  var out = _.reduce(methods, function(str, item){return str + (str.length > 0 ? ',' : '') + item})
+  var txt = 'Illegal method, you can only use: ' + out
+  res.writeHead(405, {'Content-Type': 'text/plain', 'Allow': out});
+  writer(txt);
+  writer('\n');
+  res.end();
+  
+  return false;
+}
+
+function assertAccept(req, res) {
+  if(typeof req.headers.accept === "undefined" ||
+    req.headers.accept === 'application/json' ||
+    req.headers.accept === '*/*') {
+    return true;
+  }
+  var writer = maybeGetWriter(req, res);
+  var txt = 'Illegal accept, you can only use application/json';
+  res.writeHead(406, txt, {'Content-Type': 'text/plain'});
+  writer(txt);
+  writer('\n');
   res.end();
   return false;
 }
 
-function assertAccept(req, res, method) {
-  if(typeof req.headers.accept === "undefined" ||
-    req.headers.accept == 'application/json' ||
-    req.headers.accept == '*/*') {
-    return true;
+function maybeGetWriter(req, res) {
+  return function(toWrite) {
+    if (req.method !== 'HEAD') {
+      res.write(toWrite);
+    }
   }
-  var txt = 'Illegal accept, you can only use application/json';
-  res.writeHead(406, txt, {'Content-Type': 'text/plain'});
-  res.write(txt);
-  res.write('\n');
-  res.end();
-  return false;
 }
 
 mongoose.connect('mongodb://localhost/02-basic-http', function() {
@@ -58,8 +72,9 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
     var u = url.parse(req.url, true);
-    if(u.pathname == "/create-ad") {
-      if(assertMethod(req, res, 'POST')) {
+    var writer = maybeGetWriter(req, res);
+    if(u.pathname === "/create-ad") {
+      if(assertMethod(req, res, ['POST'])) {
         if(assertContentType(req, res, 'application/json')) {
           var s = "";
           req.on('data', function(chunk) {
@@ -77,29 +92,30 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
           });
         }
       }
-    } else if(u.pathname == "/ad") {
-      if(assertMethod(req, res, 'GET')) {
+    } else if(u.pathname === "/ad") {
+      if(assertMethod(req, res, ['GET', 'HEAD'])) {
         if(assertAccept(req, res)) {
           req.on('end', function() {
             Db.Ad.findOne({_id: u.query.id}, function(err, doc) {
               if(err) {
                 res.writeHead(500, {'Content-Type': 'text/plain'});
-                res.write(JSON.stringify(err.message));
+                writer(JSON.stringify(err.message))                                  
               }
               else if(doc == null) {
                 res.writeHead(404, {'Content-Type': 'text/plain'});
-                res.write("Unknown ad: " + u.query.id);
+                writer("Unknown ad: " + u.query.id);
               }
               else {
-                res.write(JSON.stringify({ result: "ok", data: doc}));
+                writer(JSON.stringify(doc));
               }
-              res.end("\n");
+              writer('\n');
+              res.end();
             });
           });
         }
       }
-    } else if(u.pathname == "/add-picture") {
-			if(assertMethod(req, res, 'POST')) {
+    } else if(u.pathname === "/add-picture") {
+			if(assertMethod(req, res, ['POST'])) {
 				if(assertContentType(req, res, 'image/jpeg')) {
 					var id = u.query.adId;
 					var data = [];
@@ -128,7 +144,7 @@ mongoose.connect('mongodb://localhost/02-basic-http', function() {
     } else {
       req.on('end', function() {
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write("Not found\n");
+        writer("Not found\n");
         res.end();
       });
     }
