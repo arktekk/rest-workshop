@@ -131,11 +131,13 @@ function findOne(u, res, writer) {
     Db.Ad.findOne({_id: u.query.id}, function(err, doc) {
       if(err) {
         res.writeHead(500, {'Content-Type': 'text/plain'});
-        writer(JSON.stringify(err.message));
+        writer(err.message);
+        res.end();
       }
       else if(doc == null) {
         res.writeHead(404, {'Content-Type': 'text/plain'});
         writer("Unknown ad: " + u.query.id);
+        res.end();
       }
       else {                
         cb(doc, u, res);
@@ -154,7 +156,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
     if(u.pathname === "/ad") {
       if(assertMethod(req, res, ['GET', 'HEAD'])) {
         req.on('end', function() {
-          if (((typeof u.query.picture) !== 'undefined') && assertAccept(req, res, 'image/jpeg')) {
+          if (u.query.picture && assertAccept(req, res, 'image/jpeg')) {
               findOne(u, res, writer)(function(doc, u, res) {
                 var pic = doc.pictures[u.query.picture];
                 if (pic === undefined) {
@@ -173,7 +175,10 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
               writer(JSON.stringify(docToAd(req)(doc)));        
               res.end('\n');
             }); 
-          }                 
+          } else {
+            res.writeHead(404);
+            res.end();
+          }                
         });
       }
     } else if(u.pathname === "/ads") {
