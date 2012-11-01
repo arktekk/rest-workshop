@@ -31,11 +31,9 @@ function(err, res, body) { if(err) throw err;
   assert.equal(200, res.statusCode);
   assert.equal(collectionJson, res.headers['content-type']);
   body = JSON.parse(body).collection || {};
-  console.log("BODY IS: " + JSON.stringify(body));
   var items = body.items || [];
   count = items.length;
   createUrl = body.href;
-  console.log("count is "+  count);
   this();
 },
 

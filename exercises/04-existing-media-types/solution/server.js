@@ -18,6 +18,15 @@ var Db = {
 var mediaTypeAd = 'application/vnd.collection+json';
 var mediaTypeAdList = 'application/vnd.collection+json';
 
+function maybeGetWriter(req, res) {
+  return function(toWrite) {
+    if (req.method !== 'HEAD') {
+      res.write(toWrite);
+    }
+  }
+}
+
+
 function assertContentTypeAd(req, res) {
   return assertContentType(req, res, mediaTypeAd);
 }
@@ -43,12 +52,13 @@ function assertMethod(req, res, methods) {
   if(_.contains(methods, req.method)) {
     return true;
   }
+  var writer = maybeGetWriter(req, res);
   var out = _.reduce(methods, function(str, item){return str + (str.length > 0 ? ',' : '') + item})
-  console.log(out);
   var txt = 'Illegal method, you can only use: ' + out
   res.writeHead(405, txt, {'Content-Type': 'text/plain', 'Allow': out});
-  res.write(txt);
-  res.end('\n');
+  writer(txt);
+  writer('\n');
+  res.end();
   return false;
 }
 
@@ -66,10 +76,11 @@ function assertAccept(req, res, contentType) {
      req.headers.accept === '*/*') {
     return true;
   }
+  var writer = maybeGetWriter(req, res);
   var txt = 'Illegal accept, you can only use ' + contentType;
   res.writeHead(406, txt, {'Content-Type': 'text/plain'});
-  res.write(txt);
-  res.write('\n');
+  writer(txt);
+  writer('\n');
   res.end();
   return false;
 }
@@ -120,16 +131,18 @@ function docToAd(req) {
   };
 }
 
-function findOne(u, res) {
+function findOne(u, res, writer) {
   return function(cb) {
     Db.Ad.findOne({_id: u.query.id}, function(err, doc) {
       if(err) {
         res.writeHead(500, {'Content-Type': 'text/plain'});
-        res.write(JSON.stringify(err.message));
+        writer(err.message);
+        res.end();
       }
       else if(doc == null) {
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write("Unknown ad: " + u.query.id);
+        writer("Unknown ad: " + u.query.id);
+        res.end();
       }
       else {                
         cb(doc, u, res);
@@ -151,40 +164,44 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
     var u = url.parse(req.url, true);
-    if(u.pathname === "/ad") {
-      if(assertMethod(req, res, ['GET'])) {
+    var writer = maybeGetWriter(req, res);
+    if(u.pathname === "/ad") {      
+      if(assertMethod(req, res, ['HEAD', 'GET'])) {                
         req.on('end', function() {
-          if (((typeof u.query.picture) !== 'undefined') && assertAccept(req, res, 'image/jpeg')) {
-              findOne(u, res)(function(doc, u, res) {
+          if (u.query.picture && assertAccept(req, res, 'image/jpeg')) {        
+              findOne(u, res, writer)(function(doc, u, res) {
                 var pic = doc.pictures[u.query.picture];
                 if (pic === undefined) {
                   res.writeHead(404, {'Content-Type': 'text/plain'});
-                  res.write("Unknown picture" +  u.query.picture + " for ad: " + u.query.id);
+                  writer("Unknown picture" +  u.query.picture + " for ad: " + u.query.id);
                 }
                 else {
                   res.writeHead(200, {'Content-Type': 'image/jpeg' });
-                  res.write(new Buffer(pic, "base64"));                  
+                  writer(new Buffer(pic, "base64"));                  
                 }
                 res.end();
               });            
           } else if(assertAcceptAd(req, res)) {
-            findOne(u, req, res)(function(doc, u) {
+            findOne(u, res, writer)(function(doc, u) {
               res.writeHead(200, {'Content-Type': mediaTypeAd });
               var ad = docToAd(req)(doc);
-              res.write(JSON.stringify({
+              writer(JSON.stringify({
                 collection: {
                   href: ad.href,
                   items: [ad]
                 }
               })
               );        
-              res.end('\n');
+              res.end();
             }); 
+          } else {
+            res.writeHead(404);
+            res.end();
           }                 
         });
       }
     } else if(u.pathname === "/ads") {
-      if(assertMethod(req, res, ['GET', 'POST'])) {
+      if(assertMethod(req, res, ['HEAD', 'GET', 'POST'])) {
         if(req.method === 'POST' && assertContentTypeAd(req, res)) {
           var s = "";
           req.on('data', function(chunk) {
@@ -192,27 +209,25 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
           });
           req.on('end', function() {
             var payload = JSON.parse(s);
-            console.log("OOOOOOOOO " + payload);
             var data = toDataObject(payload.template);
-            console.log("OOOOOOOOO " + data);
             var ad = new Db.Ad();
             ad.title = data.title;
             ad.body = data.body;
             ad.save();
             res.writeHead(201, {'Location': UriGenerator.ad(req, ad._id)});
-            res.end("\n");
+            res.end();
           });
         } else if(req.method === 'GET' && assertAcceptAdList(req, res)) {
           req.on('end', function() {
             Db.Ad.find({}).exec(function(err, docs) {
               if(err) {
                 res.writeHead(500, {'Content-Type': 'text/plain'});
-                res.write(JSON.stringify(err.message));
+                writer(JSON.stringify(err.message));
               }
               else {
                 res.writeHead(200, {'Content-Type': mediaTypeAdList});
                 var mapper = docToAd(req);
-                res.write(JSON.stringify({                
+                writer(JSON.stringify({                
                   collection: {
                     href: UriGenerator.ads(req),
                     items: _.map(docs, mapper),
@@ -228,7 +243,8 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
                   }
                 }));
               }
-              res.end("\n");
+              writer('\n');
+              res.end();
             });
           });
         }
@@ -239,7 +255,6 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
 					var id = u.query.id;
 					var data = [];
 					var datalength = 0;
-					console.log("Id: " + id);
 					req.on('data', function(chunk) {
 						data.push(chunk);
 						datalength += chunk.length;
@@ -251,7 +266,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
 						Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
 							if(numAffected != 1) {
 								res.writeHead(404, {'Content-Type': 'text/plain'});
-								res.write("Not found\n");
+								writer("Not found\n");
 							} else {
 								res.writeHead(204);
 							}
@@ -263,7 +278,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
     } else {
       req.on('end', function() {
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write("Not found\n");
+        writer("Not found\n");
         res.end();
       });
     }
