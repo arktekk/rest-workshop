@@ -31,10 +31,11 @@ function assertContentType(req, res, type) {
   if(type == ct.toLowerCase()) {
     return true;
   }
+  var writer = maybeGetWriter(req, res);
   var txt = 'You have to post ' + type;
   res.writeHead(415, txt, {'Content-Type': 'text/plain'});
-  res.write(txt);
-  res.write('\n');
+  writer(txt);
+  writer('\n');
   res.end();
   return false;
 }
@@ -43,13 +44,23 @@ function assertMethod(req, res, methods) {
   if(_.contains(methods, req.method)) {
     return true;
   }
+  var writer = maybeGetWriter(req, res);
   var out = _.reduce(methods, function(str, item){return str + (str.length > 0 ? ',' : '') + item})
   console.log(out);
   var txt = 'Illegal method, you can only use: ' + out
   res.writeHead(405, txt, {'Content-Type': 'text/plain', 'Allow': out});
-  res.write(txt);
-  res.end('\n');
+  writer(txt);
+  writer('\n');
+  res.end();
   return false;
+}
+
+function maybeGetWriter(req, res) {
+  return function(toWrite) {
+    if (req.method !== 'HEAD') {
+      res.write(toWrite);
+    }
+  }
 }
 
 function assertAcceptAd(req, res) {
@@ -66,10 +77,11 @@ function assertAccept(req, res, contentType) {
      req.headers.accept === '*/*') {
     return true;
   }
+  var writer = maybeGetWriter(req, res);
   var txt = 'Illegal accept, you can only use ' + contentType;
   res.writeHead(406, txt, {'Content-Type': 'text/plain'});
-  res.write(txt);
-  res.write('\n');
+  writer(txt);
+  writer('\n');
   res.end();
   return false;
 }
@@ -114,16 +126,18 @@ function docToAd(req) {
   };
 }
 
-function findOne(u, res) {
+function findOne(u, res, writer) {
   return function(cb) {
     Db.Ad.findOne({_id: u.query.id}, function(err, doc) {
       if(err) {
         res.writeHead(500, {'Content-Type': 'text/plain'});
-        res.write(JSON.stringify(err.message));
+        writer(err.message);
+        res.end();
       }
       else if(doc == null) {
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write("Unknown ad: " + u.query.id);
+        writer("Unknown ad: " + u.query.id);
+        res.end();
       }
       else {                
         cb(doc, u, res);
@@ -138,33 +152,37 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
   http.createServer(function(req, res) {
     restUtil.logRequest(req);
     var u = url.parse(req.url, true);
+    var writer = maybeGetWriter(req, res);
     if(u.pathname === "/ad") {
-      if(assertMethod(req, res, ['GET'])) {
+      if(assertMethod(req, res, ['GET', 'HEAD'])) {
         req.on('end', function() {
-          if (((typeof u.query.picture) !== 'undefined') && assertAccept(req, res, 'image/jpeg')) {
-              findOne(u, res)(function(doc, u, res) {
+          if (u.query.picture && assertAccept(req, res, 'image/jpeg')) {
+              findOne(u, res, writer)(function(doc, u, res) {
                 var pic = doc.pictures[u.query.picture];
                 if (pic === undefined) {
                   res.writeHead(404, {'Content-Type': 'text/plain'});
-                  res.write("Unknown picture" +  u.query.picture + " for ad: " + u.query.id);
+                  writer("Unknown picture" +  u.query.picture + " for ad: " + u.query.id);
                 }
                 else {
                   res.writeHead(200, {'Content-Type': 'image/jpeg' });
-                  res.write(new Buffer(pic, "base64"));                  
+                  writer(new Buffer(pic, "base64"));                  
                 }
                 res.end();
               });            
           } else if(assertAcceptAd(req, res)) {
-            findOne(u, req, res)(function(doc, u) {
+            findOne(u, res, writer)(function(doc, u) {
               res.writeHead(200, {'Content-Type': mediaTypeAd });
-              res.write(JSON.stringify(docToAd(req)(doc)));        
+              writer(JSON.stringify(docToAd(req)(doc)));        
               res.end('\n');
             }); 
-          }                 
+          } else {
+            res.writeHead(404);
+            res.end();
+          }                
         });
       }
     } else if(u.pathname === "/ads") {
-      if(assertMethod(req, res, ['GET', 'POST'])) {
+      if(assertMethod(req, res, ['GET', 'POST', 'HEAD'])) {
         if(req.method === 'POST' && assertContentTypeAd(req, res)) {
           var s = "";
           req.on('data', function(chunk) {
@@ -177,24 +195,25 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
             ad.body = payload.body;
             ad.save();
             res.writeHead(201, {'Location': UriGenerator.ad(req, ad._id)});
-            res.end("\n");
+            res.end();
           });
-        } else if(req.method === 'GET' && assertAcceptAdList(req, res)) {
+        } else if(assertAcceptAdList(req, res)) {
           req.on('end', function() {
             Db.Ad.find({}).exec(function(err, docs) {
               if(err) {
                 res.writeHead(500, {'Content-Type': 'text/plain'});
-                res.write(JSON.stringify(err.message));
+                writer(JSON.stringify(err.message));
               }
               else {
                 res.writeHead(200, {'Content-Type': mediaTypeAdList});
-                res.write(JSON.stringify({
+                writer(JSON.stringify({
                   count: docs.length,
                   addAd: UriGenerator.addAd(req),
                   ads: _.map(docs, docToAd(req))
                 }));
+                writer('\n');
               }
-              res.end("\n");
+              res.end();
             });
           });
         }
@@ -217,7 +236,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
 						Db.Ad.update({_id: id}, cmd, {}, function(err, numAffected) {
 							if(numAffected != 1) {
 								res.writeHead(404, {'Content-Type': 'text/plain'});
-								res.write("Not found\n");
+								writer("Not found\n");
 							} else {
 								res.writeHead(204);
 							}
@@ -229,7 +248,7 @@ mongoose.connect('mongodb://localhost/03-media-types', function() {
     } else {
       req.on('end', function() {
         res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.write("Not found\n");
+        writer("Not found\n");
         res.end();
       });
     }
