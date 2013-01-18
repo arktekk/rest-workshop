@@ -65,7 +65,7 @@ suite.
   discuss('Generic 404').
     get('/not-found').
     expect(404).
-    expect('body should describe error message'', function (err, res, body) {
+    expect('body should describe error message', function (err, res, body) {
       assert.equal(body, 'Not found\n');
     }).
     post('/not-found').
